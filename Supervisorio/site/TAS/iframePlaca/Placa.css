@@ -1,0 +1,27 @@
+body
+{
+   background-color: #FFFFFF;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 1.1875;
+   margin: 0;
+   padding: 0;
+}
+#LabelPlaca
+{
+   border: 0px #FFFFFF solid;
+   -moz-border-radius: 4px;
+   -webkit-border-radius: 4px;
+   border-radius: 4px;
+   background-color: transparent;
+   background-image: none;
+   color :#FFFFFF;
+   font-family: Arial;
+   font-weight: bold;
+   font-size: 29px;
+   padding: 4px 4px 4px 4px;
+   text-align: center;
+   vertical-align: middle;
+}

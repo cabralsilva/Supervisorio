@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+<meta name="description" content="bootstrap admin template">
+<meta name="author" content="">
+<title>Supervisório | AGVS</title>
+<link rel="apple-touch-icon"
+	href="../../assets/images/apple-touch-icon.png">
+<link rel="shortcut icon" href="../../assets/images/favicon.ico">
+<!-- Stylesheets -->
+<link rel="stylesheet" href="../../global/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../global/css/bootstrap-extend.min.css">
+<link rel="stylesheet" href="../../assets/css/site.min.css">
+<!-- Plugins -->
+<link rel="stylesheet"
+	href="../../global/vendor/animsition/animsition.css">
+<link rel="stylesheet"
+	href="../../global/vendor/asscrollable/asScrollable.css">
+<link rel="stylesheet"
+	href="../../global/vendor/switchery/switchery.css">
+<link rel="stylesheet" href="../../global/vendor/intro-js/introjs.css">
+<link rel="stylesheet"
+	href="../../global/vendor/slidepanel/slidePanel.css">
+<link rel="stylesheet"
+	href="../../global/vendor/flag-icon-css/flag-icon.css">
+<link rel="stylesheet"
+	href="../../global/vendor/datatables-bootstrap/dataTables.bootstrap.css">
+<link rel="stylesheet"
+	href="../../global/vendor/datatables-fixedheader/dataTables.fixedHeader.css">
+<link rel="stylesheet"
+	href="../../global/vendor/datatables-responsive/dataTables.responsive.css">
+<link rel="stylesheet"
+	href="../../assets/examples/css/tables/datatable.css">
+<link rel="stylesheet"
+	href="../../global/vendor/bootstrap-sweetalert/sweet-alert.css">
+<link rel="stylesheet" href="../../global/vendor/toastr/toastr.css">
+<link rel="stylesheet" href="../../global/vendor/asrange/asRange.css">
+<link rel="stylesheet"
+	href="../../global/vendor/ascolorpicker/asColorPicker.css">
+<link rel="stylesheet"
+	href="../../global/vendor/bootstrap-datepicker/bootstrap-datepicker.css">
+<!-- Fonts -->
+<link rel="stylesheet"
+	href="../../global/fonts/font-awesome/font-awesome.css">
+<link rel="stylesheet"
+	href="../../global/fonts/web-icons/web-icons.min.css">
+<link rel="stylesheet"
+	href="../../global/fonts/brand-icons/brand-icons.min.css">
+
+
+<!--[if lt IE 9]>
+    <script src="../../global/vendor/html5shiv/html5shiv.min.js"></script>
+    <![endif]-->
+<!--[if lt IE 10]>
+    <script src="../../global/vendor/media-match/media.match.min.js"></script>
+    <script src="../../global/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+<!-- Scripts -->
+<script src="../../global/vendor/modernizr/modernizr.js"></script>
+<script src="../../global/vendor/breakpoints/breakpoints.js"></script>
+<script>
+	Breakpoints();
+</script>
+</head>
+
+<body class="dashboard">
+	<!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+	<nav
+		class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega"
+		role="navigation">
+		<div class="navbar-header">
+			<button type="button"
+				class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided"
+				data-toggle="menubar">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="hamburger-bar"></span>
+			</button>
+			<button type="button" class="navbar-toggle collapsed"
+				data-target="#site-navbar-collapse" data-toggle="collapse">
+				<i class="icon wb-more-horizontal" aria-hidden="true"></i>
+			</button>
+			<div class="navbar-brand navbar-brand-center site-gridmenu-toggle"
+				data-toggle="gridmenu">
+				<center>
+					<img class='img-rounded' src='/TAS/images/logo.png' alt='...'>
+				</center>
+			</div>
+
+		</div>
+		<div class="navbar-container container-fluid">
+			<!-- Navbar Collapse -->
+			<div class="collapse navbar-collapse navbar-collapse-toolbar"
+				id="site-navbar-collapse">
+				<!-- Navbar Toolbar -->
+				<ul class="nav navbar-toolbar">
+					<li class="hidden-float" id="toggleMenubar"><a
+						data-toggle="menubar" href="#" role="button"> <i
+							class="icon hamburger hamburger-arrow-left"> <span
+								class="sr-only">Toggle menubar</span> <span
+								class="hamburger-bar"></span>
+						</i>
+					</a></li>
+
+				</ul>
+				<!-- End Navbar Toolbar -->
+				<!-- Navbar Toolbar Right -->
+				<ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+
+					<li class="dropdown"><a class="navbar-avatar dropdown-toggle"
+						data-toggle="dropdown" href="#" aria-expanded="false"
+						data-animation="scale-up" role="button"> <span
+							class="avatar avatar-online"> <img
+								src="/TAS/images/usr.png" alt="..."> <i></i>
+						</span>
+					</a>
+						<ul class="dropdown-menu" role="menu">
+							<h4 align="center">#{GenerateUser}#</h4>
+							<li role="presentation"><a href="#" id="alterarSenhaUsr"
+								role="menuitem"><i class="icon wb-settings"
+									aria-hidden="true"></i> Alterar Senha</a></li>
+							<li class="divider" role="presentation"></li>
+							<li role="presentation"><a href="/SupervisorioAGVS/Login"
+								role="menuitem"><i class="icon wb-power" aria-hidden="true"></i>
+									Logout</a></li>
+						</ul></li>
+
+
+
+				</ul>
+				<!-- End Navbar Toolbar Right -->
+			</div>
+			<!-- End Navbar Collapse -->
+			<!-- Site Navbar Seach -->
+			<div class="collapse navbar-search-overlap" id="site-navbar-search">
+				<form role="search">
+					<div class="form-group">
+						<div class="input-search">
+							<i class="input-search-icon wb-search" aria-hidden="true"></i> <input
+								type="text" class="form-control" name="site-search"
+								placeholder="Search...">
+							<button type="button" class="input-search-close icon wb-close"
+								data-target="#site-navbar-search" data-toggle="collapse"
+								aria-label="Close"></button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- End Site Navbar Seach -->
+		</div>
+	</nav>
+	#{GenerateDashboard}#
+	<div class="site-menubar-footer">
+		<a href="/SupervisorioAGVS/Login" data-placement="top"
+			data-toggle="tooltip" data-original-title="Logout"> <span
+			class="icon wb-power" aria-hidden="true"></span>
+		</a>
+	</div>
+	</div>
+
+	<div class="page animsition">
+		<div class="page-header">
+			<h1 class="page-title">Relatórios</h1>
+			<div class="page-header-actions">
+				<a class="btn btn-sm btn-default btn-outline btn-round" href="/"
+					target="_blank"> <i class="icon wb-link" aria-hidden="true"></i>
+					<span class="hidden-xs">Home Page</span>
+				</a>
+			</div>
+		</div>
+		<div class="page-content">
+			<!-- Panel Table Individual column searching -->
+			<div class="panel">
+				<div class="row">
+					<form id="frmSeachByDate" class="form-inline">
+						<div class="col-sm-12 col-lg-6 panel-title">
+							<div class="input-daterange" data-plugin="datepicker">
+								<div class="input-group" style="width: 40%">
+									<span class="input-group-addon"> <i
+										class="icon wb-calendar" aria-hidden="true"></i>
+									</span> <input type="text" class="form-control" name="start" required />
+								</div>
+								<div class="input-group" style="width: 50%">
+									<span class="input-group-addon">até</span> <input type="text"
+										class="form-control" name="end" required/> <span
+										class="input-group-btn">
+										<button onclick="searchByDate('/ActionRelatoriosEventosAGVS')" class="btn btn-primary">
+											<i class="icon wb-search" aria-hidden="true"></i>
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</form>
+					
+				</div>
+				<!-- Panel Table Individual column searching -->
+			      <div class="panel">
+			        <header class="panel-heading">
+			          <h3 class="panel-title">Eventos dos AGVS</h3>
+			        </header>
+			        <div class="panel-body">
+			          <table class="table table-hover dataTable table-striped width-full" id="exampleTableSearch">
+			            <thead>
+			              <tr>
+			                <th>AGV ID</th>
+			                <th>data</th>
+			                <th>Descrição</th>
+			              </tr>
+			            </thead>
+			            <tfoot>
+			              <tr>
+			                <th>AGV ID</th>
+			                <th>data</th>
+			                <th>Descrição</th>
+			              </tr>
+			            </tfoot>
+			            <tbody>
+			              #{GerarTabelaRelatorioEventoAGVS}#
+			            </tbody>
+			          </table>
+			        </div>
+					
+			      </div>
+			      <!-- End Panel Table Individual column searching -->
+<!-- 				<iframe width="100%" height="800px" frameborder="0" name="teste" id="iframereportevents" -->
+<!-- 					src="/SupervisorioAGVS/Relatorios/EventosAGVSTable"></iframe> -->
+			</div>
+			<!-- End Panel Table Individual column searching -->
+		</div>
+		<!-- Core  -->
+		<script src="../../global/vendor/jquery/jquery.js"></script>
+		<script src="../../global/vendor/bootstrap/bootstrap.js"></script>
+		<script src="../../global/vendor/animsition/animsition.js"></script>
+		<script src="../../global/vendor/asscroll/jquery-asScroll.js"></script>
+		<script src="../../global/vendor/mousewheel/jquery.mousewheel.js"></script>
+		<script
+			src="../../global/vendor/asscrollable/jquery.asScrollable.all.js"></script>
+		<script
+			src="../../global/vendor/ashoverscroll/jquery-asHoverScroll.js"></script>
+		<!-- Plugins -->
+		<script src="../../global/vendor/switchery/switchery.min.js"></script>
+		<script src="../../global/vendor/intro-js/intro.js"></script>
+		<script src="../../global/vendor/screenfull/screenfull.js"></script>
+		<script src="../../global/vendor/slidepanel/jquery-slidePanel.js"></script>
+		<script src="../../global/vendor/datatables/jquery.dataTables.js"></script>
+		<script
+			src="../../global/vendor/datatables-fixedheader/dataTables.fixedHeader.js"></script>
+		<script
+			src="../../global/vendor/datatables-bootstrap/dataTables.bootstrap.js"></script>
+		<script
+			src="../../global/vendor/datatables-responsive/dataTables.responsive.js"></script>
+		<script
+			src="../../global/vendor/datatables-tabletools/dataTables.tableTools.js"></script>
+		<script src="../../global/vendor/asrange/jquery-asRange.min.js"></script>
+		<script src="../../global/vendor/bootbox/bootbox.js"></script>
+		<script src="../../global/vendor/bootbox/bootbox.js"></script>
+		<script src="../../global/vendor/bootstrap-sweetalert/sweet-alert.js"></script>
+		<script src="../../global/vendor/toastr/toastr.js"></script>
+		<!-- Scripts -->
+		<script src="../../global/js/core.js"></script>
+		<script src="../../assets/js/site.js"></script>
+		<script src="../../assets/js/sections/menu.js"></script>
+		<script src="../../assets/js/sections/menubar.js"></script>
+		<script src="../../assets/js/sections/gridmenu.js"></script>
+		<script src="../../assets/js/sections/sidebar.js"></script>
+		<script src="../../global/js/configs/config-colors.js"></script>
+		<script src="../../assets/js/configs/config-tour.js"></script>
+		<script src="../../global/js/components/asscrollable.js"></script>
+		<script src="../../global/js/components/animsition.js"></script>
+		<script src="../../global/js/components/slidepanel.js"></script>
+		<script src="../../global/js/components/switchery.js"></script>
+		<script src="../../global/js/components/datatables.js"></script>
+		<script src="../../assets/examples/js/tables/datatableLogEventos.js"></script>
+		<script src="../../assets/examples/js/uikit/icon.js"></script>
+		<script src="../../TAS/js/ajaxMessagem.js" charset="iso-8859-1"></script>
+		<script src="../../global/js/components/bootbox.js"></script>
+		<script src="../../global/js/components/bootstrap-sweetalert.js"></script>
+		<script src="../../global/js/components/toastr.js"></script>
+		<script src="../../assets/examples/js/advanced/bootbox-sweetalert.js"></script>
+		<script src="../../TAS/js/clickHref.js" charset="iso-8859-1"></script>
+
+		<script
+			src="../../global/vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+		<script src="../../global/js/components/bootstrap-datepicker.js"></script>
+		<script type="text/javascript">
+			$("#frmSeachByDate").submit(function(e) {
+			    e.preventDefault();  
+			});
+			$('.input-daterange').datepicker({
+				endDate: '0d', 
+			    format: "dd-mm-yyyy",
+			    weekStart: 0,
+			    language: "pt-BR",
+			    multidate: false,
+			    daysOfWeekHighlighted: "0",
+			    todayHighlight: false,
+			    autoclose: true
+			});
+		</script>
+		
+	</body>
+</html>

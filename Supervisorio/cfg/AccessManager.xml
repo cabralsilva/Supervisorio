@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ONIUM(R) -->
+<setup>
+	<Set-Database>
+		<provider>sqlserver</provider>
+		<driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver>
+		<instancia>//LUIZAVELL\SQLSERVER</instancia>
+		<db>SistemaPortuario</db>
+		<user>sa</user>
+		<pwd>TAS@#$234</pwd>
+	</Set-Database>
+	<Set-Debug>true</Set-Debug>
+	<Set-AppendLog>true</Set-AppendLog>
+	<Set-ThreadTimer>5000</Set-ThreadTimer>
+	<Set-Arquivo>
+		<dir_log>\\log</dir_log>
+		<arq_log>\\AccessManager.log</arq_log>
+		<bak_log>_yyyyMMdd_hhmmss</bak_log>
+		<arq_ext>.log</arq_ext>
+	</Set-Arquivo>
+	<Set-Idioma>PTB</Set-Idioma>
+</setup>

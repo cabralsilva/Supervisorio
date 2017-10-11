@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="description" content="bootstrap admin template">
+  <meta name="author" content="">
+  <title>Supervisório | AGVS</title>
+  <link rel="apple-touch-icon" href="../../assets/images/apple-touch-icon.png">
+  <link rel="shortcut icon" href="../../assets/images/favicon.ico">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../../global/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../global/css/bootstrap-extend.min.css">
+  <link rel="stylesheet" href="../../assets/css/site.min.css">
+  <!-- Plugins -->
+  <link rel="stylesheet" href="../../global/vendor/animsition/animsition.css">
+  <link rel="stylesheet" href="../../global/vendor/asscrollable/asScrollable.css">
+  <link rel="stylesheet" href="../../global/vendor/switchery/switchery.css">
+  <link rel="stylesheet" href="../../global/vendor/intro-js/introjs.css">
+  <link rel="stylesheet" href="../../global/vendor/slidepanel/slidePanel.css">
+  <link rel="stylesheet" href="../../global/vendor/flag-icon-css/flag-icon.css">
+  <link rel="stylesheet" href="../../global/vendor/chartist-js/chartist.css">
+  <link rel="stylesheet" href="../../global/vendor/jvectormap/jquery-jvectormap.css">
+  <link rel="stylesheet" href="../../global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css">
+  <link rel="stylesheet" href="../../assets/examples/css/dashboard/v1.css">
+  <link rel="stylesheet" href="../../global/vendor/bootstrap-sweetalert/sweet-alert.css">
+  <link rel="stylesheet" href="../../global/vendor/toastr/toastr.css">
+  <!-- Fonts -->
+  <link rel="stylesheet" href="../../global/fonts/weather-icons/weather-icons.css">
+  <link rel="stylesheet" href="../../global/fonts/web-icons/web-icons.min.css">
+  <link rel="stylesheet" href="../../global/fonts/brand-icons/brand-icons.min.css">
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+  <!--[if lt IE 9]>
+    <script src="../../global/vendor/html5shiv/html5shiv.min.js"></script>
+    <![endif]-->
+  <!--[if lt IE 10]>
+    <script src="../../global/vendor/media-match/media.match.min.js"></script>
+    <script src="../../global/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+  <!-- Scripts -->
+  <script src="../../global/vendor/modernizr/modernizr.js"></script>
+  <script src="../../global/vendor/breakpoints/breakpoints.js"></script>
+  <script>
+  Breakpoints();
+  </script>
+</head>
+
+<body class="dashboard">
+  <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+  <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided"
+      data-toggle="menubar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="hamburger-bar"></span>
+      </button>
+      <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-collapse"
+      data-toggle="collapse">
+        <i class="icon wb-more-horizontal" aria-hidden="true"></i>
+      </button>
+      <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+         <center><img class='img-rounded' src='/TAS/images/logo.png' alt='...'></center>
+      </div>
+      
+    </div>
+    <div class="navbar-container container-fluid">
+      <!-- Navbar Collapse -->
+      <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+        <!-- Navbar Toolbar -->
+        <ul class="nav navbar-toolbar">
+          <li class="hidden-float" id="toggleMenubar">
+            <a data-toggle="menubar" href="#" role="button">
+              <i class="icon hamburger hamburger-arrow-left">
+                  <span class="sr-only">Toggle menubar</span>
+                  <span class="hamburger-bar"></span>
+                </i>
+            </a>
+          </li>
+
+        </ul>
+        <!-- End Navbar Toolbar -->
+        <!-- Navbar Toolbar Right -->
+        <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+          
+          <li class="dropdown">
+            <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
+            data-animation="scale-up" role="button">
+              <span class="avatar avatar-online">
+                <img src="/TAS/images/usr.png" alt="...">
+                <i></i>
+              </span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+			<h4 align="center">#{GenerateUser}#</h4>
+              <li role="presentation">
+                <a href="#" id="alterarSenhaUsr" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Alterar Senha</a>
+              </li>
+              <li class="divider" role="presentation"></li>
+              <li role="presentation">
+                <a href="/SGV/Login" role="menuitem"><i class="icon wb-power" aria-hidden="true"></i> Logout</a>
+              </li>
+            </ul>
+          </li>
+          
+         
+       
+        </ul>
+        <!-- End Navbar Toolbar Right -->
+      </div>
+      <!-- End Navbar Collapse -->
+      <!-- Site Navbar Seach -->
+      <div class="collapse navbar-search-overlap" id="site-navbar-search">
+        <form role="search">
+          <div class="form-group">
+            <div class="input-search">
+              <i class="input-search-icon wb-search" aria-hidden="true"></i>
+              <input type="text" class="form-control" name="site-search" placeholder="Search...">
+              <button type="button" class="input-search-close icon wb-close" data-target="#site-navbar-search"
+              data-toggle="collapse" aria-label="Close"></button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- End Site Navbar Seach -->
+    </div>
+  </nav>
+  #{GenerateDashboard}#
+    <div class="site-menubar-footer">
+      <a href="/SGV/Login" data-placement="top" data-toggle="tooltip" data-original-title="Logout">
+        <span class="icon wb-power" aria-hidden="true"></span>
+      </a>
+    </div>
+  </div>
+  
+  </div>
+    <div class="page animsition">
+    <div class="page-header">
+      <h1 class="page-title">Configuração do Banco de Dados</h1>
+      <div class="page-header-actions">
+        <a class="btn btn-sm btn-default btn-outline btn-round" href="/"
+        >
+          <i class="icon wb-link" aria-hidden="true"></i>
+          <span class="hidden-xs">Home Page</span>
+        </a>
+      </div>
+    </div>
+	
+	<div class="panel">
+		<div class="panel-body container-fluid">
+			<div class="row">
+				
+					<div class="col-sm-4">
+						<div class="example-wrap">
+							<h4 class="example-title">Endereço</h4>
+							<input type="text" class="form-control focus" id="end" name="end" value="#{GerarEndBanco}#">
+							<h4 class="example-title">Usuario</h4>
+							<input type="text" class="form-control focus" id="user" name="user" value="#{GerarUsrBanco}#">
+							<h4 class="example-title">Senha</h4>
+							<input type="password" class="form-control focus" id="password" name="password" value="#{GerarSenhaBanco}#">
+							<p><div class="form-group">
+								<button onclick="salvarBD()" type="submit" class="btn btn-primary">Salvar</button>
+								<button onclick="criarBD()" type="submit" class="btn btn-primary">Criar Banco</button>
+							</div></p>
+						</div>
+					</div>
+				
+			</div>
+		</div>
+	</div>
+  <!-- Core  -->
+  <script src="../../global/vendor/jquery/jquery.js"></script>
+  <script src="../../global/vendor/bootstrap/bootstrap.js"></script>
+  <script src="../../global/vendor/animsition/animsition.js"></script>
+  <script src="../../global/vendor/asscroll/jquery-asScroll.js"></script>
+  <script src="../../global/vendor/mousewheel/jquery.mousewheel.js"></script>
+  <script src="../../global/vendor/asscrollable/jquery.asScrollable.all.js"></script>
+  <script src="../../global/vendor/ashoverscroll/jquery-asHoverScroll.js"></script>
+  <!-- Plugins -->
+  <script src="../../global/vendor/switchery/switchery.min.js"></script>
+  <script src="../../global/vendor/intro-js/intro.js"></script>
+  <script src="../../global/vendor/screenfull/screenfull.js"></script>
+  <script src="../../global/vendor/slidepanel/jquery-slidePanel.js"></script>
+  <script src="../../global/vendor/skycons/skycons.js"></script>
+  <script src="../../global/vendor/chartist-js/chartist.min.js"></script>
+  <script src="../../global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min.js"></script>
+  <script src="../../global/vendor/aspieprogress/jquery-asPieProgress.min.js"></script>
+  <script src="../../global/vendor/jvectormap/jquery.jvectormap.min.js"></script>
+  <script src="../../global/vendor/jvectormap/maps/jquery-jvectormap-au-mill-en.js"></script>
+  <script src="../../global/vendor/matchheight/jquery.matchHeight-min.js"></script>
+  <script src="../../global/vendor/bootbox/bootbox.js"></script>
+  <script src="../../global/vendor/bootstrap-sweetalert/sweet-alert.js"></script>
+  <script src="../../global/vendor/toastr/toastr.js"></script>
+  <!-- Scripts -->
+  <script src="../../global/js/core.js"></script>
+  <script src="../../assets/js/site.js"></script>
+  <script src="../../assets/js/sections/menu.js"></script>
+  <script src="../../assets/js/sections/menubar.js"></script>
+  <script src="../../assets/js/sections/gridmenu.js"></script>
+  <script src="../../assets/js/sections/sidebar.js"></script>
+  <script src="../../global/js/configs/config-colors.js"></script>
+  <script src="../../assets/js/configs/config-tour.js"></script>
+  <script src="../../global/js/components/asscrollable.js"></script>
+  <script src="../../global/js/components/animsition.js"></script>
+  <script src="../../global/js/components/slidepanel.js"></script>
+  <script src="../../global/js/components/switchery.js"></script>
+  <script src="../../global/js/components/matchheight.js"></script>
+  <script src="../../global/js/components/jvectormap.js"></script>
+  <script src="../../assets/examples/js/dashboard/v1.js"></script>
+  <script src="../../TAS/js/ajaxMessagem.js" charset="iso-8859-1"></script>
+  <script src="../../TAS/js/ajaxBanco.js" charset="iso-8859-1"></script>
+  <script src="../../global/js/components/bootbox.js"></script>
+  <script src="../../global/js/components/bootstrap-sweetalert.js"></script>
+  <script src="../../global/js/components/toastr.js"></script>
+  <script src="../../assets/examples/js/advanced/bootbox-sweetalert.js"></script>
+  <script src="../../TAS/js/clickHref.js" charset="iso-8859-1"></script>
+
+</body>
+</html>
