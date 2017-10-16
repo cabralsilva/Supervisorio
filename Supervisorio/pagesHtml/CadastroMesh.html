@@ -54,7 +54,6 @@
     <div class="navbar-header">
       <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided"
       data-toggle="menubar">
-        <span class="sr-only">Toggle navigation</span>
         <span class="hamburger-bar"></span>
       </button>
       <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-collapse"
@@ -74,7 +73,6 @@
           <li class="hidden-float" id="toggleMenubar">
             <a data-toggle="menubar" href="#" role="button">
               <i class="icon hamburger hamburger-arrow-left">
-                  <span class="sr-only">Toggle menubar</span>
                   <span class="hamburger-bar"></span>
                 </i>
             </a>
@@ -136,10 +134,9 @@
   </div>
   
 	<!-- Page -->
-  <div class="page animsition">
+<div class="page animsition">
 
-  <div class="page-header">
-      <h1 class="page-title">Mesh</h1>
+ 	<div class="page-header">
       <div class="page-header-actions">
         <a class="btn btn-sm btn-default btn-outline btn-round" href="/"
         >
@@ -151,28 +148,14 @@
   
   
 <!-- Panel Table Add Row -->
-
-      <div class="panel">
-	  	<h3 class="panel-title">
-	    	<button type="button" onclick="enviarDados('/ActionCadastroMesh?action=reset');" class="btn btn-dark">
-	    		<i class="icon wb-upload" aria-hidden="true"></i>Reset Meshs</button>
-	    </h3>
-        <header class="panel-heading">
-          <h3 class="panel-title">Adicionar Mesh</h3>
+	<div class="panel">
+		<header class="panel-heading">
+          <h3 class="panel-title">Mesh's Cadastradas</h3>
         </header>
-        <div class="panel-body container-fluid">
-         <div class="row">
-            <div class="col-sm-6">
-              <div class="margin-bottom-15">
-                  <button id="addToTable" class="btn btn-outline btn-primary" type="button">
-                  <i class="icon wb-plus" aria-hidden="true"></i> Adicionar
-                </button>
-              </div>
-            </div>
-          </div>
-          <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
-            <thead>
-              <tr>
+		<div class="panel-body container-fluid">
+			<table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+            	<thead>
+              	<tr>
                 <th>ID</th>
                 <th>Nome</th>
 				<th>mac16</th>
@@ -180,17 +163,218 @@
 				<th>Entradas</th>
 				<th>Saídas</th>
 				<th>Opções</th>
-              </tr>
-            </thead>
+              	</tr>
+            	</thead>
             <tbody>
               #{GerarTabelaMesh}#
             </tbody>
           </table>
+          </div>
+	</div>
+    <div class="panel">
+        <header class="panel-heading">
+          <h3 class="panel-title">Adicionar/Editar Mesh</h3>
+        </header>
+        <div class="panel-body container-fluid">
+         <div class="row">
+            <div class="col-sm-12" style="background-color: rgba(243,247,249,1)">
+           		<form class="">
+           			<div class="row" style="padding-top: 20px; background-color: rgba(163,175,183,0.2);  border-radius: 10px;">
+	                	<div class="form-group col-sm-1">
+	                  		<button id="btnGravarMesh" type="button" class="btn btn-primary">
+	                  			<i class="icon wb-wrench" aria-hidden="true"></i>Salvar
+	                  		</button>
+                	  	</div>
+                	  	<div class="form-group col-sm-1">
+	                  		<button type="button" onclick="enviarDados('/ActionCadastroMesh?action=reset');" class="btn btn-dark">
+	    						<i class="icon wb-upload" aria-hidden="true"></i>Reset
+	    					</button>
+                	  	</div>
+	                </div>
+	                <div class="row">
+	                  <div class="form-group col-sm-4">
+	                    <label class="control-label" for="nomeMesh">Nome</label>
+	                    <input type="text" class="form-control" id="nomeMesh" required name="nomeMesh" placeholder="Ex.: Linha 3" autocomplete="off">
+	                  </div>
+	                  <div class="form-group col-sm-4">
+	                    <label class="control-label" for="mac16">Mac16</label>
+	                    <input type="text" pattern="[0-9A-Fa-f]{4}" required id="mac16" class="form-control" name="mac16" placeholder="####" autocomplete="off" maxlength="4">
+	                  </div>
+	                  <div class="form-group col-sm-4">
+	                    <label class="control-label" for="mac64">Mac64</label>
+	                    <input type="text" pattern="[0-9A-Fa-f]{16}" required class="form-control" id="mac64" name="mac64" placeholder="##################" autocomplete="off" maxlength="16">
+	                  </div>
+	                </div>
+	                <div class="row">
+	                	<div class="col-sm-6" style="padding-top: 20px; border: 1px solid rgba(200,200,200,1); border-radius: 10px;">
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoEntrada1">Entrada 1 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoEntrada1" name="descricaoEntrada1" placeholder="Ex.: Sensor 1" autocomplete="off">
+				                </div>
+				                <div class="form-group col-sm-6">
+				                    <label class="control-label" for="entrada1Ativo">Ativo em:</label>
+				                    <input type="text" class="form-control" id="entrada1Ativo" name="entrada1Ativo" placeholder="Select" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoEntrada2">Entrada 2 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoEntrada2" name="descricaoEntrada2" placeholder="Ex.: Sensor 2" autocomplete="off">
+				                </div>
+				                <div class="form-group col-sm-6">
+				                    <label class="control-label" for="entrada2Ativo">Ativo em:</label>
+				                    <input type="text" class="form-control" id="entrada2Ativo" name="entrada2Ativo" placeholder="Select" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoEntrada3">Entrada 3 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoEntrada3" name="descricaoEntrada3" placeholder="Ex.: Sensor 3" autocomplete="off">
+				                </div>
+				                <div class="form-group col-sm-6">
+				                    <label class="control-label" for="entrada1Ativo">Ativo em:</label>
+				                    <input type="text" class="form-control" id="entrada3Ativo" name="entrada3Ativo" placeholder="Select" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoEntrada4">Entrada 4 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoEntrada4" name="descricaoEntrada4" placeholder="Ex.: Sensor 4" autocomplete="off">
+				                </div>
+				                <div class="form-group col-sm-6">
+				                    <label class="control-label" for="entrada4Ativo">Ativo em:</label>
+				                    <input type="text" class="form-control" id="entrada4Ativo" name="entrada4Ativo" placeholder="Select" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoEntrada5">Entrada 5 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoEntrada5" name="descricaoEntrada5" placeholder="Ex.: Sensor 5" autocomplete="off">
+				                </div>
+				                <div class="form-group col-sm-6">
+				                    <label class="control-label" for="entrada5Ativo">Ativo em:</label>
+				                    <input type="text" class="form-control" id="entrada5Ativo" name="entrada5Ativo" placeholder="Select" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoEntrada6">Entrada 6 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoEntrada6" name="descricaoEntrada6" placeholder="Ex.: Sensor 6" autocomplete="off">
+				                </div>
+				                <div class="form-group col-sm-6">
+				                    <label class="control-label" for="entrada6Ativo">Ativo em:</label>
+				                    <input type="text" class="form-control" id="entrada6Ativo" name="entrada6Ativo" placeholder="Select" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoEntrada7">Entrada 7 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoEntrada7" name="descricaoEntrada7" placeholder="Ex.: Sensor 7" autocomplete="off">
+				                </div>
+				                <div class="form-group col-sm-6">
+				                    <label class="control-label" for="entrada7Ativo">Ativo em:</label>
+				                    <input type="text" class="form-control" id="entrada7Ativo" name="entrada7Ativo" placeholder="Select" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoEntrada8">Entrada 8 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoEntrada8" name="descricaoEntrada8" placeholder="Ex.: Sensor 8" autocomplete="off">
+				                </div>
+				                <div class="form-group col-sm-6">
+				                    <label class="control-label" for="entrada8Ativo">Ativo em:</label>
+				                    <input type="text" class="form-control" id="entrada8Ativo" name="entrada8Ativo" placeholder="Select" autocomplete="off">
+				                </div>
+				            </div>
+	                	</div>
+	                	<div class="col-sm-6" style="padding-top: 20px; border: 1px solid rgba(200,200,200,1); border-radius: 10px;">
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoSaida1">Saída 1 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoSaida1" name="descricaoSaida1" placeholder="Ex.: Carga 1" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoSaida2">Saída 2 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoSaida2" name="descricaoSaida2" placeholder="Ex.: Carga 2" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoSaida3">Saída 3 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoSaida3" name="descricaoSaida3" placeholder="Ex.: Carga 3" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoSaida4">Saída 4 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoSaida4" name="descricaoSaida4" placeholder="Ex.: Carga 4" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoEntrada5">Saída 5 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoSaida6" name="descricaoSaida5" placeholder="Ex.: Carga 5" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoSaida6">Saída 6 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoSaida6" name="descricaoSaida6" placeholder="Ex.: Carga 6" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoSaida7">Saída 7 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoSaida7" name="descricaoSaida7" placeholder="Ex.: Carga 7" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoSaida8">Saída 8 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoSaida8" name="descricaoSaida8" placeholder="Ex.: Carga 8" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoSaida9">Saída 9 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoSaida9" name="descricaoSaida9" placeholder="Ex.: Carga 9" autocomplete="off">
+				                </div>
+				            </div>
+	                		<div class="row">
+	                			<div class="form-group col-sm-6">
+				                    <label class="control-label" for="descricaoSaida10">Saída 10 - Descrição</label>
+				                    <input type="text" class="form-control" id="descricaoSaida10" name="descricaoSaida10" placeholder="Ex.: Carga 10" autocomplete="off">
+				                </div>
+				            </div>
+	                		
+			                
+	                	</div>
+	                </div>
+	                <div class="row" style="padding-top: 20px; background-color: rgba(163,175,183,0.2);  border-radius: 10px;">
+	                	<div class="form-group col-sm-1">
+	                  		<button id="btnGravarMesh" type="button" class="btn btn-primary">
+	                  			<i class="icon wb-wrench" aria-hidden="true"></i>Salvar
+	                  		</button>
+                	  	</div>
+                	  	<div class="form-group col-sm-1">
+	                  		<button type="button" onclick="enviarDados('/ActionCadastroMesh?action=reset');" class="btn btn-dark">
+	    						<i class="icon wb-upload" aria-hidden="true"></i>Reset
+	    					</button>
+                	  	</div>
+	                </div>
+	         	</form>
+            </div>
+         </div>
+
+          
         </div>
-      </div>
+	</div>
       <!-- End Panel Table Add Row -->
 	
-  </div>
+</div>
   <!-- End Page -->
 
    <!-- Core  -->

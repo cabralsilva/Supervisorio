@@ -260,10 +260,10 @@ public class SQLServer implements BancoDados {
 		this.senha = senha;
 //		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVS;user=" + usuario + ";password="
 //				+ senha;
-//		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVSTeste;user=" + usuario + ";password="
-//				+ senha;
-		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVSFIAT25;user=" + usuario + ";password="
+		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVSTeste;user=" + usuario + ";password="
 				+ senha;
+//		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVSFIAT25;user=" + usuario + ";password="
+//				+ senha;
 	}
 
 	private final LogUsuario getLogUsuario(ResultSet rs) throws SQLException {
