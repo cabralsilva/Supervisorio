@@ -98,5 +98,31 @@ public class TagsValues {
 	public static final String paramC8 = "c8";
 	public static final String paramR9 = "r9";
 	public static final String paramC9 = "c9";
+	public static final String paramE1 = "e1";
+	public static final String paramE2 = "e2";
+	public static final String paramE3 = "e3";
+	public static final String paramE4 = "e4";
+	public static final String paramE5 = "e5";
+	public static final String paramE6 = "e6";
+	public static final String paramE7 = "e7";
+	public static final String paramE8 = "e8";
+	public static final String paramEa1 = "ea1";
+	public static final String paramEa2 = "ea2";
+	public static final String paramEa3 = "ea3";
+	public static final String paramEa4 = "ea4";
+	public static final String paramEa5 = "ea5";
+	public static final String paramEa6 = "ea6";
+	public static final String paramEa7 = "ea7";
+	public static final String paramEa8 = "ea8";
+	public static final String paramS1 = "s1";
+	public static final String paramS2 = "s2";
+	public static final String paramS3 = "s3";
+	public static final String paramS4 = "s4";
+	public static final String paramS5 = "s5";
+	public static final String paramS6 = "s6";
+	public static final String paramS7 = "s7";
+	public static final String paramS8 = "s8";
+	public static final String paramS9 = "s9";
+	public static final String paramS10 = "s10";
 
 }

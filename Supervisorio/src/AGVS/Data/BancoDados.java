@@ -207,7 +207,9 @@ public interface BancoDados {
 	
 	public List<LogZoneTime> selectLogZoneTime();
 	
-	public boolean insertEntradasMesh(int idMesh, int nEntradas, int nSaidas);
+	public boolean insertEntradasMesh(int idMesh, List<PortaMashSerial> lstPms);
+
+	public boolean insertSaidasMesh(int idMesh, List<PortaSaidaMeshSerial> lstPsms);
 
 	public boolean insertEntradasMeshUpdate(int idMesh, int ind);
 	

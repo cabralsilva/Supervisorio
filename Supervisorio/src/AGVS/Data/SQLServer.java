@@ -540,13 +540,13 @@ public class SQLServer implements BancoDados {
 	}
 
 	@Override
-	public boolean insertEntradasMesh(int idMesh, int nEntradas, int nSaidas) {
+	public boolean insertEntradasMesh(int idMesh, List<PortaMashSerial> lstPms) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
-			for (int i = 1; i <= nEntradas; i++) {
-				String sql = "insert into entradasMesh(porta, descricao, acionamento, fkMeshSerial) values(" 
-						+ i + ", 'E" + i + "', 'E" + i + "_ON', " + idMesh + ")";
+			for (PortaMashSerial pms : lstPms) {
+				String sql = "insert into entradasMesh(porta, descricao, acionamento, status, fkMeshSerial) values(" 
+						+ pms.getPorta() + ", '" + pms.getNome() + "', '" + pms.getAcionamento() + "', '"+pms.getStatus()+"', " + idMesh + ")";
 				PreparedStatement stmt = conexao.prepareStatement(sql);
 				stmt.execute();
 				stmt.close();
@@ -559,6 +559,27 @@ public class SQLServer implements BancoDados {
 		return true;
 	}
 
+	
+	@Override
+	public boolean insertSaidasMesh(int idMesh, List<PortaSaidaMeshSerial> lstPsms) {
+		Connection conexao;
+		try {
+			conexao = DriverManager.getConnection(url);
+			for (PortaSaidaMeshSerial psms : lstPsms) {
+				String sql = "insert into saidasMesh(porta, descricao, status, fkMeshSerial) values(" 
+						+ psms.getPorta() + ", '" + psms.getNome() + "', '" + psms.getStatus() + "', " + idMesh + ")";
+				PreparedStatement stmt = conexao.prepareStatement(sql);
+				stmt.execute();
+				stmt.close();
+			}
+			conexao.close();
+		} catch (Exception e) {
+			new Log(e);
+			return false;
+		}
+		return true;
+	}
+	
 	
 
 	@Override
