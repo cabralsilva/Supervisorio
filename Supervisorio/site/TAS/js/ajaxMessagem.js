@@ -634,10 +634,10 @@ function enviarDadosNoMSG(link)
 	}
 }
 
-// Fun��o que faz as requisi��o Ajax ao arquivo PHP
+
+// Função que faz as requisição Ajax ao arquivo PHP
 function enviarDados(link)
 {
-//	console.log("sending: " + link);
 	var ret = false;
 	try
 	{

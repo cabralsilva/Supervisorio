@@ -1,26 +1,10 @@
 
-11/10/2017 17:02:22.242#########################################
-java.net.SocketException: Software caused connection abort: socket write error
-	at java.net.SocketOutputStream.socketWrite0(Native Method)
-	at java.net.SocketOutputStream.socketWrite(Unknown Source)
-	at java.net.SocketOutputStream.write(Unknown Source)
-	at WebService.http.Response.flush(Response.java:68)
-	at WebService.http.Dispatcher.send(Dispatcher.java:179)
-	at WebService.http.Dispatcher.resolve(Dispatcher.java:116)
-	at WebService.http.Worker.run(Worker.java:42)
-	at java.lang.Thread.run(Unknown Source)
-
-################################################################
-
-16/10/2017 08:25:24.743#########################################
-java.net.SocketException: Software caused connection abort: socket write error
-	at java.net.SocketOutputStream.socketWrite0(Native Method)
-	at java.net.SocketOutputStream.socketWrite(Unknown Source)
-	at java.net.SocketOutputStream.write(Unknown Source)
-	at WebService.http.Response.flush(Response.java:68)
-	at WebService.http.Dispatcher.send(Dispatcher.java:179)
-	at WebService.http.Dispatcher.resolve(Dispatcher.java:116)
-	at WebService.http.Worker.run(Worker.java:42)
+16/10/2017 13:16:50.742#########################################
+java.io.IOException: Invalid input data
+	at WebService.http.Util.readLine(Util.java:12)
+	at WebService.http.Request.processRequestLine(Request.java:52)
+	at WebService.http.Request.<init>(Request.java:44)
+	at WebService.http.Worker.run(Worker.java:38)
 	at java.lang.Thread.run(Unknown Source)
 
 ################################################################

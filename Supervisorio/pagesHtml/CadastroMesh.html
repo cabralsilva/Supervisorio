@@ -178,10 +178,10 @@
         <div class="panel-body container-fluid">
          <div class="row">
             <div class="col-sm-12" style="background-color: rgba(243,247,249,1)">
-           		<form class="">
+           		<form id="formNewMesh">
            			<div class="row" style="padding-top: 20px; background-color: rgba(163,175,183,0.2);  border-radius: 10px;">
 	                	<div class="form-group col-sm-1">
-	                  		<button id="btnGravarMesh" type="button" class="btn btn-primary">
+	                  		<button id="btnGravarMesh" type="button" class="btn btn-primary" onclick="save();">
 	                  			<i class="icon wb-wrench" aria-hidden="true"></i>Salvar
 	                  		</button>
                 	  	</div>
@@ -192,15 +192,19 @@
                 	  	</div>
 	                </div>
 	                <div class="row">
+                	  <div class="form-group col-sm-2">
+	                    <label class="control-label" for="idMesh">ID</label>
+	                    <input type="number" min="1" class="form-control" id="idMesh" required name="idMesh" autocomplete="off">
+	                  </div>
 	                  <div class="form-group col-sm-4">
 	                    <label class="control-label" for="nomeMesh">Nome</label>
 	                    <input type="text" class="form-control" id="nomeMesh" required name="nomeMesh" placeholder="Ex.: Linha 3" autocomplete="off">
 	                  </div>
-	                  <div class="form-group col-sm-4">
+	                  <div class="form-group col-sm-3">
 	                    <label class="control-label" for="mac16">Mac16</label>
 	                    <input type="text" pattern="[0-9A-Fa-f]{4}" required id="mac16" class="form-control" name="mac16" placeholder="####" autocomplete="off" maxlength="4">
 	                  </div>
-	                  <div class="form-group col-sm-4">
+	                  <div class="form-group col-sm-3">
 	                    <label class="control-label" for="mac64">Mac64</label>
 	                    <input type="text" pattern="[0-9A-Fa-f]{16}" required class="form-control" id="mac64" name="mac64" placeholder="##################" autocomplete="off" maxlength="16">
 	                  </div>
@@ -210,81 +214,112 @@
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoEntrada1">Entrada 1 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoEntrada1" name="descricaoEntrada1" placeholder="Ex.: Sensor 1" autocomplete="off">
+				                    <input value="E1" type="text" class="form-control" id="descricaoEntrada1" name="descricaoEntrada1" placeholder="Ex.: Sensor 1" autocomplete="off">
 				                </div>
 				                <div class="form-group col-sm-6">
 				                    <label class="control-label" for="entrada1Ativo">Ativo em:</label>
-				                    <input type="text" class="form-control" id="entrada1Ativo" name="entrada1Ativo" placeholder="Select" autocomplete="off">
+				                    <select class="form-control input-sm" id="entrada1Ativo" placeholder="Select" autocomplete="off">
+					                    <option value="E1_ON">E1_ON</option>
+					                    <option value="E1_OFF">E1_OFF</option>
+				                  	</select>
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoEntrada2">Entrada 2 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoEntrada2" name="descricaoEntrada2" placeholder="Ex.: Sensor 2" autocomplete="off">
+				                    <input value="E2" type="text" class="form-control" id="descricaoEntrada2" name="descricaoEntrada2" placeholder="Ex.: Sensor 2" autocomplete="off">
 				                </div>
 				                <div class="form-group col-sm-6">
 				                    <label class="control-label" for="entrada2Ativo">Ativo em:</label>
-				                    <input type="text" class="form-control" id="entrada2Ativo" name="entrada2Ativo" placeholder="Select" autocomplete="off">
+<!-- 				                    <input type="text" class="form-control" id="entrada2Ativo" name="entrada2Ativo" placeholder="Select" autocomplete="off"> -->
+				                    <select class="form-control input-sm" id="entrada2Ativo" placeholder="Select" autocomplete="off">
+					                    <option value="E2_ON">E2_ON</option>
+					                    <option value="E2_OFF">E2_OFF</option>
+				                  	</select>
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoEntrada3">Entrada 3 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoEntrada3" name="descricaoEntrada3" placeholder="Ex.: Sensor 3" autocomplete="off">
+				                    <input value="E3" type="text" class="form-control" id="descricaoEntrada3" name="descricaoEntrada3" placeholder="Ex.: Sensor 3" autocomplete="off">
 				                </div>
 				                <div class="form-group col-sm-6">
 				                    <label class="control-label" for="entrada1Ativo">Ativo em:</label>
-				                    <input type="text" class="form-control" id="entrada3Ativo" name="entrada3Ativo" placeholder="Select" autocomplete="off">
+<!-- 				                    <input type="text" class="form-control" id="entrada3Ativo" name="entrada3Ativo" placeholder="Select" autocomplete="off"> -->
+				                    <select class="form-control input-sm" id="entrada3Ativo" placeholder="Select" autocomplete="off">
+					                    <option value="E3_ON">E3_ON</option>
+					                    <option value="E3_OFF">E3_OFF</option>
+				                  	</select>
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoEntrada4">Entrada 4 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoEntrada4" name="descricaoEntrada4" placeholder="Ex.: Sensor 4" autocomplete="off">
+				                    <input value="E4" type="text" class="form-control" id="descricaoEntrada4" name="descricaoEntrada4" placeholder="Ex.: Sensor 4" autocomplete="off">
 				                </div>
 				                <div class="form-group col-sm-6">
 				                    <label class="control-label" for="entrada4Ativo">Ativo em:</label>
-				                    <input type="text" class="form-control" id="entrada4Ativo" name="entrada4Ativo" placeholder="Select" autocomplete="off">
+<!-- 				                    <input type="text" class="form-control" id="entrada4Ativo" name="entrada4Ativo" placeholder="Select" autocomplete="off"> -->
+				                    <select class="form-control input-sm" id="entrada4Ativo" placeholder="Select" autocomplete="off">
+					                    <option value="E4_ON">E4_ON</option>
+					                    <option value="E4_OFF">E4_OFF</option>
+				                  	</select>
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoEntrada5">Entrada 5 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoEntrada5" name="descricaoEntrada5" placeholder="Ex.: Sensor 5" autocomplete="off">
+				                    <input value="E5" type="text" class="form-control" id="descricaoEntrada5" name="descricaoEntrada5" placeholder="Ex.: Sensor 5" autocomplete="off">
 				                </div>
 				                <div class="form-group col-sm-6">
 				                    <label class="control-label" for="entrada5Ativo">Ativo em:</label>
-				                    <input type="text" class="form-control" id="entrada5Ativo" name="entrada5Ativo" placeholder="Select" autocomplete="off">
+<!-- 				                    <input type="text" class="form-control" id="entrada5Ativo" name="entrada5Ativo" placeholder="Select" autocomplete="off"> -->
+				                    <select class="form-control input-sm" id="entrada5Ativo" placeholder="Select" autocomplete="off">
+					                    <option value="E5_ON">E5_ON</option>
+					                    <option value="E5_OFF">E5_OFF</option>
+				                  	</select>
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoEntrada6">Entrada 6 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoEntrada6" name="descricaoEntrada6" placeholder="Ex.: Sensor 6" autocomplete="off">
+				                    <input value="E6" type="text" class="form-control" id="descricaoEntrada6" name="descricaoEntrada6" placeholder="Ex.: Sensor 6" autocomplete="off">
 				                </div>
 				                <div class="form-group col-sm-6">
 				                    <label class="control-label" for="entrada6Ativo">Ativo em:</label>
-				                    <input type="text" class="form-control" id="entrada6Ativo" name="entrada6Ativo" placeholder="Select" autocomplete="off">
+<!-- 				                    <input type="text" class="form-control" id="entrada6Ativo" name="entrada6Ativo" placeholder="Select" autocomplete="off"> -->
+				                    <select class="form-control input-sm" id="entrada6Ativo" placeholder="Select" autocomplete="off">
+					                    <option value="E6_ON">E6_ON</option>
+					                    <option value="E6_OFF">E6_OFF</option>
+				                  	</select>
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoEntrada7">Entrada 7 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoEntrada7" name="descricaoEntrada7" placeholder="Ex.: Sensor 7" autocomplete="off">
+				                    <input value="E7" type="text" class="form-control" id="descricaoEntrada7" name="descricaoEntrada7" placeholder="Ex.: Sensor 7" autocomplete="off">
 				                </div>
 				                <div class="form-group col-sm-6">
 				                    <label class="control-label" for="entrada7Ativo">Ativo em:</label>
-				                    <input type="text" class="form-control" id="entrada7Ativo" name="entrada7Ativo" placeholder="Select" autocomplete="off">
+<!-- 				                    <input type="text" class="form-control" id="entrada7Ativo" name="entrada7Ativo" placeholder="Select" autocomplete="off"> -->
+				                    <select class="form-control input-sm" id="entrada7Ativo" placeholder="Select" autocomplete="off">
+					                    <option value="E7_ON">E7_ON</option>
+					                    <option value="E7_OFF">E7_OFF</option>
+				                  	</select>
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoEntrada8">Entrada 8 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoEntrada8" name="descricaoEntrada8" placeholder="Ex.: Sensor 8" autocomplete="off">
+				                    <input value="E8" type="text" class="form-control" id="descricaoEntrada8" name="descricaoEntrada8" placeholder="Ex.: Sensor 8" autocomplete="off">
 				                </div>
 				                <div class="form-group col-sm-6">
 				                    <label class="control-label" for="entrada8Ativo">Ativo em:</label>
-				                    <input type="text" class="form-control" id="entrada8Ativo" name="entrada8Ativo" placeholder="Select" autocomplete="off">
+<!-- 				                    <input type="text" class="form-control" id="entrada8Ativo" name="entrada8Ativo" placeholder="Select" autocomplete="off"> -->
+				                    <select class="form-control input-sm" id="entrada8Ativo" placeholder="Select" autocomplete="off">
+					                    <option value="E8_ON">E8_ON</option>
+					                    <option value="E8_OFF">E8_OFF</option>
+				                  	</select>
 				                </div>
 				            </div>
 	                	</div>
@@ -292,61 +327,61 @@
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoSaida1">Saída 1 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoSaida1" name="descricaoSaida1" placeholder="Ex.: Carga 1" autocomplete="off">
+				                    <input value="S1" type="text" class="form-control" id="descricaoSaida1" name="descricaoSaida1" placeholder="Ex.: Carga 1" autocomplete="off">
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoSaida2">Saída 2 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoSaida2" name="descricaoSaida2" placeholder="Ex.: Carga 2" autocomplete="off">
+				                    <input value="S2" type="text" class="form-control" id="descricaoSaida2" name="descricaoSaida2" placeholder="Ex.: Carga 2" autocomplete="off">
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoSaida3">Saída 3 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoSaida3" name="descricaoSaida3" placeholder="Ex.: Carga 3" autocomplete="off">
+				                    <input value="S3" type="text" class="form-control" id="descricaoSaida3" name="descricaoSaida3" placeholder="Ex.: Carga 3" autocomplete="off">
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoSaida4">Saída 4 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoSaida4" name="descricaoSaida4" placeholder="Ex.: Carga 4" autocomplete="off">
+				                    <input value="S4" type="text" class="form-control" id="descricaoSaida4" name="descricaoSaida4" placeholder="Ex.: Carga 4" autocomplete="off">
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
-				                    <label class="control-label" for="descricaoEntrada5">Saída 5 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoSaida6" name="descricaoSaida5" placeholder="Ex.: Carga 5" autocomplete="off">
+				                    <label class="control-label" for="descricaoSaida5">Saída 5 - Descrição</label>
+				                    <input value="S5" type="text" class="form-control" id="descricaoSaida5" name="descricaoSaida5" placeholder="Ex.: Carga 5" autocomplete="off">
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoSaida6">Saída 6 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoSaida6" name="descricaoSaida6" placeholder="Ex.: Carga 6" autocomplete="off">
+				                    <input value="S6" type="text" class="form-control" id="descricaoSaida6" name="descricaoSaida6" placeholder="Ex.: Carga 6" autocomplete="off">
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoSaida7">Saída 7 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoSaida7" name="descricaoSaida7" placeholder="Ex.: Carga 7" autocomplete="off">
+				                    <input value="S7" type="text" class="form-control" id="descricaoSaida7" name="descricaoSaida7" placeholder="Ex.: Carga 7" autocomplete="off">
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoSaida8">Saída 8 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoSaida8" name="descricaoSaida8" placeholder="Ex.: Carga 8" autocomplete="off">
+				                    <input value="S8" type="text" class="form-control" id="descricaoSaida8" name="descricaoSaida8" placeholder="Ex.: Carga 8" autocomplete="off">
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoSaida9">Saída 9 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoSaida9" name="descricaoSaida9" placeholder="Ex.: Carga 9" autocomplete="off">
+				                    <input  value="S9" type="text" class="form-control" id="descricaoSaida9" name="descricaoSaida9" placeholder="Ex.: Carga 9" autocomplete="off">
 				                </div>
 				            </div>
 	                		<div class="row">
 	                			<div class="form-group col-sm-6">
 				                    <label class="control-label" for="descricaoSaida10">Saída 10 - Descrição</label>
-				                    <input type="text" class="form-control" id="descricaoSaida10" name="descricaoSaida10" placeholder="Ex.: Carga 10" autocomplete="off">
+				                    <input  value="S10" type="text" class="form-control" id="descricaoSaida10" name="descricaoSaida10" placeholder="Ex.: Carga 10" autocomplete="off">
 				                </div>
 				            </div>
 	                		
@@ -355,7 +390,7 @@
 	                </div>
 	                <div class="row" style="padding-top: 20px; background-color: rgba(163,175,183,0.2);  border-radius: 10px;">
 	                	<div class="form-group col-sm-1">
-	                  		<button id="btnGravarMesh" type="button" class="btn btn-primary">
+	                  		<button id="btnGravarMesh" type="button" class="btn btn-primary" onclick="save();">
 	                  			<i class="icon wb-wrench" aria-hidden="true"></i>Salvar
 	                  		</button>
                 	  	</div>
@@ -421,5 +456,104 @@
   <script src="/global/js/components/toastr.js"></script>
   <script src="/assets/examples/js/advanced/bootbox-sweetalert.js"></script>
   <script src="/TAS/js/clickHref.js" charset="iso-8859-1"></script> 
+  <script>
+  	function save(){
+  		var valid = true;
+  		var action = "save";
+	 	$.each($('form#formNewMesh :input').not(':input[type=button]'), function(index, formField) {
+			 if (!document.getElementById(formField.id).validity.valid){
+				 switch(formField.id){
+					case "idMesh":
+						menssagemErro("ID inválido");
+						break;
+					case "nomeMesh":
+						menssagemErro("Nome inválido");
+						break;
+					case "mac16":
+						menssagemErro("Formato de MAC16 inválido");
+						break;
+					case "mac64":
+						menssagemErro("Formato de MAC64 inválido");
+						break;
+					default:
+						menssagemErro("Preencha todos os campos do formulário!");
+						break;
+				}
+				valid = false;	
+				return false;
+			 }
+		});
+		if (!valid) return false;
+
+	 	console.log("Sucesso");
+		var link = '/ActionCadastroMesh?'
+				+ 'action=' + action 
+				+ '&id=' + document.getElementById("idMesh").value 
+				+ '&nome=' + document.getElementById("nomeMesh").value
+				+ '&mac16=' + document.getElementById("mac16").value
+				+ '&mac64=' + document.getElementById("mac64").value
+				+ '&e1=' + document.getElementById("descricaoEntrada1").value
+				+ '&ea1=' + document.getElementById("entrada1Ativo").value
+				+ '&e2=' + document.getElementById("descricaoEntrada2").value
+				+ '&ea2=' + document.getElementById("entrada2Ativo").value
+				+ '&e3=' + document.getElementById("descricaoEntrada3").value
+				+ '&ea3=' + document.getElementById("entrada3Ativo").value
+				+ '&e4=' + document.getElementById("descricaoEntrada4").value
+				+ '&ea4=' + document.getElementById("entrada4Ativo").value
+				+ '&e5=' + document.getElementById("descricaoEntrada5").value
+				+ '&ea5=' + document.getElementById("entrada5Ativo").value
+				+ '&e6=' + document.getElementById("descricaoEntrada6").value
+				+ '&ea6=' + document.getElementById("entrada6Ativo").value
+				+ '&e7=' + document.getElementById("descricaoEntrada7").value
+				+ '&ea7=' + document.getElementById("entrada7Ativo").value
+				+ '&e8=' + document.getElementById("descricaoEntrada8").value
+				+ '&ea8=' + document.getElementById("entrada8Ativo").value
+				+ '&s1=' + document.getElementById("descricaoSaida1").value
+				+ '&s2=' + document.getElementById("descricaoSaida2").value
+				+ '&s3=' + document.getElementById("descricaoSaida3").value
+				+ '&s4=' + document.getElementById("descricaoSaida4").value
+				+ '&s5=' + document.getElementById("descricaoSaida5").value
+				+ '&s6=' + document.getElementById("descricaoSaida6").value
+				+ '&s7=' + document.getElementById("descricaoSaida7").value
+				+ '&s8=' + document.getElementById("descricaoSaida8").value
+				+ '&s9=' + document.getElementById("descricaoSaida9").value
+				+ '&s10=' + document.getElementById("descricaoSaida10").value
+				;
+		var idReturn = enviarDados(link);
+		if (idReturn > 0) {
+// 			var _self = this, $actions, values = [];
+
+// 			if ($row.hasClass('adding')) {
+// 				this.$addButton.removeAttr('disabled');
+// 				$row.removeClass('adding');
+// 			}
+
+// 			var i = 0;
+// 			values = $row.find('td').map(function() {
+// 				var $this = $(this);
+// 				i++;
+// 				if ($this.hasClass('actions')) {
+// 					_self.rowSetActionsDefault($row);
+// 					return _self.datatable.cell(this).data();
+// 				} else {
+// 					if(i == 1) {
+// 						$.trim($this.find('input').val(parseInt(idReturn)));
+// 					}
+// 					return $.trim($this.find('input').val());
+// 				}
+// 			});
+
+// 			this.datatable.row($row.get(0)).data(values);
+
+// 			$actions = $row.find('td.actions');
+// 			if ($actions.get(0)) {
+// 				this.rowSetActionsDefault($row);
+// 			}
+
+// 			this.datatable.draw();
+		}
+  		
+  	}
+  </script>
 </body>
 </html>
