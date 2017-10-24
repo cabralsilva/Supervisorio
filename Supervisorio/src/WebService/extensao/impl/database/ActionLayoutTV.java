@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -126,6 +127,9 @@ public class ActionLayoutTV implements CommandDB {
 			String color = "green";
 			for (int j = 0; agvs != null && j < agvs.size(); j++) {
 				AGV a = agvs.get(j);
+				if (a.getStatusTimeOld() < (new Date().getTime() - 1800000) ) {
+					a.setStatus(AGV.statusEmRepouso);
+				}
 				String fontCor = "white";
 				if (!a.getStatus().equals(AGV.statusManual)) {
 					if (a.getTagAtual() != null && t.getEpc() != null && a.getTagAtual().equals(t.getEpc())) {
@@ -140,19 +144,22 @@ public class ActionLayoutTV implements CommandDB {
 								break;
 							case AGV.statusEmCruzamento:
 							case AGV.statusEmFila:
-								color = "rgba(128,0,128,0.8)";
+							case AGV.statusObstaculo:
+//								color = "rgba(128,0,128,0.8)";
+								color = "yellow";
+								fontCor = "black";
 								break;
 							case AGV.statusEmEspera:
-								color = "rgba(12,103,193,0.8)";
+//								color = "rgba(12,103,193,0.8)";
+								color = "rgba(255,192,203,1)";
+								fontCor = "black";
 								break;
 							case AGV.statusEmRepouso:
 								color = "white";
 								fontCor = "black";
 								break;
-							case AGV.statusObstaculo:
-								color = "yellow";
-								fontCor = "black";
-								break;
+							case AGV.statusManual:
+								color = "rgba(12,103,193,0.8)";
 							default:
 								color = "rgba(0,255,0,0.7)";
 								fontCor = "black";

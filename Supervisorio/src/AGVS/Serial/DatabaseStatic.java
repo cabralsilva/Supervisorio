@@ -1,5 +1,6 @@
 package AGVS.Serial;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import AGVS.Data.FuncaoPos;
 import AGVS.Data.Input;
 import AGVS.Data.LogZoneTime;
 import AGVS.Data.MeshSerial;
+import AGVS.Data.PausablePlayer;
 import AGVS.Data.PortaMashSerial;
 import AGVS.Data.PosicaoInicioTurno;
 import AGVS.Data.Semaforo;
@@ -23,6 +25,7 @@ import AGVS.Data.TagAtraso;
 import AGVS.Data.TagCruzamento;
 import AGVS.Data.TagCruzamentoMash;
 import AGVS.Data.ZoneTime;
+import AGVS.Util.Log;
 import WebService.http.Config;
 
 public class DatabaseStatic {
@@ -45,8 +48,25 @@ public class DatabaseStatic {
 	public static List<ZoneTime> zoneTimes;
 	public static List<LogZoneTime> logZoneTimes;
 	public static List<AGV> lstAGVS = new ArrayList<AGV>();
+	//FIAT 25
 	public static List<AGV> bufferEntradaLinhaD;
 	public static List<AGV> bufferEntradaLinhaE;
+	public static FileInputStream streamMedia;
+	public static PausablePlayer player;
+	public static List<AGV> bufferEmRotaCarregadoLinhaE;
+	public static List<AGV> bufferEmRotaCarregadoLinhaD;
+	///////////////////////////////////
+	
+	public static void resetMedia() {
+		try {
+//			streamMedia = new FileInputStream("media/001.mp3"); 
+//			player = new PausablePlayer(streamMedia);
+		} catch (Exception e) {
+			// TODO: handle exception
+			new Log(e);
+		}
+		
+	}
 	
 	public static void resetZoneTime() {
 		zoneTimes = ConfigProcess.bd().selectZoneTime();
@@ -553,11 +573,31 @@ public class DatabaseStatic {
 		logZoneTimes = new ArrayList<LogZoneTime>();
 		bufferEntradaLinhaE = new ArrayList<AGV>();
 		bufferEntradaLinhaD = new ArrayList<AGV>();
+		bufferEmRotaCarregadoLinhaE = new ArrayList<AGV>();
+		bufferEmRotaCarregadoLinhaD = new ArrayList<AGV>();
 		resetAGVS();
-//		lstRastreamento = new ArrayList<String>();
 		resetMeshs();
+		resetMedia();
 		new ThreadControlLogic();
 
+//		FileInputStream input = new FileInputStream("media/001.mp3"); 
+//      PausablePlayer player = new PausablePlayer(input);
+//      System.out.println("starting");
+//      // start playing
+//      player.play();
+//      System.out.println("playing");
+//      // after 5 secs, pause
+//      Thread.sleep(5000);
+//      player.pause();     
+//      System.out.println("pause");
+//      // after 5 secs, resume
+//      Thread.sleep(5000);
+//      player.resume();
+//      System.out.println("resume");
+//      Thread.sleep(5000);
+//      player.stop();
+//      System.out.println("stop");
+		
 	}
 
 }

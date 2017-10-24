@@ -36,6 +36,7 @@ CREATE TABLE [dbo].[agvs](
 	[oldStatusFalha] [varchar](100) NULL,
 	[statusOldTime] [datetime] NULL,
 	[atraso] [int] NULL,
+	[frequencia] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[id] ASC

@@ -1,42 +1,57 @@
 package WebService.extensao.impl.database;
 
-import java.awt.Container;
-import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
-
-import AGVS.Controller.Rules.RulesUsuarios;
-import AGVS.Data.AGV;
 import AGVS.Data.ConfigProcess;
-import AGVS.Data.MeshSerial;
+import AGVS.Data.PausablePlayer;
 import AGVS.Data.PortaMashSerial;
 import AGVS.Data.PortaSaidaMeshSerial;
 import AGVS.Serial.DatabaseStatic;
-import AGVS.Util.Util;
-import WebService.HTML.ConvertPAGinHTML;
-import WebService.HTML.PathFilesPAG;
-import WebService.HTML.Tags;
-import WebService.extensao.Command;
 import WebService.extensao.CommandDB;
 import WebService.extensao.impl.Login.Login;
-import WebService.extensao.impl.Tags.Keys;
-import WebService.extensao.impl.Tags.Methods;
 import WebService.extensao.impl.Tags.TagsValues;
-import WebService.http.Config;
 import WebService.http.Dispatcher;
 import WebService.http.Request;
 import WebService.http.Response;
 
 public class ActionCadastroMesh implements CommandDB {
-	private static int i = 0;
-
 	@Override
 	public void execute(Request req, Response resp, Dispatcher disp) throws Exception {
+
+//		FileInputStream input = new FileInputStream("media/001.mp3"); 
+//      PausablePlayer player = new PausablePlayer(input);
+//      System.out.println("starting");
+      // start playing
+//      DatabaseStatic.player.play();
+//      System.out.println("playing");
+      // after 5 secs, pause
+//      Thread.sleep(5000);
+//      DatabaseStatic.player.pause();     
+//      System.out.println("pause");
+      // after 5 secs, resume
+//      Thread.sleep(5000);
+//		DatabaseStatic.streamMedia = new FileInputStream("media/001.mp3"); 
+//		DatabaseStatic.player = new PausablePlayer(DatabaseStatic.streamMedia);
+//		DatabaseStatic.player.play();
+//      DatabaseStatic.player.resume();
+//      System.out.println("PLAY");
+//      Thread.sleep(5000);
+//      Thread.sleep(5000);
+//      Thread.sleep(5000);
+      
+//      DatabaseStatic.player.pause();
+      
+//      DatabaseStatic.streamMedia.available();
+//      DatabaseStatic.player.stop();
+//      DatabaseStatic.player.close();
+//      System.out.println("STOP");
+		
 		String html = "Nao foi possivel realizar comando";
 		if (req.getGetParams().containsKey(TagsValues.paramAction)) {
 			if (req.getGetParams().get(TagsValues.paramAction).equals(TagsValues.valueResetParamAction)) {

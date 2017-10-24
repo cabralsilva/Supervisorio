@@ -218,15 +218,21 @@ public class SQLServer implements BancoDados {
 			Connection conn = DriverManager
 					.getConnection("jdbc:sqlserver://;serverName=" + host + ";user=" + usuario + ";password=" + senha);
 
-			String script = "create DATABASE SupervisorioAGVS;";
+			String script = "create DATABASE SupervisorioAGVSFIATFUNILARIA;";
+//			String script = "create DATABASE SupervisorioAGVSFIAT25;";
+//			String script = "create DATABASE SupervisorioAGVS;";
 			PreparedStatement stmt = conn.prepareStatement(script);
 			stmt.execute();
 
-			script = "ALTER DATABASE SupervisorioAGVS collate SQL_Latin1_General_CP1251_CI_AS";
+//			script = "ALTER DATABASE SupervisorioAGVSFIATFUNILARIA collate SQL_Latin1_General_CP1251_CI_AS";
+			script = "ALTER DATABASE SupervisorioAGVSFIAT25 collate SQL_Latin1_General_CP1251_CI_AS";
+//			script = "ALTER DATABASE SupervisorioAGVS collate SQL_Latin1_General_CP1251_CI_AS";
 			stmt = conn.prepareStatement(script);
 			stmt.execute();
 
-			script = "use SupervisorioAGVS;";
+//			script = "use SupervisorioAGVSFIATFUNILARIA;";
+			script = "use SupervisorioAGVSFIAT25;";
+//			script = "use SupervisorioAGVS;";
 			stmt = conn.prepareStatement(script);
 			stmt.execute();
 
@@ -260,9 +266,11 @@ public class SQLServer implements BancoDados {
 		this.senha = senha;
 //		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVS;user=" + usuario + ";password="
 //				+ senha;
-		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVSTeste;user=" + usuario + ";password="
+//		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVSTeste;user=" + usuario + ";password="
+//				+ senha;
+		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVSFIAT25;user=" + usuario + ";password="
 				+ senha;
-//		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVSFIAT25;user=" + usuario + ";password="
+//		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVSFIATFUNILARIA;user=" + usuario + ";password="
 //				+ senha;
 	}
 

@@ -53,20 +53,26 @@ public class ActionAGVTV implements CommandDB {
 				////////////////////////////////////////////////////////
 				switch (a.getStatus()) {
 					case AGV.statusRodando:
-						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(255,255,255,0.7);'>";
+						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(23,202,23,0.7);'>";
 						fontCor = "black";
 						break;
 					case AGV.statusEmEspera:
-						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(12,103,193,0.8);'>";
+//						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(12,103,193,0.8);'>";
+						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(255,192,203,1);'>";
+						fontCor = "black";
 						break;
 					case AGV.statusEmRepouso:
 						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: white;'>";
+						fontCor = "black";
 						break;
 					case AGV.statusEmCruzamento:
-						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(128,0,128,0.8);'>";
+//						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(128,0,128,0.8);'>";
+						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: yellow;'>";
+						fontCor = "black";
 						break;
 					case AGV.statusEmFila:
-						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(128,0,128,0.5);'>";
+						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: yellow'>";
+						fontCor = "black";
 						break;
 					case AGV.statusObstaculo:
 						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: yellow;'>";
@@ -82,9 +88,10 @@ public class ActionAGVTV implements CommandDB {
 						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: red;'>";
 						break;
 					case AGV.statusManual:
-						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: white;'>";
+						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(12,103,193,0.8);'>";
 						break;
 					default:
+						
 						break;
 				}
 				
@@ -166,27 +173,31 @@ public class ActionAGVTV implements CommandDB {
 				
 				html+="</table>"+
 						"<div class='col-md-offset-1 col-md-8 bg-";
-//				if (a.getStatusTimeOld() < (new Date().getTime() - 600000) ) {
-//					html += "white-600' ";
-//					html += "style='font-size: 16px; font-weight: bold; color: gray; height: 30px; border-radius: 2px; position: absolute; bottom: 10px; margin-right: 0;'>"+
+				
+				if (a.getStatusTimeOld() < (new Date().getTime() - 1800000) ) {
+					html += "blue-300' ";
+					a.setStatus(AGV.statusEmRepouso);
+//					html += "style='font-size: 20px; font-weight: bold; color: "+fontCor+"; height: 30px; border-radius: 2px; position: absolute; bottom: 10px; margin-right: 0;'>"+
 //							"<center>Em repouso</center>"+
 //						"</div>"+ 
 //					"</div>";
-//				}else {
+				}else {
 					switch (a.getStatus()) {
 						case AGV.statusRodando:
 							html += "green-600' ";
 							break;
 						case AGV.statusEmEspera:
-							html += "blue-600' ";
+							html += "pink-600' ";
 							break;
 						case AGV.statusManual:
+							html += "blue-600' ";
+							break;
 						case AGV.statusEmRepouso:
-							html += "white-600' ";
+							html += "gray-600' ";
 							break;
 						case AGV.statusEmCruzamento:
 						case AGV.statusEmFila:
-							html += "purple-600' ";
+							html += "yellow-600' ";
 							break;
 						case AGV.statusObstaculo:
 							html += "yellow-600' ";
@@ -199,12 +210,15 @@ public class ActionAGVTV implements CommandDB {
 						default:
 							break;
 					}
-					html += "style='font-size: 20px; font-weight: bold; color: "+fontCor+"; height: 30px; border-radius: 2px; position: absolute; bottom: 10px; margin-right: 0;'>"+
-							"<center>" + a.getStatus() + "</center>"+
-						"</div>"+ 
-					"</div>";
-//				}
-				
+//					html += "style='font-size: 20px; font-weight: bold; color: "+fontCor+"; height: 30px; border-radius: 2px; position: absolute; bottom: 10px; margin-right: 0;'>"+
+//							"<center>" + a.getStatus() + "</center>"+
+//						"</div>"+ 
+//					"</div>";
+				}
+				html += "style='font-size: 20px; font-weight: bold; color: "+fontCor+"; height: 30px; border-radius: 2px; position: absolute; bottom: 10px; margin-right: 0;'>"+
+						"<center>" + a.getStatus() + "</center>"+
+					"</div>"+ 
+				"</div>";
 				
 				
 				
