@@ -53,9 +53,9 @@ public class ActionTempoTagsParado implements CommandDB {
 				if (req.getGetParams().containsKey(TagsValues.paramID)) {
 					if (req.getGetParams().containsKey(TagsValues.paramNome)) {
 						if (req.getGetParams().containsKey(TagsValues.paramStatus)) {
-							if (req.getGetParams().containsKey(TagsValues.paramMac16)) {
-								if (!Util.verificaMac(req.getGetParams().get(TagsValues.paramMac16), Util.size_mac16)) {
-									html = "MAC 16 Invalido";
+							if (req.getGetParams().containsKey(TagsValues.paramIP)) {
+								if (!Util.validate(req.getGetParams().get(TagsValues.paramIP))) {
+									html = "IP Invalido";
 								} else {
 									if (req.getGetParams().containsKey(TagsValues.paramMac64)) {
 										if (!Util.verificaMac(req.getGetParams().get(TagsValues.paramMac64),
@@ -73,7 +73,7 @@ public class ActionTempoTagsParado implements CommandDB {
 															req.getGetParams().get(TagsValues.paramStatus),
 															req.getGetParams().get(TagsValues.paramTipo),
 															req.getGetParams().get(TagsValues.paramMac64),
-															req.getGetParams().get(TagsValues.paramMac16))) {
+															req.getGetParams().get(TagsValues.paramIP))) {
 														ConfigProcess.bd().insertLogUsuarios(System.currentTimeMillis(),
 																req.getCookies().get(Login.strKeyName).getValue(),
 																"Adicionou AGV "
@@ -91,7 +91,7 @@ public class ActionTempoTagsParado implements CommandDB {
 															req.getGetParams().get(TagsValues.paramStatus),
 															req.getGetParams().get(TagsValues.paramTipo),
 															req.getGetParams().get(TagsValues.paramMac64),
-															req.getGetParams().get(TagsValues.paramMac16),
+															req.getGetParams().get(TagsValues.paramIP),
 															Integer.parseInt(
 																	req.getGetParams().get(TagsValues.paramIDOld)))) {
 														ConfigProcess.bd().insertLogUsuarios(System.currentTimeMillis(),

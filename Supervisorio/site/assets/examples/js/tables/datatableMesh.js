@@ -325,7 +325,11 @@
 							idAction = data[i];
 						} 
 						else if (i == 2) {
-							$this.html('<input type="text" pattern="[0-9A-Fa-f]{4}" required id="' + i + '" class="form-control input-block" style="width: 100%;" maxlength="4" value="' + data[i] + '"/>');
+							$this.html('<input type="text" required id="'
+									+ i
+									+ '" class="form-control input-block" style="width: 100%;" maxlength="15" value="'
+									+ data[i] + '"/>');
+//							$this.html('<input type="text" pattern="[0-9A-Fa-f]{4}" required id="' + i + '" class="form-control input-block" style="width: 100%;" maxlength="4" value="' + data[i] + '"/>');
 						} else if (i == 3) {
 							$this.html('<input type="text" pattern="[0-9A-Fa-f]{16}" required id="' + i + '" class="form-control input-block" style="width: 100%;" maxlength="16" value="' + data[i] + '"/>');
 						} else if (i == 4 || i == 5) {
@@ -349,7 +353,7 @@
 								menssagemErro("Nome inválido");
 								break;
 							case 2:
-								menssagemErro("Formato de MAC16 inválido");
+								menssagemErro("IP inválido");
 								break;
 							case 3:
 								menssagemErro("Formato de MAC64 inválido");
@@ -367,12 +371,11 @@
 						+ 'action=' + action 
 						+ '&id=' + document.getElementById("0").value 
 						+ '&nome=' + document.getElementById("1").value
-						+ '&mac16=' + document.getElementById("2").value
+						+ '&ip=' + document.getElementById("2").value
 						+ '&mac64=' + document.getElementById("3").value
 						+ '&entradas=' + document.getElementById("4").value
 						+ '&saidas=' + document.getElementById("5").value
 						;
-//				console.log(link);
 				var idReturn = enviarDados(link);
 				if (idReturn > 0) {
 					var _self = this, $actions, values = [];

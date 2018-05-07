@@ -143,11 +143,7 @@ public class ActionMeshTV implements CommandDB {
 								"	<div style='height: 20px; width: 50px; background-color: #efa61b; border-radius: 10px;'></div>" + 
 								"</div>";
 					}
-								
-					
-					
 				}
-				
 			}
 			html += "</div>";
 			html += "<div class='col-md-12 col-sm-12 col-xs-12' style='top: 45px;'>"

@@ -48,8 +48,9 @@ public class PortaSaidaMeshSerial {
 		this.status = status;
 	}
 
-	public PortaSaidaMeshSerial(String nome, String porta, String status, MeshSerial ms) {
+	public PortaSaidaMeshSerial(int id, String nome, String porta, String status, MeshSerial ms) {
 		super();
+		this.id = id;
 		this.nome = nome;
 		this.porta = porta;
 		this.status = status;

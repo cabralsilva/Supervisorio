@@ -1,14 +1,7 @@
-import java.util.List;
-import java.util.Scanner;
-
-import javax.swing.JOptionPane;
-
-import AGVS.Data.AGV;
 import AGVS.Data.ConfigProcess;
 import AGVS.Serial.DatabaseStatic;
-import AGVS.Serial.Serial;
 import AGVS.Util.Log;
-import AGVS.Util.Util;
+import AGVS.WIFI.SUPERVISORIO.ClienteAGV;
 import WebService.http.Servidor;
 
 public class Main {
@@ -16,7 +9,9 @@ public class Main {
 	public static void main(String[] args) {
 		//ConfigProcess.bd().insertLogTags(System.currentTimeMillis(), 1, "Tag Exemplo", "E0040150747423");
 		try {
-			System.out.println("Iniciando Supervisorio...");
+			new AGVS.WIFI.SUPERVISORIO.Servidor(AGVS.WIFI.SUPERVISORIO.Servidor.SUPERVISORIO).start();
+			
+			System.out.println("Iniciando Supervisorio 8325");
 			ConfigProcess.serial.conectar();
 			Servidor serv = new Servidor();
 			serv.start();
@@ -25,6 +20,7 @@ public class Main {
 			ConfigProcess.verificaUsuarios();
 			ConfigProcess.initSystem();
 			System.out.println("Supervisorio Iniciado.");
+//			ClienteAGV.enviar("<xml>PLAY</xml>", "192.168.43.123");
 		} catch (Exception e) {
 			new Log(e);
 		}

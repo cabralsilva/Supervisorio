@@ -46,20 +46,20 @@ public class Login {
 	public static final String tokenCadastroCruzamentos = "Cadastro de Cruzamentos";
 	public static final String tokenCadastroTagsCruzamentos = "Cadastro de Tags do Cruzamento";
 	
-	public static final String tokenCadastroSemaforos = "Cadastro de Semáforo";
+	public static final String tokenCadastroSemaforos = "Cadastro de Semaforo";
 	public static final String tokenCadastroMesh = "Cadastro de Mesh";
-	public static final String tokenCadastroTagsSemaforo = "Cadastro de Tags do Semáforo";
+	public static final String tokenCadastroTagsSemaforo = "Cadastro de Tags do Semaforo";
 	public static final String tokenCadastroRotas = "Cadastro de Rotas";
 	public static final String tokenCadastroTempoTags = "Cadastro de Tempo entre Tags";
 	public static final String tokenCadastroEquipamentos = "Cadastro de Equipamentos";
 	public static final String tokenCadastroSupermercados = "Cadastro de Supermercados";
 	public static final String tokenCadastroTempoParadoTags = "Cadastro de tempo parado nas Tags";
 	public static final String tokenCadastroZoneTime = "Cadastro de Zonas de Tempo";
-	public static final String tokenRelatorioZoneTime = "Relatório de Zonas de Tempo";
+	public static final String tokenRelatorioZoneTime = "Relatorio de Zonas de Tempo";
 	public static final String tokenRastreamento = "Rastreamento";
-	public static final String tokenCadastroLogicaMesh = "Cadastro de Lógicas da mesh";
+	public static final String tokenCadastroLogicaMesh = "Cadastro de Logicas da mesh";
 	// pages Configura�ao
-	public static final String tokenConfBD = "Configuração de Bando de Dados";
+	public static final String tokenConfBD = "Configuracao de Bando de Dados";
 	// Operador
 	// Pages Operador
 	public static final String tokenInicioTurno = "Inicio de Turno";
@@ -67,9 +67,10 @@ public class Login {
 
 	public static final String[] listTokens = { tokenHome, tokenRelatorioEventosAGVS, tokenRelatorioZoneTime, tokenLogUsuarios,
 			tokenCadastroAGVS, tokenCadastroLayout, tokenCadastroTags, tokenCadastroRotas, tokenCadastroCruzamentos, tokenCadastroMesh, tokenCadastroLogicaMesh, 
-			tokenCadastroTagsCruzamentos, tokenCadastroSemaforos, tokenCadastroTagsSemaforo, 
-			tokenCadastroZoneTime, tokenCadastroEquipamentos, tokenCadastroSupermercados, tokenCadastroTempoParadoTags, tokenUsuarios, 
-			tokenInicioTurno, tokenPedidos, tokenRastreamento};
+			tokenCadastroTagsCruzamentos, 
+			/*tokenCadastroSemaforos, tokenCadastroTagsSemaforo,*/ 
+			tokenCadastroZoneTime, /*tokenCadastroEquipamentos, tokenCadastroSupermercados, tokenCadastroTempoParadoTags,*/ tokenUsuarios/*, 
+			tokenInicioTurno, tokenPedidos, tokenRastreamento*/};
 
 	public static final Map<String, String[]> getPermissao(String permissaoPersonalizada) {
 		Map<String, String[]> permissao = new HashMap<String, String[]>();

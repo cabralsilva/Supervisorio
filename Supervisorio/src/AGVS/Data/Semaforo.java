@@ -112,37 +112,37 @@ public class Semaforo {
 	}
 
 	public void sinalVerde() {
-		ConfigProcess.serial.enviar("<xml>verde</xml>", ms.getMac16(), ms.getMac64());
+		ConfigProcess.serial.enviar("<xml>verde</xml>", ms.getIp(), ms.getMac64());
 		this.status = VERDE;
 	}
 
 	public void sinalVermelho() {
-		ConfigProcess.serial.enviar("<xml>vermelho</xml>", ms.getMac16(), ms.getMac64());
+		ConfigProcess.serial.enviar("<xml>vermelho</xml>", ms.getIp(), ms.getMac64());
 		this.status = VERMELHO;
 	}
 
 	public void sinalAmarelo() {
-		ConfigProcess.serial.enviar("<xml>amarelo</xml>", ms.getMac16(), ms.getMac64());
+		ConfigProcess.serial.enviar("<xml>amarelo</xml>", ms.getIp(), ms.getMac64());
 		this.status = AMARELO;
 	}
 
 	public void sinalDesligar() {
-		ConfigProcess.serial.enviar("<xml>desligar</xml>", ms.getMac16(), ms.getMac64());
+		ConfigProcess.serial.enviar("<xml>desligar</xml>", ms.getIp(), ms.getMac64());
 		this.status = DESLIGADO;
 	}
 
 	public void sinalAlerta() {
-		ConfigProcess.serial.enviar("<xml>alerta</xml>", ms.getMac16(), ms.getMac64());
+		ConfigProcess.serial.enviar("<xml>alerta</xml>", ms.getIp(), ms.getMac64());
 		this.status = PISCA_AMARELO;
 	}
 
 	public void sinalPiscaVermelho() {
-		ConfigProcess.serial.enviar("<xml>alertaVerm</xml>", ms.getMac16(), ms.getMac64());
+		ConfigProcess.serial.enviar("<xml>alertaVerm</xml>", ms.getIp(), ms.getMac64());
 		this.status = PISCA_VERMELHO;
 	}
 
 	public void sinalPiscaVerde() {
-		ConfigProcess.serial.enviar("<xml>alertaVerd</xml>", ms.getMac16(), ms.getMac64());
+		ConfigProcess.serial.enviar("<xml>alertaVerd</xml>", ms.getIp(), ms.getMac64());
 		this.status = PISCA_VERDE;
 	}
 	

@@ -61,9 +61,9 @@ public class Input {
 	}
 
 	public void sendComando() {
-		ConfigProcess.serial.enviar(getSendSerial(), ms.getMac16(), ms.getMac64());
-		ConfigProcess.serial.enviar(getSendSerial(), ms.getMac16(), ms.getMac64());
-		ConfigProcess.serial.enviar(getSendSerial(), ms.getMac16(), ms.getMac64());
+		ConfigProcess.serial.enviar(getSendSerial(), ms.getIp(), ms.getMac64());
+		ConfigProcess.serial.enviar(getSendSerial(), ms.getIp(), ms.getMac64());
+		ConfigProcess.serial.enviar(getSendSerial(), ms.getIp(), ms.getMac64());
 	}
 
 	public Input(MeshSerial ms, String nome, int db, int memory, int vByte, int value) {

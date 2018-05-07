@@ -21,6 +21,7 @@ public class SupervisorioAGVS implements Command{
 	
 	@Override
 	public void execute(Request req, Response resp) throws Exception {
+		long start = System.currentTimeMillis();
 		// TODO Auto-generated method stub
 		
 		if(!ConfigProcess.bd().conectarBancoDados()){
@@ -41,14 +42,17 @@ public class SupervisorioAGVS implements Command{
 		mt.methodGenerateNomeUsuario.setArgs(req.getCookie("name").getValue());
 		cph = new ConvertPAGinHTML();
 		cph.generateHTML(files, tags);
-		
+		System.out.println("Tempo 1: " + (System.currentTimeMillis() - start));
+		start = System.currentTimeMillis();
 		Home(req, resp);
+		System.out.println("Tempo 1: " + (System.currentTimeMillis() - start));
 	}
 	
 	private void Home(Request req, Response resp) {
 		PrintStream out = resp.getPrintStream();
 		out.println(cph.getHtml(PathFilesPAG.home));
 		out.flush();
+		
 	}
 
 }

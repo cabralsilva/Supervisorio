@@ -56,8 +56,15 @@ public class ActionAGVTV implements CommandDB {
 						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(23,202,23,0.7);'>";
 						fontCor = "black";
 						break;
+					case AGV.statusRodandoManual:
+						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(23,202,23,0.7);'>";
+						fontCor = "black";
+						break;
 					case AGV.statusEmEspera:
-//						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(12,103,193,0.8);'>";
+						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(255,192,203,1);'>";
+						fontCor = "black";
+						break;
+					case AGV.statusParadoManual:
 						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(255,192,203,1);'>";
 						fontCor = "black";
 						break;
@@ -184,9 +191,11 @@ public class ActionAGVTV implements CommandDB {
 				}else {
 					switch (a.getStatus()) {
 						case AGV.statusRodando:
+						case AGV.statusRodandoManual:
 							html += "green-600' ";
 							break;
 						case AGV.statusEmEspera:
+						case AGV.statusParadoManual:						
 							html += "pink-600' ";
 							break;
 						case AGV.statusManual:

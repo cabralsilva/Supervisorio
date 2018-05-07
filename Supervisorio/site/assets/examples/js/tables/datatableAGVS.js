@@ -310,7 +310,14 @@
       rowSave: function($row) {
 
 
-	var link = '/ActionCadastroAGVS?action=' + action + '&idOld=' + idAction + '&id=' + document.getElementById("0").value + '&nome=' + document.getElementById("1").value + '&status=' + document.getElementById("selectStatus").value + '&tipo=' + document.getElementById("selectTipo").value + '&mac64=' + document.getElementById("4").value + '&mac16=' + document.getElementById("5").value;
+	var link = '/ActionCadastroAGVS?action=' + action + '&idOld=' 
+		+ idAction + '&id=' 
+		+ document.getElementById("0").value 
+		+ '&nome=' + document.getElementById("1").value 
+		+ '&status=' + document.getElementById("selectStatus").value 
+		+ '&tipo=' + document.getElementById("selectTipo").value 
+		+ '&mac64=' + document.getElementById("4").value 
+		+ '&ip=' + document.getElementById("5").value;
 	if(enviarDados(link)){
         var _self = this,
           $actions,

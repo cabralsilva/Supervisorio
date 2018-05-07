@@ -2,6 +2,8 @@ package AGVS.Data;
 
 import java.util.Comparator;
 
+import AGVS.WIFI.SUPERVISORIO.ClienteAGV;
+
 public class AGV implements Comparable<AGV>{
 
 	public static final String tipoCarregador = "Carregador";
@@ -11,7 +13,9 @@ public class AGV implements Comparable<AGV>{
 	public static final String[] tiposAGV = { tipoCarregador, tipoRebocador, tipoRebocadorToyota, tipoRebocadorJacto };
 
 	public static final String statusRodando = "Rodando";
+	public static final String statusRodandoManual = "Rodando Manual";
 	public static final String statusCarregando = "Carregando";
+	public static final String statusParadoManual = "Parado Manual";
 	public static final String statusParado = "Parado";
 	public static final String statusHome = "Home";
 	public static final String statusInativo = "Inativo";
@@ -32,7 +36,7 @@ public class AGV implements Comparable<AGV>{
 	
 	public static final String[] statusAGV = { statusRodando, statusCarregando, statusParado, statusHome, statusInativo,
 			statusManutecao, statusObstaculo, statusFugaRota, statusEmEspera, statusEmRepouso,
-			statusEmCruzamento, statusEmFila, statusEmergencia, statusManual, statusEmergenciaRemota };
+			statusEmCruzamento, statusEmFila, statusEmergencia, statusManual, statusEmergenciaRemota, statusRodandoManual, statusParadoManual };
 
 	public static final String[] statusAGVWar = { statusObstaculo, statusFugaRota, statusEmergencia, statusEmergenciaRemota };
 
@@ -43,16 +47,48 @@ public class AGV implements Comparable<AGV>{
 	private int velocidade;
 	private int bateria;
 	private String tagAtual;
-	private String mac16;
+	private String ip;
 	private String mac64;
 	private long tagAtualTime;
 	private int atraso;
 	private String statusOld;
 	private long statusTimeOld;
 	private int frequency;
+	private long sinalWifi;
 
 	private long erroTime;
 	private String erroStatus;
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	public long getSinalWifi() {
+		return sinalWifi;
+	}
+
+	public void setSinalWifi(long sinalWifi) {
+		this.sinalWifi = sinalWifi;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AGV other = (AGV) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+
 
 	public static final Comparator<AGV> POR_CODIGO = new Comparator<AGV>() {
 		public int compare(AGV a, AGV b) {
@@ -69,7 +105,7 @@ public class AGV implements Comparable<AGV>{
 		return (valor!=0?valor:1);
 	}
 
-	public static void sendRota(int[][] rotas, String mac16, String mac64) {
+	public static void sendRota(int[][] rotas, String ip, String mac64) {
 		if (rotas.length >= 10) {
 			String xml = "";
 			xml += "<xml><r>";
@@ -88,7 +124,7 @@ public class AGV implements Comparable<AGV>{
 				System.out.print("|" + (char) (a & 0xff) + "|");
 			}
 			System.out.println();
-			ConfigProcess.serial.enviar(xml, mac16, mac64);
+			ConfigProcess.serial.enviar(xml, ip, mac64);
 		}
 	}	
 	
@@ -134,56 +170,103 @@ public class AGV implements Comparable<AGV>{
 		this.erroStatus = erroStatus;
 	}
 
-	public static void enviarEmergencia(String mac16, String mac64) {
-		ConfigProcess.serial.enviar("<xml>EM</xml>", mac16, mac64);
+	public static void enviarEmergencia(String ip, String mac64) {
+//		if (mac64.length() > 0) {
+//			ConfigProcess.serial.enviar("<xml>EM</xml>", ip, mac64);
+//		}
+		if (ip.length() > 0) {
+			ClienteAGV.enviar("<xml>EM</xml>", ip);
+		}		
 	}
 
-	public static void enviarEmFila(String mac16, String mac64) {
-		ConfigProcess.serial.enviar("<xml>EMFILA</xml>", mac16, mac64);
-		ConfigProcess.serial.enviar("<xml>EMFILA</xml>", mac16, mac64);
-		ConfigProcess.serial.enviar("<xml>EMFILA</xml>", mac16, mac64);
+	public static void enviarEmFila(String ip, String mac64) {
+//		if (mac64.length() > 0) {
+//			ConfigProcess.serial.enviar("<xml>EMFILA</xml>", ip, mac64);
+//		}
+		if (ip.length() > 0) {
+			ClienteAGV.enviar("<xml>EMFILA</xml>", ip);
+		}
+		
 	}
 	
-	public static void enviarEmCruzamento(String mac16, String mac64) {
-		ConfigProcess.serial.enviar("<xml>EMCRUZAMENTO</xml>", mac16, mac64);
-		ConfigProcess.serial.enviar("<xml>EMCRUZAMENTO</xml>", mac16, mac64);
-		ConfigProcess.serial.enviar("<xml>EMCRUZAMENTO</xml>", mac16, mac64);
+	public static void enviarEmCruzamento(String ip, String mac64) {
+//		if (mac64.length() > 0) {
+//			ConfigProcess.serial.enviar("<xml>EMCRUZAMENTO</xml>", ip, mac64);
+//		}
+		if (ip.length() > 0) {
+			ClienteAGV.enviar("<xml>EMCRUZAMENTO</xml>", ip);
+		}
+		
 	}
 	
-	public static void enviarEmRepouso(String mac16, String mac64) {
-		ConfigProcess.serial.enviar("<xml>EMREPOUSO</xml>", mac16, mac64);
-		ConfigProcess.serial.enviar("<xml>EMREPOUSO</xml>", mac16, mac64);
-		ConfigProcess.serial.enviar("<xml>EMREPOUSO</xml>", mac16, mac64);
+	public static void enviarEmRepouso(String ip, String mac64) {
+//		if (mac64.length() > 0) {
+//			ConfigProcess.serial.enviar("<xml>EMREPOUSO</xml>", ip, mac64);
+//		}
+		if (ip.length() > 0) {
+			ClienteAGV.enviar("<xml>EMREPOUSO</xml>", ip);
+		}
+		
 	}
 	
-	public static void enviarEmEspera(String mac16, String mac64) {
-		ConfigProcess.serial.enviar("<xml>EMESPERA</xml>", mac16, mac64);
-		ConfigProcess.serial.enviar("<xml>EMESPERA</xml>", mac16, mac64);
-		ConfigProcess.serial.enviar("<xml>EMESPERA</xml>", mac16, mac64);
+	public static void enviarEmEspera(String ip, String mac64) {
+//		if (mac64.length() > 0) {
+//			ConfigProcess.serial.enviar("<xml>EMESPERA</xml>", ip, mac64);
+//		}
+		if (ip.length() > 0) {
+			ClienteAGV.enviar("<xml>EMESPERA</xml>", ip);
+		}
+		
 	}
 
-	public static void enviarParar(String mac16, String mac64) {
-		ConfigProcess.serial.enviar("<xml>STOP</xml>", mac16, mac64);
-		ConfigProcess.serial.enviar("<xml>STOP</xml>", mac16, mac64);
-		ConfigProcess.serial.enviar("<xml>STOP</xml>", mac16, mac64);
+	public static void enviarParar(String ip, String mac64) { 
+//		if (mac64.length() > 0) {
+//			ConfigProcess.serial.enviar("<xml>STOP</xml>", ip, mac64);
+//		}
+		if (ip.length() > 0) {
+			ClienteAGV.enviar("<xml>STOP</xml>", ip);
+		}
+		
 	}
 
-	public static void enviarPararAC(String mac16, String mac64) {
-		ConfigProcess.serial.enviar("<xml>STOPAC</xml>", mac16, mac64);
+	public static void enviarPararAC(String ip, String mac64) {
+//		if (mac64.length() > 0) {
+//			ConfigProcess.serial.enviar("<xml>STOPAC</xml>", ip, mac64);
+//		}
+		if (ip.length() > 0) {
+			ClienteAGV.enviar("<xml>STOPAC</xml>", ip);
+		}
+		
 	}
 
-	public static void teste(String mac16, String mac64) {
-		ConfigProcess.serial.enviar("<xml>TESTE</xml>", mac16, mac64);
+	public static void teste(String ip, String mac64) {
+//		if (mac64.length() > 0) {
+//			ConfigProcess.serial.enviar("<xml>TESTE</xml>", ip, mac64);
+//		}
+		if (ip.length() > 0) {
+			ClienteAGV.enviar("<xml>TESTE</xml>", ip);
+		}
+		
 	}
 
-	public static void enviarPlay(String mac16, String mac64) {
-		ConfigProcess.serial.enviar("<xml>PLAY</xml>", mac16, mac64);
-		ConfigProcess.serial.enviar("<xml>PLAY</xml>", mac16, mac64);
-		ConfigProcess.serial.enviar("<xml>PLAY</xml>", mac16, mac64);
+	public static void enviarPlay(String ip, String mac64) {
+//		if (mac64.length() > 0) {
+//			ConfigProcess.serial.enviar("<xml>PLAY</xml>", ip, mac64);
+//		}
+		if (ip.length() > 0) {
+			ClienteAGV.enviar("<xml>PLAY</xml>", ip);
+		}
+		
 	}
 
-	public static void enviarPlayRE(String mac16, String mac64) {
-		ConfigProcess.serial.enviar("<xml>PLAYRE</xml>", mac16, mac64);
+	public static void enviarPlayRE(String ip, String mac64) {
+//		if (mac64.length() > 0) {
+//			ConfigProcess.serial.enviar("<xml>PLAYRE</xml>", ip, mac64);
+//		}
+		if (ip.length() > 0) {
+			ClienteAGV.enviar("<xml>PLAYRE</xml>", ip);
+		}
+		
 	}
 
 	public long getTagAtualTime() {
@@ -202,12 +285,12 @@ public class AGV implements Comparable<AGV>{
 		this.atraso = atraso;
 	}
 
-	public String getMac16() {
-		return mac16;
+	public String getIp() {
+		return ip;
 	}
 
-	public void setMac16(String mac16) {
-		this.mac16 = mac16;
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 
 	public String getMac64() {
@@ -275,7 +358,7 @@ public class AGV implements Comparable<AGV>{
 	}
 
 	public AGV(int id, String nome, String status, String tipo, int velocidade, int bateria, String tagAtual,
-			String mac64, String mac16, long tagAtualTime, int atraso, String statusOld, long statusTimeOld, int frequencia) {
+			String mac64, String ip, long tagAtualTime, int atraso, String statusOld, long statusTimeOld, int frequencia) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -284,7 +367,7 @@ public class AGV implements Comparable<AGV>{
 		this.velocidade = velocidade;
 		this.bateria = bateria;
 		this.tagAtual = tagAtual;
-		this.mac16 = mac16;
+		this.ip = ip;
 		this.mac64 = mac64;
 		this.tagAtualTime = tagAtualTime;
 		this.atraso = atraso;
@@ -296,7 +379,7 @@ public class AGV implements Comparable<AGV>{
 	@Override
 	public String toString() {
 		return "AGV [id=" + id + ", nome=" + nome + ", status=" + status + ", tipo=" + tipo + ", velocidade="
-				+ velocidade + ", bateria=" + bateria + ", tagAtual=" + tagAtual + ", mac16=" + mac16 + ", mac64="
+				+ velocidade + ", bateria=" + bateria + ", tagAtual=" + tagAtual + ", ip=" + ip + ", mac64="
 				+ mac64 + ", tagAtualTime=" + tagAtualTime + ", atraso=" + atraso + ", statusOld=" + statusOld
 				+ ", statusTimeOld=" + statusTimeOld + ", frequency=" + frequency + ", erroTime=" + erroTime
 				+ ", erroStatus=" + erroStatus + "]";

@@ -41,14 +41,14 @@ public class SQLServer implements BancoDados {
 			+ "from entradaCondicaoRel "
 			+ "left join entradasMesh on entradaCondicaoRel.fkEntrada = entradasMesh.id";
 	private final String strSelectLogUsuarios = "select * from logUsuarios";
-	private final String strSelectAGVS = "select agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.mac16 as 'agvs.mac16', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia' from agvs";
-	private final String strSelectLastSixAGVS = "select top 6 agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.mac16 as 'agvs.mac16', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia', CASE WHEN statusOldTime > tagAtualTime THEN statusOldTime ELSE tagAtualTime END as lastUpdating from agvs order by lastUpdating desc, agvs.id";
+	private final String strSelectAGVS = "select agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.ip as 'agvs.ip', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia' from agvs";
+	private final String strSelectLastSixAGVS = "select top 6 agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.ip as 'agvs.ip', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia', CASE WHEN statusOldTime > tagAtualTime THEN statusOldTime ELSE tagAtualTime END as lastUpdating from agvs order by lastUpdating desc, agvs.id";
 	
-	private final String strSelectMesh = "select meshSerial.id as 'meshserial.id', meshSerial.nome as 'meshserial.nome', meshSerial.mac16 as 'meshserial.mac16', "
+	private final String strSelectMesh = "select meshSerial.id as 'meshserial.id', meshSerial.nome as 'meshserial.nome', meshSerial.ip as 'meshserial.ip', "
 			+ "meshSerial.mac64 as 'meshserial.mac64', meshSerial.numero_entradas as 'meshSerial.numeroEntradas', meshSerial.numero_saidas as 'meshSerial.numeroSaidas' "
 			+ "from meshSerial ";
 
-	private final String strSelectSemaforo = "select semaforo.id as 'semaforo.id', semaforo.nome as 'semaforo.nome', meshSerial.id as 'meshserial.id', meshSerial.nome as 'meshserial.nome', meshSerial.mac16 as 'meshserial.mac16', meshSerial.mac64 as 'meshserial.mac64', meshSerial.numero_entradas as 'meshSerial.numeroEntradas', meshSerial.numero_saidas as 'meshSerial.numeroSaidas' from semaforo left join meshSerial on semaforo.fk_meshSerial = meshSerial.id";	
+	private final String strSelectSemaforo = "select semaforo.id as 'semaforo.id', semaforo.nome as 'semaforo.nome', meshSerial.id as 'meshserial.id', meshSerial.nome as 'meshserial.nome', meshSerial.ip as 'meshserial.ip', meshSerial.mac64 as 'meshserial.mac64', meshSerial.numero_entradas as 'meshSerial.numeroEntradas', meshSerial.numero_saidas as 'meshSerial.numeroSaidas' from semaforo left join meshSerial on semaforo.fk_meshSerial = meshSerial.id";	
 	private final String strSelectLines = "select lines.descricao as 'lines.descricao', lines.xInicial as 'lines.xInicial', lines.yInicial as 'lines.yInicial', lines.xFinal as 'lines.xFinal', lines.yFinal as 'lines.yFinal', lines.cor as 'lines.cor' from lines";
 	private final String strSelectTags = "select tags.epc as 'tags.epc', tags.nome as 'tags.nome', tags.codigo as 'tags.codigo', tags.coordenadaX as 'tags.coordenadaX', tags.coordenadaY as 'tags.coordenadaY' from tags";
 	private final String strSelectFalhas = "select falhas.id as 'falhas.id', falhas.data as 'falhas.data', falhas.msg as 'falhas.msg', falhas.idAGV as 'falhas.idAGV' from falhas";
@@ -57,7 +57,7 @@ public class SQLServer implements BancoDados {
 	private final String strSelectTagRota = "select tagsRota.nome as 'tagsRota.nome', tagsRota.posicao as 'tagsRota.posicao', tagsRota.addRota as 'tagsRota.addRota', tagsRota.setPoint as 'tagsRota.setPoint', tagsRota.velocidade as 'tagsRota.velocidade', tagsRota.temporizador as 'tagsRota.temporizador', tagsRota.girar as 'tagsRota.girar', tagsRota.estadoAtuador as 'tagsRota.estadoAtuador', tagsRota.sensorObstaculo as 'tagsRota.sensorObstaculo', tagsRota.sinalSonoro as 'tagsRota.sinalSonoro', tagsRota.tagDestino as 'tagsRota.tagDestino', tagsRota.tagParada as 'tagsRota.tagParada', tagsRota.pitStop as 'tagsRota.pitStop', rotas.nome as 'rotas.nome', rotas.descricao as 'rotas.descricao', tags.epc as 'tags.epc', tags.nome as 'tags.nome', tags.codigo as 'tags.codigo', tags.coordenadaX as 'tags.coordenadaX', tags.coordenadaY as 'tags.coordenadaY' from tagsRota LEFT JOIN rotas ON tagsRota.nomeRota = rotas.nome LEFT JOIN tags ON tags.epc = tagsRota.epc";
 	private final String strSelectCruzamentos = "select cruzamentos.nome as 'cruzamentos.nome', cruzamentos.descricao as 'cruzamentos.descricao' from cruzamentos";
 	private final String strSelectTagsCruzamentos = "select tagsCruzamento.nome as 'tagsCruzamento.nome', tagsCruzamento.tipo as 'tagsCruzamento.tipo', cruzamentos.nome as 'cruzamentos.nome', cruzamentos.descricao as 'cruzamentos.descricao', tags.epc as 'tags.epc', tags.nome as 'tags.nome', tags.codigo as 'tags.codigo', tags.coordenadaX as 'tags.coordenadaX', tags.coordenadaY as 'tags.coordenadaY' from tagsCruzamento LEFT JOIN tags ON tags.epc = tagsCruzamento.epc LEFT JOIN cruzamentos ON cruzamentos.nome = tagsCruzamento.nomeCruzamento ";
-	private final String strSelectTagsSemaforo = "select tagsSemaforo.id as 'tagsSemaforo.id', tagsSemaforo.nome as 'tagsSemaforo.nome', tagsSemaforo.tipo as 'tagsSemaforo.tipo', semaforo.id as 'semaforo.id', semaforo.nome as 'semaforo.nome', tags.epc as 'tags.epc', tags.nome as 'tags.nome', tags.codigo as 'tags.codigo', tags.coordenadaX as 'tags.coordenadaX', tags.coordenadaY as 'tags.coordenadaY', meshSerial.id as 'meshserial.id', meshSerial.nome as 'meshserial.nome', meshSerial.mac16 as 'meshserial.mac16', meshSerial.mac64 as 'meshserial.mac64', meshSerial.numero_entradas as 'meshSerial.numeroEntradas', meshSerial.numero_saidas as 'meshSerial.numeroSaidas' from tagsSemaforo LEFT JOIN tags ON tags.epc = tagsSemaforo.epc LEFT JOIN semaforo ON semaforo.id = tagsSemaforo.fk_semaforo LEFT JOIN meshSerial ON meshSerial.id = semaforo.fk_meshSerial";
+	private final String strSelectTagsSemaforo = "select tagsSemaforo.id as 'tagsSemaforo.id', tagsSemaforo.nome as 'tagsSemaforo.nome', tagsSemaforo.tipo as 'tagsSemaforo.tipo', semaforo.id as 'semaforo.id', semaforo.nome as 'semaforo.nome', tags.epc as 'tags.epc', tags.nome as 'tags.nome', tags.codigo as 'tags.codigo', tags.coordenadaX as 'tags.coordenadaX', tags.coordenadaY as 'tags.coordenadaY', meshSerial.id as 'meshserial.id', meshSerial.nome as 'meshserial.nome', meshSerial.ip as 'meshserial.ip', meshSerial.mac64 as 'meshserial.mac64', meshSerial.numero_entradas as 'meshSerial.numeroEntradas', meshSerial.numero_saidas as 'meshSerial.numeroSaidas' from tagsSemaforo LEFT JOIN tags ON tags.epc = tagsSemaforo.epc LEFT JOIN semaforo ON semaforo.id = tagsSemaforo.fk_semaforo LEFT JOIN meshSerial ON meshSerial.id = semaforo.fk_meshSerial";
 	private final String strSelectLogTags = "select logTags.id as 'logTags.id', logTags.idAGV as 'logTags.idAGV', logTags.data as 'logTags.data', logTags.epc as 'logTags.epc', logTags.msg as 'logTags.msg' from logTags ";
 	private final String strSelectSupermercados = "select supermercados.id as 'supermercados.id', supermercados.nome as 'supermercados.nome', supermercados.data as 'supermercados.data', supermercados.produto as 'supermercados.produto' FROM supermercados";
 	private final String strSelectEquipamentos = "select equipamentos.id as 'equipamentos.id', equipamentos.nome as 'equipamentos.nome', equipamentos.rota as 'equipamentos.rota', equipamentos.tipo as 'equipamentos.tipo' FROM equipamentos";
@@ -79,7 +79,7 @@ public class SQLServer implements BancoDados {
 			+ " tagStart.coordenadaX as 'tagStart.coordenadaX', tagStart.coordenadaY as 'tagStart.coordenadaY',"
 			+ " tagEnd.epc as 'tagEnd.epc',	tagEnd.nome as 'tagEnd.nome', tagEnd.codigo as 'tagEnd.codigo'," 
 			+ " tagEnd.coordenadaX as 'tagEnd.coordenadaX', tagEnd.coordenadaY as 'tagEnd.coordenadaY',"
-			+ " agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.mac16 as 'agvs.mac16', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia'"
+			+ " agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.ip as 'agvs.ip', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia'"
 			+ " from logZoneTime"
 			+ " LEFT JOIN zoneTime ON zoneTime.id = logZoneTime.fkZoneTime"
 			+ " LEFT JOIN agvs ON agvs.id = logZoneTime.fkAgv"
@@ -93,13 +93,13 @@ public class SQLServer implements BancoDados {
 	private AGV getAGV(ResultSet rs) throws SQLException {
 		return new AGV(rs.getInt("agvs.id"), rs.getString("agvs.nome"), rs.getString("agvs.status"),
 				rs.getString("agvs.tipo"), rs.getInt("agvs.velocidade"), rs.getInt("agvs.bateria"),
-				rs.getString("agvs.tagAtual"), rs.getString("agvs.mac64"), rs.getString("agvs.mac16"),
+				rs.getString("agvs.tagAtual"), rs.getString("agvs.mac64"), rs.getString("agvs.ip"),
 				Util.getConvertDateBD(rs.getString("agvs.tagAtualTime")), rs.getInt("agvs.atraso"),
 				rs.getString("agvs.oldStatusFalha"), Util.getConvertDateBD(rs.getString("agvs.statusOldTime")), rs.getInt("agvs.frequencia"));
 	}
 	
 	private MeshSerial getMeshSerial(ResultSet rs) throws SQLException {
-		return new MeshSerial(rs.getInt("meshSerial.numeroEntradas"), rs.getInt("meshSerial.numeroSaidas"), rs.getString("meshserial.mac16"), rs.getString("meshserial.mac64"),
+		return new MeshSerial(rs.getInt("meshSerial.numeroEntradas"), rs.getInt("meshSerial.numeroSaidas"), rs.getString("meshserial.ip"), rs.getString("meshserial.mac64"),
 				rs.getString("meshserial.nome"), rs.getInt("meshserial.id"));
 	}
 	
@@ -140,8 +140,8 @@ public class SQLServer implements BancoDados {
 				rs.getInt("tagsRota.tagDestino"), rs.getInt("tagsRota.tagParada"), rs.getInt("tagsRota.pitStop"));
 	}
 
-	private Cruzamento getCruzamento(ResultSet rs) throws SQLException {
-		return new Cruzamento(rs.getString("cruzamentos.nome"), rs.getString("cruzamentos.descricao"), null, null,
+	private Cruzamento_OLD getCruzamento(ResultSet rs) throws SQLException {
+		return new Cruzamento_OLD(rs.getString("cruzamentos.nome"), rs.getString("cruzamentos.descricao"), null, null,
 				null);
 	}
 
@@ -198,7 +198,7 @@ public class SQLServer implements BancoDados {
 	}
 
 	private PortaSaidaMeshSerial getPortaOutMeshSerial(ResultSet rs) throws SQLException, ParseException {
-		return new PortaSaidaMeshSerial(rs.getString("saidasMesh.descricao"), rs.getString("saidasMesh.porta"), rs.getString("saidasMesh.status"), null);		
+		return new PortaSaidaMeshSerial(rs.getInt("saidasMesh.id"), rs.getString("saidasMesh.descricao"), rs.getString("saidasMesh.porta"), rs.getString("saidasMesh.status"), null);		
 	}
 
 	private Condicao getCondicao(ResultSet rs) throws SQLException, ParseException {
@@ -218,21 +218,15 @@ public class SQLServer implements BancoDados {
 			Connection conn = DriverManager
 					.getConnection("jdbc:sqlserver://;serverName=" + host + ";user=" + usuario + ";password=" + senha);
 
-			String script = "create DATABASE SupervisorioAGVSFIATFUNILARIA;";
-//			String script = "create DATABASE SupervisorioAGVSFIAT25;";
-//			String script = "create DATABASE SupervisorioAGVS;";
+			String script = "create DATABASE SupervisorioAGVSFIAT25;";
 			PreparedStatement stmt = conn.prepareStatement(script);
 			stmt.execute();
 
-//			script = "ALTER DATABASE SupervisorioAGVSFIATFUNILARIA collate SQL_Latin1_General_CP1251_CI_AS";
 			script = "ALTER DATABASE SupervisorioAGVSFIAT25 collate SQL_Latin1_General_CP1251_CI_AS";
-//			script = "ALTER DATABASE SupervisorioAGVS collate SQL_Latin1_General_CP1251_CI_AS";
 			stmt = conn.prepareStatement(script);
 			stmt.execute();
 
-//			script = "use SupervisorioAGVSFIATFUNILARIA;";
 			script = "use SupervisorioAGVSFIAT25;";
-//			script = "use SupervisorioAGVS;";
 			stmt = conn.prepareStatement(script);
 			stmt.execute();
 
@@ -264,14 +258,8 @@ public class SQLServer implements BancoDados {
 		this.host = host;
 		this.usuario = usuario;
 		this.senha = senha;
-//		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVS;user=" + usuario + ";password="
-//				+ senha;
-//		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVSTeste;user=" + usuario + ";password="
-//				+ senha;
 		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVSFIAT25;user=" + usuario + ";password="
 				+ senha;
-//		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVSFIATFUNILARIA;user=" + usuario + ";password="
-//				+ senha;
 	}
 
 	private final LogUsuario getLogUsuario(ResultSet rs) throws SQLException {
@@ -511,12 +499,12 @@ public class SQLServer implements BancoDados {
 	}
 
 	@Override
-	public boolean insertAGV(int id, String nome, String status, String tipo, String mac64, String mac16) {
+	public boolean insertAGV(int id, String nome, String status, String tipo, String mac64, String ip) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = "insert into agvs(id, nome, status, tipo, mac16, mac64) values(" + id + ", '" + nome + "', '"
-					+ status + "', '" + tipo + "', '" + mac16 + "', '" + mac64 + "'" + ")";
+			String sql = "insert into agvs(id, nome, status, tipo, ip, mac64) values(" + id + ", '" + nome + "', '"
+					+ status + "', '" + tipo + "', '" + ip + "', '" + mac64 + "'" + ")";
 			//System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
@@ -530,12 +518,12 @@ public class SQLServer implements BancoDados {
 	}
 	
 	@Override
-	public int insertMesh(int id, String nome, String mac16, String mac64, int entradas, int saidas) {
+	public int insertMesh(int id, String nome, String ip, String mac64, int entradas, int saidas) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = "insert into meshSerial(id, nome, mac16, mac64, numero_entradas, numero_saidas) values(" 
-							+ id + ", '" + nome + "', '" + mac16 + "', '" + mac64 + "', " + entradas + ", " + saidas + ")";
+			String sql = "insert into meshSerial(id, nome, ip, mac64, numero_entradas, numero_saidas) values(" 
+							+ id + ", '" + nome + "', '" + ip + "', '" + mac64 + "', " + entradas + ", " + saidas + ")";
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -625,12 +613,12 @@ public class SQLServer implements BancoDados {
 	}
 
 	@Override
-	public boolean updateAGV(int id, String nome, String status, String tipo, String mac64, String mac16, int oldId) {
+	public boolean updateAGV(int id, String nome, String status, String tipo, String mac64, String ip, int oldId) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
 			String sql = "update agvs set id=" + id + ", nome='" + nome + "', status='" + status + "', tipo='" + tipo
-					+ "', mac16='" + mac16 + "', mac64='" + mac64 + "'" + " where id=" + oldId;
+					+ "', ip='" + ip + "', mac64='" + mac64 + "'" + " where id=" + oldId;
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -661,11 +649,11 @@ public class SQLServer implements BancoDados {
 	}
 	
 	@Override
-	public boolean updateMesh(int id, String nome, String mac16, String mac64, int entradas, int saidas) {
+	public boolean updateMesh(int id, String nome, String ip, String mac64, int entradas, int saidas) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = "update MeshSerial set nome='" + nome + "', mac16='" + mac16 + "', mac64='" + mac64 + "', numero_entradas=" + entradas + ", numero_saidas=" + saidas + " where id=" + id;
+			String sql = "update MeshSerial set nome='" + nome + "', ip='" + ip + "', mac64='" + mac64 + "', numero_entradas=" + entradas + ", numero_saidas=" + saidas + " where id=" + id;
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -711,6 +699,25 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
+	
+	@Override
+	public boolean updateIPAGV(int id, String ip) {
+		Connection conexao;
+		try {
+			conexao = DriverManager.getConnection(url);
+			String sql = "update agvs set ip = '" + ip + "' where id=" + id;
+			PreparedStatement stmt = conexao.prepareStatement(sql);
+			stmt.execute();
+			stmt.close();
+			conexao.close();
+		} catch (Exception e) {
+			new Log(e);
+			return false;
+		}
+		return true;
+	}
+	
+	
 	
 	@Override
 	public List<MeshSerial> selectMeshSerial() {
@@ -1529,8 +1536,8 @@ public class SQLServer implements BancoDados {
 	}
 
 	@Override
-	public List<Cruzamento> selectCruzamentos() {
-		List<Cruzamento> cruzamentos = new ArrayList<Cruzamento>();
+	public List<Cruzamento_OLD> selectCruzamentos() {
+		List<Cruzamento_OLD> cruzamentos = new ArrayList<Cruzamento_OLD>();
 
 		Connection conexao;
 		try {
@@ -1553,8 +1560,8 @@ public class SQLServer implements BancoDados {
 	}
 	
 	@Override
-	public List<Cruzamento> selectCruzamentosLogic() {
-		List<Cruzamento> cruzamentos = new ArrayList<Cruzamento>();
+	public List<Cruzamento_OLD> selectCruzamentosLogic() {
+		List<Cruzamento_OLD> cruzamentos = new ArrayList<Cruzamento_OLD>();
 
 		Connection conexao;
 		try {
@@ -1564,10 +1571,10 @@ public class SQLServer implements BancoDados {
 			stmt.execute();
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				Cruzamento cruzamento = null;
+				Cruzamento_OLD cruzamento = null;
 				TagCruzamento tc = getTagCruzamento(rs);
 				for (int i = 0; cruzamentos != null && i < cruzamentos.size(); i++) {
-					Cruzamento aux = cruzamentos.get(i);
+					Cruzamento_OLD aux = cruzamentos.get(i);
 					if (aux.getNome().equals(tc.getCruzamento().getNome())) {
 						cruzamento = aux;
 					}

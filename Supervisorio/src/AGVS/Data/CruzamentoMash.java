@@ -164,9 +164,9 @@ public class CruzamentoMash {
 						}
 						if (filaEsperaOK) {
 							filaEspera.add(agv);
-							AGV.enviarParar(agv.getMac16(), agv.getMac64());
-							AGV.enviarParar(agv.getMac16(), agv.getMac64());
-							AGV.enviarParar(agv.getMac16(), agv.getMac64());
+							AGV.enviarParar(agv.getIp(), agv.getMac64());
+							AGV.enviarParar(agv.getIp(), agv.getMac64());
+							AGV.enviarParar(agv.getIp(), agv.getMac64());
 							System.out.println("Bloqueio do Cruzamento AGV: " + agv.getNome());
 						} else {
 							System.out.println("Ja esta bloqueado AGV: " + agv.getNome());
@@ -230,12 +230,12 @@ public class CruzamentoMash {
 					Config config = Config.getInstance();
 
 					if (config.getProperty(Config.PROP_PROJ).equals(ConfigProcess.PROJ_GOODYEAR)) {
-						AGV.enviarParar(agv.getMac16(), agv.getMac64());
+						AGV.enviarParar(agv.getIp(), agv.getMac64());
 					}
 
-					AGV.enviarPlay(agv.getMac16(), agv.getMac64());
-					AGV.enviarPlay(agv.getMac16(), agv.getMac64());
-					AGV.enviarPlay(agv.getMac16(), agv.getMac64());
+					AGV.enviarPlay(agv.getIp(), agv.getMac64());
+					AGV.enviarPlay(agv.getIp(), agv.getMac64());
+					AGV.enviarPlay(agv.getIp(), agv.getMac64());
 					filaEspera.remove(0);
 					System.out.println("Liberou do Cruzamento AGV: " + agv.getNome());
 					boolean agvInRotaOK = true;

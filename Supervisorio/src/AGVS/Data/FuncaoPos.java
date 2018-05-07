@@ -5,7 +5,7 @@ public class FuncaoPos {
 	private String nome;
 	private String status;
 	private int pos;
-	private Cruzamento ct;
+	private Cruzamento_OLD ct;
 
 	public static final String RODANDO = "Rodando";
 	public static final String FILAESPERA = "Fila de Espera";
@@ -42,15 +42,15 @@ public class FuncaoPos {
 		this.pos = pos;
 	}
 
-	public Cruzamento getCt() {
+	public Cruzamento_OLD getCt() {
 		return ct;
 	}
 
-	public void setCt(Cruzamento ct) {
+	public void setCt(Cruzamento_OLD ct) {
 		this.ct = ct;
 	}
 
-	public FuncaoPos(PosicaoInicioTurno pit, String nome, String status, int pos, Cruzamento ct) {
+	public FuncaoPos(PosicaoInicioTurno pit, String nome, String status, int pos, Cruzamento_OLD ct) {
 		super();
 		this.pit = pit;
 		this.nome = nome;

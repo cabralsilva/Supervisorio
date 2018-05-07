@@ -78,6 +78,8 @@ public interface BancoDados {
 	public List<Tag> selecTags(String epc);
 
 	public boolean updateAGV(int id, String tagAtual, int bateria, long tagAtualTime, int atraso, String status);
+	
+	public boolean updateIPAGV(int id, String ip);
 
 	public boolean updateAGV(int id, int atraso);
 
@@ -125,11 +127,11 @@ public interface BancoDados {
 
 	public boolean deleteTagsRota(String id);
 
-	public List<Cruzamento> selectCruzamentos();
+	public List<Cruzamento_OLD> selectCruzamentos();
 	
 	public List<TagSemaforos> selectTagsSemaforo();
 	
-	public List<Cruzamento> selectCruzamentosLogic();
+	public List<Cruzamento_OLD> selectCruzamentosLogic();
 	
 	public List<Semaforo> selectSemaforosLogic();
 

@@ -1,6 +1,7 @@
 package AGVS.Serial;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import AGVS.Data.AlertasSupervisorio;
 import AGVS.Data.Cancelas;
 import AGVS.Data.ComandoMashSerial;
 import AGVS.Data.ConfigProcess;
-import AGVS.Data.Cruzamento;
+import AGVS.Data.Cruzamento_OLD;
 import AGVS.Data.CruzamentoMash;
 import AGVS.Data.FuncaoPos;
 import AGVS.Data.Input;
@@ -27,12 +28,13 @@ import AGVS.Data.TagCruzamentoMash;
 import AGVS.Data.ZoneTime;
 import AGVS.Util.Log;
 import WebService.http.Config;
+import javazoom.jl.decoder.JavaLayerException;
 
 public class DatabaseStatic {
 
 	public static List<ComandoMashSerial> cms;
 	public static List<MeshSerial> mashs;
-	public static List<Cruzamento> cruzamentos;
+	public static List<Cruzamento_OLD> cruzamentos;
 	public static List<Semaforo> semaforos;
 	public static List<PortaMashSerial> pms;
 	public static List<Cancelas> cancelas;
@@ -49,10 +51,8 @@ public class DatabaseStatic {
 	public static List<LogZoneTime> logZoneTimes;
 	public static List<AGV> lstAGVS = new ArrayList<AGV>();
 	//FIAT 25
-	public static List<AGV> bufferEntradaLinhaD;
-	public static List<AGV> bufferEntradaLinhaE;
-	public static FileInputStream streamMedia;
-	public static PausablePlayer player;
+	public static AGV bufferEntradaLinhaD;
+	public static AGV bufferEntradaLinhaE;
 	public static List<AGV> bufferEmRotaCarregadoLinhaE;
 	public static List<AGV> bufferEmRotaCarregadoLinhaD;
 	///////////////////////////////////
@@ -147,31 +147,31 @@ public class DatabaseStatic {
 		List<FuncaoPos> fps6 = new ArrayList<FuncaoPos>();
 
 		FuncaoPos fpP1_1 = new FuncaoPos(pitP1, "", FuncaoPos.RODANDO, 0,
-				new Cruzamento("Cruzamento 3", "", null, null, null));
+				new Cruzamento_OLD("Cruzamento 3", "", null, null, null));
 
 		FuncaoPos fpP2_1 = new FuncaoPos(pitP2, "", FuncaoPos.RODANDO, 0,
-				new Cruzamento("Cruzamento 4", "", null, null, null));
+				new Cruzamento_OLD("Cruzamento 4", "", null, null, null));
 
 		FuncaoPos fpP3_1 = new FuncaoPos(pitP3, "", FuncaoPos.RODANDO, 0,
-				new Cruzamento("Cruzamento 1", "", null, null, null));
+				new Cruzamento_OLD("Cruzamento 1", "", null, null, null));
 
 		FuncaoPos fpP3_2 = new FuncaoPos(pitP3, "", FuncaoPos.RODANDO, 0,
-				new Cruzamento("Cruzamento 7", "", null, null, null));
+				new Cruzamento_OLD("Cruzamento 7", "", null, null, null));
 
 		FuncaoPos fpP3_3 = new FuncaoPos(pitP3, "", FuncaoPos.FILAESPERA, 0,
-				new Cruzamento("Cruzamento 2", "", null, null, null));
+				new Cruzamento_OLD("Cruzamento 2", "", null, null, null));
 
 		FuncaoPos fpP4_1 = new FuncaoPos(pitP4, "", FuncaoPos.RODANDO, 0,
-				new Cruzamento("Cruzamento 2", "", null, null, null));
+				new Cruzamento_OLD("Cruzamento 2", "", null, null, null));
 
 		FuncaoPos fpP5_1 = new FuncaoPos(pitP6, "", FuncaoPos.FILAESPERA, 1,
-				new Cruzamento("Cruzamento 6", "", null, null, null));
+				new Cruzamento_OLD("Cruzamento 6", "", null, null, null));
 
 		FuncaoPos fpP6_1 = new FuncaoPos(pitP5, "", FuncaoPos.RODANDO, 0,
-				new Cruzamento("Cruzamento 6", "", null, null, null));
+				new Cruzamento_OLD("Cruzamento 6", "", null, null, null));
 
 		FuncaoPos fpP6_2 = new FuncaoPos(pitP5, "", FuncaoPos.FILAESPERA, 1,
-				new Cruzamento("Cruzamento 3", "", null, null, null));
+				new Cruzamento_OLD("Cruzamento 3", "", null, null, null));
 
 		funcPos.add(fpP1_1);
 		funcPos.add(fpP2_1);
@@ -571,32 +571,17 @@ public class DatabaseStatic {
 		resetZoneTime();
 		
 		logZoneTimes = new ArrayList<LogZoneTime>();
-		bufferEntradaLinhaE = new ArrayList<AGV>();
-		bufferEntradaLinhaD = new ArrayList<AGV>();
+		bufferEntradaLinhaE = null;
+		bufferEntradaLinhaD = null;
 		bufferEmRotaCarregadoLinhaE = new ArrayList<AGV>();
 		bufferEmRotaCarregadoLinhaD = new ArrayList<AGV>();
+		
 		resetAGVS();
 		resetMeshs();
 		resetMedia();
 		new ThreadControlLogic();
 
-//		FileInputStream input = new FileInputStream("media/001.mp3"); 
-//      PausablePlayer player = new PausablePlayer(input);
-//      System.out.println("starting");
-//      // start playing
-//      player.play();
-//      System.out.println("playing");
-//      // after 5 secs, pause
-//      Thread.sleep(5000);
-//      player.pause();     
-//      System.out.println("pause");
-//      // after 5 secs, resume
-//      Thread.sleep(5000);
-//      player.resume();
-//      System.out.println("resume");
-//      Thread.sleep(5000);
-//      player.stop();
-//      System.out.println("stop");
+	  
 		
 	}
 

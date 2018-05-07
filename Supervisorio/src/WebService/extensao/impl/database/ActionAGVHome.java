@@ -48,8 +48,10 @@ public class ActionAGVHome implements CommandDB {
 				html += "<th><center><img class='img-rounded' src='/TAS/images/icon-agv-Jacto.jpg' alt='...'></center></th>";
 			} else if (a.getTipo().equals(AGV.tipoRebocadorToyota)) {
 				html += "<th><center><img class='img-rounded' src='/TAS/images/icon-agv-toyota.jpg' alt='...'></center></th>";
-			} else {
+			} else if (a.getTipo().equals(AGV.tipoCarregador)) {
 				html += "<th><center><img class='img-rounded' src='/TAS/images/icon-agv-carregador.jpg' alt='...'></center></th>";
+			} else {
+				html += "<th><center><img class='img-rounded' src='/TAS/images/icon-agv-rebocador.jpg' alt='...'></center></th>";
 			}
 
 			html += "</thead>";

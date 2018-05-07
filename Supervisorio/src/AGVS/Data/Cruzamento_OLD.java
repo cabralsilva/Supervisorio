@@ -8,10 +8,9 @@ import javax.print.attribute.standard.Fidelity;
 
 import AGVS.Serial.DatabaseStatic;
 import AGVS.Util.Log;
-import AGVS.Util.Util;
 import WebService.http.Config;
 
-public class Cruzamento {
+public class Cruzamento_OLD {
 
 	private String nome;
 	private String descricao;
@@ -31,9 +30,9 @@ public class Cruzamento {
 			sp.acquire();
 			for (int i = 0; tagsEntrada != null && i < tagsEntrada.size(); i++) {
 				Tag tg = tagsEntrada.get(i).getTag();
-
+//				System.out.println("TAG CADASTRADA: " + tg.getEpc());
+//				System.out.println("TAG lida: " + epc);
 				if (tg.getEpc().equals(epc) && !agv.getStatus().equals(AGV.statusManual)) {
-
 					boolean ok = false;
 					if (getPms() != null) {
 						for (int j = 0; j < getPms().size(); j++) {
@@ -54,9 +53,6 @@ public class Cruzamento {
 								}
 							}
 							if (bloq) {
-								agv.setStatus(AGV.statusEmCruzamento);
-								agv.setStatusTimeOld(System.currentTimeMillis());
-								ConfigProcess.bd().updateAGV(agv.getId(),agv.getStatus(), agv.getStatusTimeOld());
 								System.out.println("Entrou na fila o AGV: " + agv.getNome());
 								filaEspera.add(agv);
 							}
@@ -131,35 +127,15 @@ public class Cruzamento {
 			sp.release();
 
 		}
-		
 		if (a.getStatus().equals(AGV.statusManual)) {
 			try {
 				sp.acquire();
 				if (getFilaEspera() != null && getFilaEspera().size() > 0) {
-					
 					for (int i = 0; i < getFilaEspera().size(); i++) {
 						AGV agv = getFilaEspera().get(i);
 						if (agv.getId() == a.getId()) {
 							getFilaEspera().remove(i);
 							i--;
-						}
-					}
-				}
-			} catch (Exception e) {
-				new Log(e);
-			}
-			sp.release();
-		}
-		
-		if (a.getStatus().equals(AGV.statusRodando) && a.getId() != getAgvInRota().getId()) {
-			try {
-				sp.acquire();
-				if (getFilaEspera() != null && getFilaEspera().size() > 0) {
-					for(AGV agv:getFilaEspera()) {
-						if(agv.getId() == a.getId()) {
-							//adicionar em rota
-							getFilaEspera().remove(agv);
-							setAgvInRota(agv);
 						}
 					}
 				}
@@ -220,7 +196,7 @@ public class Cruzamento {
 				boolean ok = true;
 				if (getPms() != null) {
 					for (int i = 0; i < getPms().size(); i++) {
-						System.out.println("Teste Mash Libera Cruzamento");
+//						System.out.println("Teste Mash Libera Cruzamento");
 						PortaMashSerial aux = getPms().get(i);
 						if (aux.getStatus() != null && aux.getStatus().equals(aux.getAcionamento())) {
 							System.out.println("Cruzamento bloq por mash");
@@ -311,7 +287,7 @@ public class Cruzamento {
 		this.tagsSaida = tagsSaida;
 	}
 
-	public Cruzamento(String nome, String descricao, List<TagCruzamento> tagsEntrada, List<TagCruzamento> tagsSaida,
+	public Cruzamento_OLD(String nome, String descricao, List<TagCruzamento> tagsEntrada, List<TagCruzamento> tagsSaida,
 			List<PortaMashSerial> pms) {
 		super();
 		this.nome = nome;

@@ -337,7 +337,7 @@
 					+ '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default hidden on-editing cancel-row" data-toggle="tooltip" data-original-title="Delete"><i class="icon wb-close" aria-hidden="true"></i></a>'
 					+ '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Edit"><i class="icon wb-edit" aria-hidden="true"></i></a>'
 					+ '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Remove"><i class="icon wb-trash" aria-hidden="true"></i></a>'
-					+ '<a onclick="requestPopupUsers(\'/SelectPagesUsuarios?id=' + id + '\');" href="#" class="btn btn-sm btn-icon btn-pure btn-default on-default" data-toggle="tooltip" data-original-title="Permissão"><i class="icon wb-unlock" aria-hidden="true"></i></a>'
+					+ '<a onclick="requestPopupUsers(\'/SelectPagesUsuarios?id=' + id + '\');" href="#" class="btn btn-sm btn-icon btn-pure btn-default on-default" data-toggle="tooltip" data-original-title="Permissao"><i class="icon wb-unlock" aria-hidden="true"></i></a>'
 			}
 			
             _self.rowSetActionsDefault($row);

@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
@@ -38,6 +39,14 @@ public class Util {
 
 	public static final String nameArqBd = "bancoConf.xml";
 
+	private static final Pattern PATTERN = Pattern.compile(
+	        "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
+	
+	public static boolean validate(final String ip) {
+		if (ip.length() > 0)
+			return PATTERN.matcher(ip).matches();
+		return true;
+	}
 	public static String centralizeString(String str, int i, String f) {
 		int c = 0;
 		while (str.length() < i) {

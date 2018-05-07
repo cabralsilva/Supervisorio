@@ -13,7 +13,7 @@ import AGVS.Data.AGV;
 import AGVS.Data.AlertFalhas;
 import AGVS.Data.Condicao;
 import AGVS.Data.ConfigProcess;
-import AGVS.Data.Cruzamento;
+import AGVS.Data.Cruzamento_OLD;
 import AGVS.Data.EntradaCondicao;
 import AGVS.Data.Equipamentos;
 import AGVS.Data.Line;
@@ -58,7 +58,9 @@ public class Methods {
 		public String method() {
 
 			Dashboards dash = new Dashboards();
-			String msg = dash.gerarDashBoard(dash.cadastroEquipamentos, dash.Cadastro, -1);
+//			String msg = dash.gerarDashBoard(dash.cadastroEquipamentos, dash.Cadastro, -1);
+			
+			String msg = "";
 			return msg;
 		}
 
@@ -140,7 +142,8 @@ public class Methods {
 		public String method() {
 
 			Dashboards dash = new Dashboards();
-			String msg = dash.gerarDashBoard(dash.cadastroSupermercados, dash.Cadastro, -1);
+//			String msg = dash.gerarDashBoard(dash.cadastroSupermercados, dash.Cadastro, -1);
+			String msg = "";
 			return msg;
 		}
 
@@ -284,7 +287,8 @@ public class Methods {
 		public String method() {
 
 			Dashboards dash = new Dashboards();
-			String msg = dash.gerarDashBoard(dash.cadastroTagsSemaforos, dash.Cadastro, -1);
+//			String msg = dash.gerarDashBoard(dash.cadastroTagsSemaforos, dash.Cadastro, -1);
+			String msg = "";
 			return msg;
 		}
 
@@ -316,7 +320,8 @@ public class Methods {
 		public String method() {
 
 			Dashboards dash = new Dashboards();
-			String msg = dash.gerarDashBoard(dash.Pedidos, dash.Turno, -1);
+//			String msg = dash.gerarDashBoard(dash.Pedidos, dash.Turno, -1);
+			String msg = "";
 			return msg;
 		}
 
@@ -348,7 +353,8 @@ public class Methods {
 		public String method() {
 
 			Dashboards dash = new Dashboards();
-			String msg = dash.gerarDashBoard(dash.Rastrear, dash.Turno, -1);
+//			String msg = dash.gerarDashBoard(dash.Rastrear, dash.Turno, -1);
+			String msg = "";
 			return msg;
 		}
 
@@ -364,7 +370,8 @@ public class Methods {
 		public String method() {
 			
 			Dashboards dash = new Dashboards();
-			String msg = dash.gerarDashBoard(dash.InicioTurno, dash.Turno, -1);
+//			String msg = dash.gerarDashBoard(dash.InicioTurno, dash.Turno, -1);
+			String msg = "";
 			return msg;
 		}
 		
@@ -775,7 +782,7 @@ public class Methods {
 				msg += "<tr class=\"gradeA\">" 
 						+ "<td>" + value.getId() + "</td>" 
 						+ "<td>" + value.getNome() + "</td>"
-						+ "<td>" + value.getMac16() + "</td>" 
+						+ "<td>" + value.getIp() + "</td>" 
 						+ "<td>" + value.getMac64() + "</td>"
 						+ "<td>" + value.getNumeroEntradas() + "</td>"
 						+ "<td>" + value.getNumeroSaidas() + "</td>"
@@ -904,7 +911,7 @@ public class Methods {
 				AGV value = data.get(i);
 				msg += "<tr class=\"gradeA\">" + "<td>" + value.getId() + "</td>" + "<td>" + value.getNome() + "</td>"
 						+ "<td>" + value.getStatus() + "</td>" + "<td>" + value.getTipo() + "</td>" + "<td>"
-						+ value.getMac64() + "</td>" + "<td>" + value.getMac16() + "</td>" + "<td class=\"actions\">"
+						+ value.getMac64() + "</td>" + "<td>" + value.getIp() + "</td>" + "<td class=\"actions\">"
 						+ "<a href=\"#\" class=\"btn btn-sm btn-icon btn-pure btn-default hidden on-editing save-row\""
 						+ "data-toggle=\"tooltip\" data-original-title=\"Save\"><i class=\"icon wb-wrench\" aria-hidden=\"true\"></i></a>"
 						+ "<a href=\"#\" class=\"btn btn-sm btn-icon btn-pure btn-default hidden on-editing cancel-row\""
@@ -997,9 +1004,9 @@ public class Methods {
 		public String method() {
 
 			String msg = "";
-			List<Cruzamento> data = ConfigProcess.bd().selectCruzamentos();
+			List<Cruzamento_OLD> data = ConfigProcess.bd().selectCruzamentos();
 			for (int i = 0; data != null && i < data.size(); i++) {
-				Cruzamento value = data.get(i);
+				Cruzamento_OLD value = data.get(i);
 				msg += "<tr class=\"gradeA\">" + "<td>" + value.getNome() + "</td>" + "<td>" + value.getDescricao()
 						+ "</td>" + "<td class=\"actions\">"
 						+ "<a href=\"#\" class=\"btn btn-sm btn-icon btn-pure btn-default on-default libera-row\""
@@ -1291,9 +1298,9 @@ public class Methods {
 		public String method() {
 
 			String msg = "";
-			List<Cruzamento> values = ConfigProcess.bd().selectCruzamentos();
+			List<Cruzamento_OLD> values = ConfigProcess.bd().selectCruzamentos();
 			for (int i = 0; values != null && i < values.size(); i++) {
-				Cruzamento value = values.get(i);
+				Cruzamento_OLD value = values.get(i);
 				msg += "<option value=\"" + value.getNome() + "\">" + value.getNome() + "</option>";
 			}
 			return msg;

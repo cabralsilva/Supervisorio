@@ -12,7 +12,7 @@ import AGVS.Data.AlertFalhas;
 import AGVS.Data.Cancelas;
 import AGVS.Data.ComandoMashSerial;
 import AGVS.Data.ConfigProcess;
-import AGVS.Data.Cruzamento;
+import AGVS.Data.Cruzamento_OLD;
 import AGVS.Data.LogZoneTime;
 import AGVS.Data.MeshSerial;
 import AGVS.Data.PausablePlayer;
@@ -31,16 +31,25 @@ public class ThActionSerialPacote extends Thread {
 	private static final String comandoAtualizarPos = "R";
 	private static final String comandoStatus = "S";
 	private static final String comandoFrequencia = "F";
+	private static final String comandoInformacoesAGV = "I";
+	private static final String comandoInformacoesMesh = "M";
 	private static final String comandoNext = "N";
 	private Serial serial;
 	private List<TagAtraso> tagsAtraso;
 	private static int idFechaCancela = 0;
 	private int[] pacoteInt = new int[255];
 	private static long valTime = 0;
+	
+	public static FileInputStream streamMedia;
+	public static PausablePlayer player;
+	public static Boolean streamPlay = false;
+
+	
+	
 	// Somente Para Primeiro desenvolvimento.
 
 	public ThActionSerialPacote(String pacote, Serial serial, int[] pacoteInt) {
-
+		
 		status = new HashMap<Integer, String>();
 		status_war = new HashMap<Integer, String>();
 		for (int i = 0; i < AGV.statusAGV.length; i++) {
@@ -68,19 +77,129 @@ public class ThActionSerialPacote extends Thread {
 			System.out.println("PACOTE: " + pacote);
 			String comando = Util.localizarStrXML(pacote, "<c>", "</c>");
 			switch (comando) {
+			case comandoInformacoesMesh:
+				System.out.println("Updating status Mesh");
+				int vStatusMesh = Integer.parseInt(Util.localizarStrXML(pacote, "<s>", "</s>"));
+				for(MeshSerial ms : DatabaseStatic.mashs) {
+					if (ms.getId() == Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>"))) {
+						for (PortaMashSerial pms : ms.getLstPms()) {
+							if (pms.getNome().equals(PortaMashSerial.getPort(vStatusMesh))) {
+								pms.setStatus(PortaMashSerial.getPortState(vStatusMesh));
+								ConfigProcess.bd().updatePortIn(pms.getPorta(), ms.getId(), PortaMashSerial.getPortState(vStatusMesh));
+							}								
+						}
+						//verificar entradas da mesh para liberação de agvs na entrada das linhas
+						if (config.getProperty(Config.PROP_PROJ).equals(ConfigProcess.PROJ_FIAT)) {
+							if (verifyStatusPort("5", ms.getLstPms()) &&
+								verifyStatusPort("6", ms.getLstPms())) {
+								if (DatabaseStatic.bufferEntradaLinhaE != null ) {
+									AGV agv = DatabaseStatic.bufferEntradaLinhaE;
+									AGV.enviarPlay(agv.getIp(), agv.getMac64());
+									DatabaseStatic.bufferEntradaLinhaE = null;
+									System.out.println("Entrada ESQUERDA AUTORIZADA pela Mesh. AGV: " + agv.getId());
+								}
+								
+								/*if(DatabaseStatic.bufferEmRotaCarregadoLinhaE.size() == 0 && !streamPlay) {
+									System.out.println("play");
+									streamMedia = new FileInputStream("media/001.mp3"); 
+									player = new PausablePlayer(streamMedia);
+									player.play();
+									streamPlay = true;
+								}*/
+							}/*else {
+								if (player != null) {
+									player.stop();
+									streamPlay = false;
+								}
+							}*/
+							
+//							if( verifyStatusPort("5", ms.getLstPms()) &&
+//								verifyStatusPort("6", ms.getLstPms())) {
+//								////verificar se já saíram para entrega
+//								if(DatabaseStatic.bufferEmRotaCarregadoLinhaE.size() == 0 && !streamPlay) {
+//									streamMedia = new FileInputStream("media/001.mp3"); 
+//									player = new PausablePlayer(streamMedia);
+//									player.play();
+//									streamPlay = true;
+//								}
+//							}else {
+//								if (player != null) {
+//									player.stop();
+//									streamPlay = false;
+//								}
+//							}
+							
+///////////////////////////
+							if (verifyStatusPort("3", ms.getLstPms()) && 
+								verifyStatusPort("4", ms.getLstPms())) {
+								if (DatabaseStatic.bufferEntradaLinhaD != null ) {
+									AGV agv = DatabaseStatic.bufferEntradaLinhaD;
+									AGV.enviarPlay(agv.getIp(), agv.getMac64());
+									DatabaseStatic.bufferEntradaLinhaD = null;
+									System.out.println("Entrada DIREITA AUTORIZADA pela Mesh. AGV: " + agv.getId());
+								}
+								
+								/*if(DatabaseStatic.bufferEmRotaCarregadoLinhaD.size() == 0 && !streamPlay) {
+									System.out.println("play");
+									streamMedia = new FileInputStream("media/001.mp3"); 
+									player = new PausablePlayer(streamMedia);
+									player.play();
+									streamPlay = true;
+								}*/
+							}/*else {
+								if (player != null) {
+									System.out.println("PARAR");
+									player.stop();
+									streamPlay = false;
+								}
+							}*/
+							
+//							if(verifyStatusPort("3", ms.getLstPms()) && verifyStatusPort("4", ms.getLstPms())) {
+//								////verificar se já saíram para entrega
+//								System.out.println("MUSICA");
+//								if(DatabaseStatic.bufferEmRotaCarregadoLinhaD.size() == 0 && !streamPlay) {
+//									System.out.println("play");
+//									streamMedia = new FileInputStream("media/001.mp3"); 
+//									player = new PausablePlayer(streamMedia);
+//									player.play();
+//									streamPlay = true;
+//								}
+//							}else {
+//								if (player != null) {
+//									player.stop();
+//									streamPlay = false;
+//								}
+//							}
+						}
+						///////////////////////////////////////////////////////////////
+					}
+				}
+				break;
+			case comandoInformacoesAGV:
+				for (AGV agv : DatabaseStatic.lstAGVS) {
+					if (agv.getId() == Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>"))) {
+						agv.setIp(Util.localizarStrXML(pacote, "<p>", "</p>"));
+						agv.setSinalWifi(Long.parseLong(Util.localizarStrXML(pacote, "<w>", "</w>")));
+						ConfigProcess.bd().updateIPAGV(agv.getId(), agv.getIp());
+					}
+				}
+				break;
 			case comandoAtualizarPos:
 				System.out.println("comandoAtualizarPos");
 				String sb = "";
 
-				int pos1 = pacote.indexOf("<t>") + "<t>".length() + 1;
-				int pos2 = pacote.indexOf("</t>") + 1;
-
+//				int pos1 = pacote.indexOf("<t>") + "<t>".length()+ 1;
+//				int pos2 = pacote.indexOf("</t>")+ 1;
+				int pos1 = pacote.indexOf("<t>") + "<t>".length();
+				int pos2 = pacote.indexOf("</t>");
 				for (int i = pos1; i < pos2; i++) {
 					String temp = Integer.toHexString(pacoteInt[i]).toUpperCase();
 					if (Integer.toHexString(pacoteInt[i]).toUpperCase().length() == 1) {
 						temp = "0" + temp;
 					}
 					sb += temp;
+
+					System.out.println(sb.toString());
 				}
 ////////////////////////////////////////
 				for (AGV agv : DatabaseStatic.lstAGVS) {
@@ -95,6 +214,7 @@ public class ThActionSerialPacote extends Thread {
 				List<AGV> agvs = ConfigProcess.bd().selecAGVS();
 				int j;
 				for (j = 0; agvs != null && j < agvs.size(); j++) {
+					
 					AGV agv = agvs.get(j);
 					if (agv.getId() == Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>"))) {
 						String oldStatus = agv.getStatus();
@@ -103,9 +223,12 @@ public class ThActionSerialPacote extends Thread {
 						if (!oldStatus.equals(agv.getStatus())) {
 							ConfigProcess.bd().updateAGV(agv.getId(), agv.getStatus());
 						}
-						if (agv.getTagAtual() == null || !agv.getTagAtual().equals(sb.toString())) {
+//						System.out.println("Tag: " + sb.toString());
+//						if (agv.getTagAtual() == null || !agv.getTagAtual().equals(sb.toString())) {
 							for (int t = 0; DatabaseStatic.cruzamentos != null
 									&& t < DatabaseStatic.cruzamentos.size(); t++) {
+//								
+//								System.out.println("Verificando cruzamentos: " + DatabaseStatic.cruzamentos.get(t).getNome());
 								DatabaseStatic.cruzamentos.get(t).verificaCruzamento(agv, sb.toString());
 							}
 							
@@ -115,53 +238,47 @@ public class ThActionSerialPacote extends Thread {
 								if (sb.toString().equals("3432") && agv.getFrequency() == 5) {
 									if(	!(verifyStatusPort("5", ms.getLstPms()) &&
 										verifyStatusPort("6", ms.getLstPms()))) {
-										AGV.enviarEmFila(agv.getMac16(), agv.getMac64());
-										AGV.enviarEmFila(agv.getMac16(), agv.getMac64());
-										AGV.enviarEmFila(agv.getMac16(), agv.getMac64());
+										AGV.enviarEmFila(agv.getIp(), agv.getMac64());
 										System.out.println("Entrada ESQUERDA na linha NÃO LIBERADA pela Mesh");
-										DatabaseStatic.bufferEntradaLinhaE.add(agv);
+										DatabaseStatic.bufferEntradaLinhaE = agv;
 									}
 									
 								}else if(sb.toString().equals("3038") && agv.getFrequency() == 1) {
 									if (!(verifyStatusPort("3", ms.getLstPms()) && 
 										verifyStatusPort("4", ms.getLstPms()))) {
-										AGV.enviarEmFila(agv.getMac16(), agv.getMac64());
-										AGV.enviarEmFila(agv.getMac16(), agv.getMac64());
-										AGV.enviarEmFila(agv.getMac16(), agv.getMac64());
+										AGV.enviarEmFila(agv.getIp(), agv.getMac64());
 										System.out.println("Entrada DIREITA na linha NÃO LIBERADA pela Mesh");
-										DatabaseStatic.bufferEntradaLinhaD.add(agv);
+										DatabaseStatic.bufferEntradaLinhaD = agv;
+										System.out.println("BUFFER DIREITO ADD: " + DatabaseStatic.bufferEntradaLinhaD);
 									}
 									
 								}
 								//////SAIRAM PARA ENTREGA///////////////////
-								else if ((sb.toString().equals("3033") || sb.toString().equals("3032")) && agv.getFrequency() == 1) {
-									boolean existe = false;
-									for (AGV agvInDeliveryDireita : DatabaseStatic.bufferEmRotaCarregadoLinhaD) {
-										if (agvInDeliveryDireita.getId() == agv.getId()) {
-											existe = true;
-											break;
-										}
+								/*else if ((sb.toString().equals("3033") || sb.toString().equals("3032")) && agv.getFrequency() == 1) {
+									if (DatabaseStatic.bufferEmRotaCarregadoLinhaD.size() == 0 && player != null) {
+										player.stop();
+										streamPlay = false;
 									}
 									
-									if (!existe){
+									if (!DatabaseStatic.bufferEmRotaCarregadoLinhaD.contains(agv)) {
 										DatabaseStatic.bufferEmRotaCarregadoLinhaD.add(agv);
 									}
+																			
 								}else if (sb.toString().equals("3431")  && agv.getFrequency() == 5) {
-									boolean existe = false;
-									for (AGV agvInDeliveryEsquerda : DatabaseStatic.bufferEmRotaCarregadoLinhaE) {
-										if (agvInDeliveryEsquerda.getId() == agv.getId()) {
-											existe = true;
-											break;
-										}
+									if (DatabaseStatic.bufferEmRotaCarregadoLinhaE.size() == 0 && player != null) {
+										player.stop();
+										streamPlay = false;
 									}
 									
-									if (!existe){
+									if (!DatabaseStatic.bufferEmRotaCarregadoLinhaE.contains(agv)) {
 										DatabaseStatic.bufferEmRotaCarregadoLinhaE.add(agv);
-									}
-								}
+										System.out.println("add buffer esquerdo");
+									}								
+									
+								}*/
 								//////////////////////////////////////
 								///////////////ENTREGARAM////////////
-								else if ((sb.toString().equals("3839") || sb.toString().equals("3135")) && agv.getFrequency() == 1) {
+								/*else if ((sb.toString().equals("3839") || sb.toString().equals("3135")) && agv.getFrequency() == 1) {
 									for (AGV agvInDeliveryDireita : DatabaseStatic.bufferEmRotaCarregadoLinhaD) {
 										if (agvInDeliveryDireita.getId() == agv.getId()) {
 											DatabaseStatic.bufferEmRotaCarregadoLinhaD.remove(agv);
@@ -173,7 +290,7 @@ public class ThActionSerialPacote extends Thread {
 											DatabaseStatic.bufferEmRotaCarregadoLinhaE.remove(agv);
 										}
 									}
-								}
+								}*/
 								///////////////////////////////////////
 							}
 							
@@ -213,16 +330,16 @@ public class ThActionSerialPacote extends Thread {
 							for (int i = 0; DatabaseStatic.zoneTimes != null && i < DatabaseStatic.zoneTimes.size(); i++) {
 								DatabaseStatic.zoneTimes.get(i).verificarZoneTime(agv, sb.toString());
 							}
-						}else {
-							System.out.println("TAG JÁ PROCESSADA");
-						}
+//						}else {
+//							System.out.println("TAG JÁ PROCESSADA");
+//						}
 					}
 				}
 
 				int atraso = 0;
 				
 				ConfigProcess.bd().updateAGV(Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>")),
-						sb.toString(), Integer.parseInt(Util.localizarStrXML(pacote, "<b>", "</b>")),
+						sb.toString(), 100,
 						System.currentTimeMillis(), atraso, status.get(Integer.parseInt(Util.localizarStrXML(pacote, "<s>", "</s>"))));
 
 				break;
@@ -242,113 +359,6 @@ public class ThActionSerialPacote extends Thread {
 						if (cl.getC2().getMs().getId() == id) {
 							System.out.println("Cancela 2");
 							cl.setStatusC2(vStatus);
-						}
-					}
-					return;
-				}else if (vStatus >= 17 && vStatus <= 32) {
-					
-					for(MeshSerial ms : DatabaseStatic.mashs) {
-						if (ms.getId() == Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>"))) {
-							for (PortaMashSerial pms : ms.getLstPms()) {
-								if (pms.getNome().equals(PortaMashSerial.getPort(vStatus))) {
-									pms.setStatus(PortaMashSerial.getPortState(vStatus));
-									ConfigProcess.bd().updatePortIn(pms.getPorta(), ms.getId(), PortaMashSerial.getPortState(vStatus));
-								}								
-							}
-							
-							//verificar entradas da mesh para liberação de agvs na entrada das linhas
-							if (config.getProperty(Config.PROP_PROJ).equals(ConfigProcess.PROJ_FIAT)) {
-								
-								if (verifyStatusPort("5", ms.getLstPms()) &&
-									verifyStatusPort("6", ms.getLstPms())) {
-									if (DatabaseStatic.bufferEntradaLinhaE != null && DatabaseStatic.bufferEntradaLinhaE.get(0) != null) {
-										AGV agv = DatabaseStatic.bufferEntradaLinhaE.get(0);
-										AGV.enviarPlay(agv.getMac16(), agv.getMac64());
-										AGV.enviarPlay(agv.getMac16(), agv.getMac64());
-										AGV.enviarPlay(agv.getMac16(), agv.getMac64());
-										DatabaseStatic.bufferEntradaLinhaE.remove(0);
-										System.out.println(DatabaseStatic.bufferEntradaLinhaE);
-										System.out.println("Entrada ESQUERDA AUTORIZADA pela Mesh. AGV: " + agv.getId());
-									}
-									
-									
-								}
-								
-								if( !verifyStatusPort("5", ms.getLstPms()) &&
-									verifyStatusPort("6", ms.getLstPms())) {
-									////verificar se já saíram para entrega
-									if(DatabaseStatic.bufferEmRotaCarregadoLinhaE.size() == 0) {
-										DatabaseStatic.streamMedia = new FileInputStream("media/001.mp3"); 
-										DatabaseStatic.player = new PausablePlayer(DatabaseStatic.streamMedia);
-										DatabaseStatic.player.play();
-									}
-								}else {
-									DatabaseStatic.player.stop();
-									DatabaseStatic.player.close();
-								}
-								
-								if (verifyStatusPort("3", ms.getLstPms()) && 
-									verifyStatusPort("4", ms.getLstPms())) {
-									if (DatabaseStatic.bufferEntradaLinhaD != null && DatabaseStatic.bufferEntradaLinhaD.get(0) != null) {
-										AGV agv = DatabaseStatic.bufferEntradaLinhaD.get(0);
-										AGV.enviarPlay(agv.getMac16(), agv.getMac64());
-										AGV.enviarPlay(agv.getMac16(), agv.getMac64());
-										AGV.enviarPlay(agv.getMac16(), agv.getMac64());
-										DatabaseStatic.bufferEntradaLinhaD.remove(0);
-										System.out.println("Entrada DIREITA AUTORIZADA pela Mesh. AGV: " + agv.getId());
-									}
-								}
-								
-								if( verifyStatusPort("3", ms.getLstPms()) &&
-									!verifyStatusPort("4", ms.getLstPms())) {
-									////verificar se já saíram para entrega
-									if(DatabaseStatic.bufferEmRotaCarregadoLinhaD.size() == 0) {
-										DatabaseStatic.streamMedia = new FileInputStream("media/001.mp3"); 
-										DatabaseStatic.player = new PausablePlayer(DatabaseStatic.streamMedia);
-										DatabaseStatic.player.play();
-									}
-								}else {
-									DatabaseStatic.player.stop();
-									DatabaseStatic.player.close();
-								}
-							}
-							///////////////////////////////////////////////////////////////
-							
-						}
-					}
-
-					if (config.getProperty(Config.PROP_PROJ).equals(ConfigProcess.PROJ_TOYOTA_INDAIATUBA)) {
-						for (int k = 0; DatabaseStatic.pms != null && k < DatabaseStatic.pms.size(); k++) {
-							PortaMashSerial pms = DatabaseStatic.pms.get(k);
-							if (pms.getMs().getId() == Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>"))) {
-
-								if (pms.getPorta().equals(PortaMashSerial.getPort(vStatus))) {
-									if (pms.getMs().getId() == 95 || pms.getMs().getId() == 96 || pms.getMs().getId() == 50
-											|| pms.getMs().getId() == 105) {
-										if (PortaMashSerial.getPortState(vStatus).equals(PortaMashSerial.E1_OFF)
-											|| PortaMashSerial.getPortState(vStatus).equals(PortaMashSerial.E2_OFF)
-											|| PortaMashSerial.getPortState(vStatus).equals(PortaMashSerial.E3_OFF)
-											|| PortaMashSerial.getPortState(vStatus).equals(PortaMashSerial.E4_OFF)
-											|| PortaMashSerial.getPortState(vStatus).equals(PortaMashSerial.E5_OFF)
-											|| PortaMashSerial.getPortState(vStatus).equals(PortaMashSerial.E6_OFF)
-											|| PortaMashSerial.getPortState(vStatus).equals(PortaMashSerial.E7_OFF)
-											|| PortaMashSerial.getPortState(vStatus).equals(PortaMashSerial.E8_OFF)) {
-											Thread.sleep(3000);
-										}
-									}
-									pms.setStatus(PortaMashSerial.getPortState(vStatus));
-									System.out.println(pms.getMs().getId() + ": " + pms.getStatus());
-								}
-
-							}
-						}
-						for (int k = 0; DatabaseStatic.pms != null && k < DatabaseStatic.pms.size(); k++) {
-							PortaMashSerial pms = DatabaseStatic.pms.get(k);
-							if (pms.getMs().getId() == Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>"))) {
-
-								System.out.println(pms.getMs().getId() + ": " + pms.getStatus());
-
-							}
 						}
 					}
 					return;

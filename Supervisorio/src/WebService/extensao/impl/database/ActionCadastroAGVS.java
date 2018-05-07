@@ -46,8 +46,7 @@ public class ActionCadastroAGVS implements CommandDB {
 						AGV agv = agvs.get(i);
 
 						if (agv.getId() == Integer.parseInt(req.getGetParams().get(TagsValues.paramID))) {
-							AGV.enviarEmergencia(agv.getMac16(), agv.getMac64());
-							AGV.enviarEmergencia(agv.getMac16(), agv.getMac64());
+							AGV.enviarEmergencia(agv.getIp(), agv.getMac64());
 							html = "OK";
 						}
 					}
@@ -256,7 +255,7 @@ public class ActionCadastroAGVS implements CommandDB {
 						}
 
 						if (agv.getId() == Integer.parseInt(req.getGetParams().get(TagsValues.paramID))) {
-							AGV.sendRota(rotas, agv.getMac16(), agv.getMac64());
+							AGV.sendRota(rotas, agv.getIp(), agv.getMac64());
 							html = "OK";
 						}
 					}
@@ -272,11 +271,10 @@ public class ActionCadastroAGVS implements CommandDB {
 							Config config = Config.getInstance();
 
 							if (config.getProperty(Config.PROP_PROJ).equals(ConfigProcess.PROJ_GOODYEAR)) {
-								AGV.enviarParar(agv.getMac16(), agv.getMac64());
+								AGV.enviarParar(agv.getIp(), agv.getMac64());
 							}
 
-							AGV.enviarPlay(agv.getMac16(), agv.getMac64());
-							AGV.enviarPlay(agv.getMac16(), agv.getMac64());
+							AGV.enviarPlay(agv.getIp(), agv.getMac64());
 							html = "OK";
 						}
 					}
@@ -289,8 +287,7 @@ public class ActionCadastroAGVS implements CommandDB {
 						AGV agv = agvs.get(i);
 
 						if (agv.getId() == Integer.parseInt(req.getGetParams().get(TagsValues.paramID))) {
-							AGV.enviarPararAC(agv.getMac16(), agv.getMac64());
-							AGV.enviarPararAC(agv.getMac16(), agv.getMac64());
+							AGV.enviarPararAC(agv.getIp(), agv.getMac64());
 							html = "OK";
 						}
 					}
@@ -307,10 +304,10 @@ public class ActionCadastroAGVS implements CommandDB {
 							Config config = Config.getInstance();
 
 							if (config.getProperty(Config.PROP_PROJ).equals(ConfigProcess.PROJ_GOODYEAR)) {
-								AGV.enviarParar(agv.getMac16(), agv.getMac64());
+								AGV.enviarParar(agv.getIp(), agv.getMac64());
 							}
 
-							AGV.enviarPlayRE(agv.getMac16(), agv.getMac64());
+							AGV.enviarPlayRE(agv.getIp(), agv.getMac64());
 							html = "OK";
 						}
 					}
@@ -324,8 +321,7 @@ public class ActionCadastroAGVS implements CommandDB {
 						AGV agv = agvs.get(i);
 
 						if (agv.getId() == Integer.parseInt(req.getGetParams().get(TagsValues.paramID))) {
-							AGV.enviarParar(agv.getMac16(), agv.getMac64());
-							AGV.enviarParar(agv.getMac16(), agv.getMac64());
+							AGV.enviarParar(agv.getIp(), agv.getMac64());
 							html = "OK";
 						}
 					}
@@ -347,9 +343,9 @@ public class ActionCadastroAGVS implements CommandDB {
 				if (req.getGetParams().containsKey(TagsValues.paramID)) {
 					if (req.getGetParams().containsKey(TagsValues.paramNome)) {
 						if (req.getGetParams().containsKey(TagsValues.paramStatus)) {
-							if (req.getGetParams().containsKey(TagsValues.paramMac16)) {
-								if (!Util.verificaMac(req.getGetParams().get(TagsValues.paramMac16), Util.size_mac16)) {
-									html = "MAC 16 Invalido";
+							if (req.getGetParams().containsKey(TagsValues.paramIP)) {
+								if (!Util.validate(req.getGetParams().get(TagsValues.paramIP))) {
+									html = "IP Invalido";
 								} else {
 									if (req.getGetParams().containsKey(TagsValues.paramMac64)) {
 										if (!Util.verificaMac(req.getGetParams().get(TagsValues.paramMac64),
@@ -367,7 +363,7 @@ public class ActionCadastroAGVS implements CommandDB {
 															req.getGetParams().get(TagsValues.paramStatus),
 															req.getGetParams().get(TagsValues.paramTipo),
 															req.getGetParams().get(TagsValues.paramMac64),
-															req.getGetParams().get(TagsValues.paramMac16))) {
+															req.getGetParams().get(TagsValues.paramIP))) {
 														ConfigProcess.bd().insertLogUsuarios(System.currentTimeMillis(),
 																req.getCookies().get(Login.strKeyName).getValue(),
 																"Adicionou AGV "
@@ -385,7 +381,7 @@ public class ActionCadastroAGVS implements CommandDB {
 															req.getGetParams().get(TagsValues.paramStatus),
 															req.getGetParams().get(TagsValues.paramTipo),
 															req.getGetParams().get(TagsValues.paramMac64),
-															req.getGetParams().get(TagsValues.paramMac16),
+															req.getGetParams().get(TagsValues.paramIP),
 															Integer.parseInt(
 																	req.getGetParams().get(TagsValues.paramIDOld)))) {
 														ConfigProcess.bd().insertLogUsuarios(System.currentTimeMillis(),

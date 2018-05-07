@@ -71,7 +71,7 @@ public class TagsValues {
 	public static final String paramYf = "yf";
 	public static final String paramCor = "cor";
 	public static final String paramMac64 = "mac64";
-	public static final String paramMac16 = "mac16";
+	public static final String paramIP = "ip";
 	public static final String paramEntradas = "entradas";
 	public static final String paramSaidas = "saidas";
 	public static final String paramMeshSerial = "meshserial";

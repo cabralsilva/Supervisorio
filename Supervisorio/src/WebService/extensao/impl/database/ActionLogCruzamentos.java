@@ -16,7 +16,7 @@ import AGVS.Controller.Rules.RulesUsuarios;
 import AGVS.Data.AGV;
 import AGVS.Data.Cancelas;
 import AGVS.Data.ConfigProcess;
-import AGVS.Data.Cruzamento;
+import AGVS.Data.Cruzamento_OLD;
 import AGVS.Data.CruzamentoMash;
 import AGVS.Data.Line;
 import AGVS.Data.Tag;
@@ -53,7 +53,7 @@ public class ActionLogCruzamentos implements CommandDB {
 
 			Arrays.sort(vet);
 
-			List<Cruzamento> cruzamentos = new ArrayList<Cruzamento>();
+			List<Cruzamento_OLD> cruzamentos = new ArrayList<Cruzamento_OLD>();
 			for (int i = 0; i < vet.length; i++) {
 
 				for (int j = 0; j < DatabaseStatic.cruzamentos.size(); j++) {
@@ -70,7 +70,7 @@ public class ActionLogCruzamentos implements CommandDB {
 		for (
 
 				int i = 0; DatabaseStatic.cruzamentos != null && i < DatabaseStatic.cruzamentos.size(); i++) {
-			Cruzamento ct = DatabaseStatic.cruzamentos.get(i);
+			Cruzamento_OLD ct = DatabaseStatic.cruzamentos.get(i);
 			html += "<div class='col-md-12'>";
 			html += "<div class='panel'>";
 			html += "<center><h3>Cruzamento: " + ct.getNome() + "</h3></center>";

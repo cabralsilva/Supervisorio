@@ -20,14 +20,14 @@ public class Dispatcher {
 		String str = "";
 		Config config = Config.getInstance();
 
-		// reconhecimento do 1o. padrão
+		// reconhecimento do 1o. padrÃ£o
 		int pos = res.indexOf("/");
 		if (pos != -1) {
 			str = res.substring(pos + 1);
 		}
 		className = config.getString("cmd_" + str);
 		// System.out.println("getClassName: cmd_" + str);
-		// reconheciomento do 2o. padrão
+		// reconheciomento do 2o. padrï¿½o
 		if (className == null) {
 			pos = str.lastIndexOf(".");
 			if (pos != -1) {
@@ -49,14 +49,14 @@ public class Dispatcher {
 		String str = "";
 		Config config = Config.getInstance();
 
-		// reconhecimento do 1o. padrão
+		// reconhecimento do 1o. padrï¿½o
 		int pos = res.indexOf("/");
 		if (pos != -1) {
 			str = res.substring(pos + 1);
 		}
 		className = config.getString("db_" + str);
 		//System.out.println("getClassNameDataBase: db_" + str);
-		// reconheciomento do 2o. padrão
+		// reconheciomento do 2o. padrï¿½o
 		if (className == null) {
 			pos = str.lastIndexOf(".");
 			if (pos != -1) {
@@ -69,7 +69,7 @@ public class Dispatcher {
 	}
 
 	public void resolve(Request req, Response resp) throws Exception {
-		// verificar recurso dinâmico
+		// verificar recurso dinï¿½mico
 		String className = getClassName(req);
 		String classNameDataBase = getClassNameDataBase(req);
 		if (className != null) {

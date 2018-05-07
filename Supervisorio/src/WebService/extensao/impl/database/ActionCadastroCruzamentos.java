@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import AGVS.Controller.Rules.RulesUsuarios;
 import AGVS.Data.AGV;
 import AGVS.Data.ConfigProcess;
-import AGVS.Data.Cruzamento;
+import AGVS.Data.Cruzamento_OLD;
 import AGVS.Data.FuncaoPos;
 import AGVS.Data.PosicaoInicioTurno;
 import AGVS.Serial.DatabaseStatic;
@@ -121,10 +121,10 @@ public class ActionCadastroCruzamentos implements CommandDB {
 				}
 
 				if (ok) {
-					List<Cruzamento> cruzamentos = DatabaseStatic.cruzamentos;
+					List<Cruzamento_OLD> cruzamentos = DatabaseStatic.cruzamentos;
 					List<FuncaoPos> fps = DatabaseStatic.funcPos;
 					for (int i = 0; cruzamentos != null && i < cruzamentos.size(); i++) {
-						Cruzamento cz = cruzamentos.get(i);
+						Cruzamento_OLD cz = cruzamentos.get(i);
 						cz.limparTudo();
 						for (int j = 0; fps != null && j < fps.size(); j++) {
 							FuncaoPos fp = fps.get(j);
@@ -227,7 +227,7 @@ public class ActionCadastroCruzamentos implements CommandDB {
 					.equals(TagsValues.valueResetCruzamentoParamAction)) {
 				if (req.getGetParams().containsKey(TagsValues.paramID)) {
 					for (int i = 0; DatabaseStatic.cruzamentos != null && i < DatabaseStatic.cruzamentos.size(); i++) {
-						Cruzamento c = DatabaseStatic.cruzamentos.get(i);
+						Cruzamento_OLD c = DatabaseStatic.cruzamentos.get(i);
 						if (c.getNome().equals(req.getGetParams().get(TagsValues.paramID))) {
 							c.execLiberaCruzamento();
 							html = "OK";

@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 import AGVS.Data.ComandoMashSerial;
 import AGVS.Data.ConfigProcess;
-import AGVS.Data.Cruzamento;
+import AGVS.Data.Cruzamento_OLD;
 import AGVS.Data.MeshSerial;
 import AGVS.Data.PortaMashSerial;
 import AGVS.Data.Tag;
@@ -44,6 +44,7 @@ public class Serial implements SerialPortEventListener {
 	private static Semaphore semp = new Semaphore(1);
 	private int[] pacoteInt = new int[255];
 	private int id = 0;
+	private byte Options = 0x01;
 
 	public boolean getConectado() {
 		return this.conectado;
@@ -124,7 +125,10 @@ public class Serial implements SerialPortEventListener {
 			}
 
 			pk[i++] = 0x00;
-			pk[i++] = 0x00;
+			pk[i++] = Options & 0xFF; //OPTIONS
+			
+			checksum += pk[i - 1];
+			checksum += pk[i - 2];
 
 			for (j = 0; j < a.length(); j++) {
 				pk[i] = a.getBytes()[j];
@@ -185,7 +189,11 @@ public class Serial implements SerialPortEventListener {
 			}
 
 			pk[i++] = 0x00;
-			pk[i++] = 0x00;
+			pk[i++] = Options & 0xFF; //OPTIONS
+			
+			checksum += pk[i - 1];
+			checksum += pk[i - 2];
+			
 			int sizeTotal = 14;
 
 			String a = "<xml>";
@@ -511,7 +519,10 @@ public class Serial implements SerialPortEventListener {
 			}
 
 			pk[i++] = 0x00;
-			pk[i++] = 0x00;
+			pk[i++] = Options & 0xFF; //OPTIONS
+			
+			checksum += pk[i - 1];
+			checksum += pk[i - 2];
 			int sizeTotal = 14;
 
 			String a = "<xml>";
