@@ -19,36 +19,34 @@ import AGVS.Util.Util;
 
 public class SQLServer implements BancoDados {
 
-	
-
 	private String url;
 	private String host;
 	private String usuario;
 	private String senha;
 
 	private final String strSelectUsuarios = "select * from usuarios";
-	private final String strSelectEntradasMesh = "select entradasMesh.id as 'entradasMesh.id', entradasMesh.porta as 'entradasMesh.porta', entradasMesh.acionamento as 'entradasMesh.acionamento', entradasMesh.descricao as 'entradasMesh.descricao', entradasMesh.status as 'entradasMesh.status' \r\n" + 
-			"	from entradasMesh\r\n";
-	private final String strSelectSaidasMesh = "select saidasMesh.id as 'saidasMesh.id', saidasMesh.porta as 'saidasMesh.porta', saidasMesh.descricao as 'saidasMesh.descricao', saidasMesh.status as 'saidasMesh.status' \r\n" + 
-			"	from saidasMesh\r\n";
-	private final String strSelectCondicao = "select condicao.id as 'condicao.id', condicao.indice as 'condicao.indice' from condicao\r\n" + 
-			"	left join logica on condicao.fkLogica = logica.id\r\n" + 
-			"	left join meshSerial on logica.fkMeshSerial = meshSerial.id";
+	private final String strSelectEntradasMesh = "select entradasMesh.id as 'entradasMesh.id', entradasMesh.porta as 'entradasMesh.porta', entradasMesh.acionamento as 'entradasMesh.acionamento', entradasMesh.descricao as 'entradasMesh.descricao', entradasMesh.status as 'entradasMesh.status' \r\n"
+			+ "	from entradasMesh\r\n";
+	private final String strSelectSaidasMesh = "select saidasMesh.id as 'saidasMesh.id', saidasMesh.porta as 'saidasMesh.porta', saidasMesh.descricao as 'saidasMesh.descricao', saidasMesh.status as 'saidasMesh.status' \r\n"
+			+ "	from saidasMesh\r\n";
+	private final String strSelectCondicao = "select condicao.id as 'condicao.id', condicao.indice as 'condicao.indice' from condicao\r\n"
+			+ "	left join logica on condicao.fkLogica = logica.id\r\n"
+			+ "	left join meshSerial on logica.fkMeshSerial = meshSerial.id";
 
 	private final String strSelectEntradasCondicao = "select entradaCondicaoRel.fkEntrada as 'entradaCondicaoRel.fkEntrada', entradaCondicaoRel.fkCondicao as 'entradaCondicaoRel.fkCondicao', \r\n"
 			+ "entradaCondicaoRel.status as 'entradaCondicaoRel.status', "
 			+ "entradasMesh.id as 'entradasMesh.id', entradasMesh.porta as 'entradasMesh.porta', entradasMesh.acionamento as 'entradasMesh.acionamento', entradasMesh.descricao as 'entradasMesh.descricao', entradasMesh.status as 'entradasMesh.status' "
-			+ "from entradaCondicaoRel "
-			+ "left join entradasMesh on entradaCondicaoRel.fkEntrada = entradasMesh.id";
+			+ "from entradaCondicaoRel " + "left join entradasMesh on entradaCondicaoRel.fkEntrada = entradasMesh.id";
 	private final String strSelectLogUsuarios = "select * from logUsuarios";
-	private final String strSelectAGVS = "select agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.ip as 'agvs.ip', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia' from agvs";
-	private final String strSelectLastSixAGVS = "select top 6 agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.ip as 'agvs.ip', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia', CASE WHEN statusOldTime > tagAtualTime THEN statusOldTime ELSE tagAtualTime END as lastUpdating from agvs order by lastUpdating desc, agvs.id";
-	
-	private final String strSelectMesh = "select meshSerial.id as 'meshserial.id', meshSerial.nome as 'meshserial.nome', meshSerial.ip as 'meshserial.ip', "
+	private final String strSelectAGVS = "select agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.mac16 as 'agvs.mac16', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia', agvs.ip as 'agvs.ip' from agvs";
+	private final String strSelectLastSixAGVS = "select top 6 agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.mac16 as 'agvs.mac16', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia', agvs.ip as 'agvs.ip', CASE WHEN statusOldTime > tagAtualTime THEN statusOldTime ELSE tagAtualTime END as lastUpdating from agvs order by lastUpdating desc, agvs.id";
+	private final String strSelectLastEigthAGVS = "select top 8 agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.mac16 as 'agvs.mac16', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia', agvs.ip as 'agvs.ip', CASE WHEN statusOldTime > tagAtualTime THEN statusOldTime ELSE tagAtualTime END as lastUpdating from agvs order by lastUpdating desc, agvs.id";
+
+	private final String strSelectMesh = "select meshSerial.id as 'meshserial.id', meshSerial.nome as 'meshserial.nome', meshSerial.mac16 as 'meshSerial.mac16', "
 			+ "meshSerial.mac64 as 'meshserial.mac64', meshSerial.numero_entradas as 'meshSerial.numeroEntradas', meshSerial.numero_saidas as 'meshSerial.numeroSaidas' "
 			+ "from meshSerial ";
 
-	private final String strSelectSemaforo = "select semaforo.id as 'semaforo.id', semaforo.nome as 'semaforo.nome', meshSerial.id as 'meshserial.id', meshSerial.nome as 'meshserial.nome', meshSerial.ip as 'meshserial.ip', meshSerial.mac64 as 'meshserial.mac64', meshSerial.numero_entradas as 'meshSerial.numeroEntradas', meshSerial.numero_saidas as 'meshSerial.numeroSaidas' from semaforo left join meshSerial on semaforo.fk_meshSerial = meshSerial.id";	
+	private final String strSelectSemaforo = "select semaforo.id as 'semaforo.id', semaforo.nome as 'semaforo.nome', meshSerial.id as 'meshserial.id', meshSerial.nome as 'meshserial.nome', meshSerial.mac16 as 'meshSerial.mac16', meshSerial.mac64 as 'meshserial.mac64', meshSerial.numero_entradas as 'meshSerial.numeroEntradas', meshSerial.numero_saidas as 'meshSerial.numeroSaidas' from semaforo left join meshSerial on semaforo.fk_meshSerial = meshSerial.id";
 	private final String strSelectLines = "select lines.descricao as 'lines.descricao', lines.xInicial as 'lines.xInicial', lines.yInicial as 'lines.yInicial', lines.xFinal as 'lines.xFinal', lines.yFinal as 'lines.yFinal', lines.cor as 'lines.cor' from lines";
 	private final String strSelectTags = "select tags.epc as 'tags.epc', tags.nome as 'tags.nome', tags.codigo as 'tags.codigo', tags.coordenadaX as 'tags.coordenadaX', tags.coordenadaY as 'tags.coordenadaY' from tags";
 	private final String strSelectFalhas = "select falhas.id as 'falhas.id', falhas.data as 'falhas.data', falhas.msg as 'falhas.msg', falhas.idAGV as 'falhas.idAGV' from falhas";
@@ -57,33 +55,31 @@ public class SQLServer implements BancoDados {
 	private final String strSelectTagRota = "select tagsRota.nome as 'tagsRota.nome', tagsRota.posicao as 'tagsRota.posicao', tagsRota.addRota as 'tagsRota.addRota', tagsRota.setPoint as 'tagsRota.setPoint', tagsRota.velocidade as 'tagsRota.velocidade', tagsRota.temporizador as 'tagsRota.temporizador', tagsRota.girar as 'tagsRota.girar', tagsRota.estadoAtuador as 'tagsRota.estadoAtuador', tagsRota.sensorObstaculo as 'tagsRota.sensorObstaculo', tagsRota.sinalSonoro as 'tagsRota.sinalSonoro', tagsRota.tagDestino as 'tagsRota.tagDestino', tagsRota.tagParada as 'tagsRota.tagParada', tagsRota.pitStop as 'tagsRota.pitStop', rotas.nome as 'rotas.nome', rotas.descricao as 'rotas.descricao', tags.epc as 'tags.epc', tags.nome as 'tags.nome', tags.codigo as 'tags.codigo', tags.coordenadaX as 'tags.coordenadaX', tags.coordenadaY as 'tags.coordenadaY' from tagsRota LEFT JOIN rotas ON tagsRota.nomeRota = rotas.nome LEFT JOIN tags ON tags.epc = tagsRota.epc";
 	private final String strSelectCruzamentos = "select cruzamentos.nome as 'cruzamentos.nome', cruzamentos.descricao as 'cruzamentos.descricao' from cruzamentos";
 	private final String strSelectTagsCruzamentos = "select tagsCruzamento.nome as 'tagsCruzamento.nome', tagsCruzamento.tipo as 'tagsCruzamento.tipo', cruzamentos.nome as 'cruzamentos.nome', cruzamentos.descricao as 'cruzamentos.descricao', tags.epc as 'tags.epc', tags.nome as 'tags.nome', tags.codigo as 'tags.codigo', tags.coordenadaX as 'tags.coordenadaX', tags.coordenadaY as 'tags.coordenadaY' from tagsCruzamento LEFT JOIN tags ON tags.epc = tagsCruzamento.epc LEFT JOIN cruzamentos ON cruzamentos.nome = tagsCruzamento.nomeCruzamento ";
-	private final String strSelectTagsSemaforo = "select tagsSemaforo.id as 'tagsSemaforo.id', tagsSemaforo.nome as 'tagsSemaforo.nome', tagsSemaforo.tipo as 'tagsSemaforo.tipo', semaforo.id as 'semaforo.id', semaforo.nome as 'semaforo.nome', tags.epc as 'tags.epc', tags.nome as 'tags.nome', tags.codigo as 'tags.codigo', tags.coordenadaX as 'tags.coordenadaX', tags.coordenadaY as 'tags.coordenadaY', meshSerial.id as 'meshserial.id', meshSerial.nome as 'meshserial.nome', meshSerial.ip as 'meshserial.ip', meshSerial.mac64 as 'meshserial.mac64', meshSerial.numero_entradas as 'meshSerial.numeroEntradas', meshSerial.numero_saidas as 'meshSerial.numeroSaidas' from tagsSemaforo LEFT JOIN tags ON tags.epc = tagsSemaforo.epc LEFT JOIN semaforo ON semaforo.id = tagsSemaforo.fk_semaforo LEFT JOIN meshSerial ON meshSerial.id = semaforo.fk_meshSerial";
-	private final String strSelectLogTags = "select logTags.id as 'logTags.id', logTags.idAGV as 'logTags.idAGV', logTags.data as 'logTags.data', logTags.epc as 'logTags.epc', logTags.msg as 'logTags.msg' from logTags ";
+	private final String strSelectTagsSemaforo = "select tagsSemaforo.id as 'tagsSemaforo.id', tagsSemaforo.nome as 'tagsSemaforo.nome', tagsSemaforo.tipo as 'tagsSemaforo.tipo', semaforo.id as 'semaforo.id', semaforo.nome as 'semaforo.nome', tags.epc as 'tags.epc', tags.nome as 'tags.nome', tags.codigo as 'tags.codigo', tags.coordenadaX as 'tags.coordenadaX', tags.coordenadaY as 'tags.coordenadaY', meshSerial.id as 'meshserial.id', meshSerial.nome as 'meshserial.nome', meshSerial.mac16 as 'meshSerial.mac16', meshSerial.mac64 as 'meshserial.mac64', meshSerial.numero_entradas as 'meshSerial.numeroEntradas', meshSerial.numero_saidas as 'meshSerial.numeroSaidas' from tagsSemaforo LEFT JOIN tags ON tags.epc = tagsSemaforo.epc LEFT JOIN semaforo ON semaforo.id = tagsSemaforo.fk_semaforo LEFT JOIN meshSerial ON meshSerial.id = semaforo.fk_meshSerial";
+	private final String strSelectLogTags = "select logTags.id as 'logTags.id', logTags.idAGV as 'logTags.idAGV', logTags.data as 'logTags.data', logTags.epc as 'logTags.epc', logTags.msg as 'logTags.msg', logTags.velocidade as 'logTags.velocidade', logTags.bateria as 'logTags.bateria' from logTags ";
 	private final String strSelectSupermercados = "select supermercados.id as 'supermercados.id', supermercados.nome as 'supermercados.nome', supermercados.data as 'supermercados.data', supermercados.produto as 'supermercados.produto' FROM supermercados";
 	private final String strSelectEquipamentos = "select equipamentos.id as 'equipamentos.id', equipamentos.nome as 'equipamentos.nome', equipamentos.rota as 'equipamentos.rota', equipamentos.tipo as 'equipamentos.tipo' FROM equipamentos";
 	private final String strSelectTempoTagsParado = "select tags.epc as 'tags.epc', tags.nome as 'tags.nome', tags.codigo as 'tags.codigo', tags.coordenadaX as 'tags.coordenadaX', tags.coordenadaY as 'tags.coordenadaY', tagTempoParado.nome as 'tagTempoParado.nome' from tagTempoParado LEFT JOIN tags on tags.epc = tagTempoParado.epc";
-	
-	private final String strSelectZoneTime = "select zoneTime.id as 'zoneTime.id', zoneTime.description as 'zoneTime.description', \r\n" + 
-			"	tagStart.epc as 'tagStart.epc',	tagStart.nome as 'tagStart.nome', tagStart.codigo as 'tagStart.codigo', \r\n" + 
-			"	tagStart.coordenadaX as 'tagStart.coordenadaX', tagStart.coordenadaY as 'tagStart.coordenadaY', \r\n" + 
-			"	tagEnd.epc as 'tagEnd.epc',	tagEnd.nome as 'tagEnd.nome', tagEnd.codigo as 'tagEnd.codigo', \r\n" + 
-			"	tagEnd.coordenadaX as 'tagEnd.coordenadaX', tagEnd.coordenadaY as 'tagEnd.coordenadaY', zoneTime.limitTime as 'zoneTime.limitTime'\r\n" + 
-			"		from zoneTime \r\n" + 
-			"	LEFT JOIN tags as tagStart ON tagStart.epc = zoneTime.fkTagStart\r\n" + 
-			"	LEFT JOIN tags as tagEnd ON tagEnd.epc = zoneTime.fkTagEnd";
-	
+
+	private final String strSelectZoneTime = "select zoneTime.id as 'zoneTime.id', zoneTime.description as 'zoneTime.description', \r\n"
+			+ "	tagStart.epc as 'tagStart.epc',	tagStart.nome as 'tagStart.nome', tagStart.codigo as 'tagStart.codigo', \r\n"
+			+ "	tagStart.coordenadaX as 'tagStart.coordenadaX', tagStart.coordenadaY as 'tagStart.coordenadaY', \r\n"
+			+ "	tagEnd.epc as 'tagEnd.epc',	tagEnd.nome as 'tagEnd.nome', tagEnd.codigo as 'tagEnd.codigo', \r\n"
+			+ "	tagEnd.coordenadaX as 'tagEnd.coordenadaX', tagEnd.coordenadaY as 'tagEnd.coordenadaY', zoneTime.limitTime as 'zoneTime.limitTime'\r\n"
+			+ "		from zoneTime \r\n" + "	LEFT JOIN tags as tagStart ON tagStart.epc = zoneTime.fkTagStart\r\n"
+			+ "	LEFT JOIN tags as tagEnd ON tagEnd.epc = zoneTime.fkTagEnd";
+
 	private final String strSelectLogZoneTime = "select logZoneTime.idLog as 'logZoneTime.id', logZoneTime.timeRoute as 'logZoneTime.timeRoute', "
 			+ " logZoneTime.timeLost as 'logZoneTime.timeLost', FORMAT(logZoneTime.data,'yyyy-MM-dd HH:mm:ss.fff') as 'logZoneTime.data', logZoneTime.timeLostObstacle as 'logZoneTime.timeLostObstacle', "
 			+ " zoneTime.id as 'zoneTime.id', zoneTime.description as 'zoneTime.description', zoneTime.limitTime as 'zoneTime.limitTime',"
 			+ " tagStart.epc as 'tagStart.epc',	tagStart.nome as 'tagStart.nome', tagStart.codigo as 'tagStart.codigo',"
 			+ " tagStart.coordenadaX as 'tagStart.coordenadaX', tagStart.coordenadaY as 'tagStart.coordenadaY',"
-			+ " tagEnd.epc as 'tagEnd.epc',	tagEnd.nome as 'tagEnd.nome', tagEnd.codigo as 'tagEnd.codigo'," 
+			+ " tagEnd.epc as 'tagEnd.epc',	tagEnd.nome as 'tagEnd.nome', tagEnd.codigo as 'tagEnd.codigo',"
 			+ " tagEnd.coordenadaX as 'tagEnd.coordenadaX', tagEnd.coordenadaY as 'tagEnd.coordenadaY',"
-			+ " agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.ip as 'agvs.ip', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia'"
-			+ " from logZoneTime"
-			+ " LEFT JOIN zoneTime ON zoneTime.id = logZoneTime.fkZoneTime"
+			+ " agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.mac16 as 'agvs.mac16', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia'"
+			+ " from logZoneTime" + " LEFT JOIN zoneTime ON zoneTime.id = logZoneTime.fkZoneTime"
 			+ " LEFT JOIN agvs ON agvs.id = logZoneTime.fkAgv"
-			+ " LEFT JOIN tags as tagStart ON tagStart.epc = zoneTime.fkTagStart" 
+			+ " LEFT JOIN tags as tagStart ON tagStart.epc = zoneTime.fkTagStart"
 			+ "	LEFT JOIN tags as tagEnd ON tagEnd.epc = zoneTime.fkTagEnd";
 
 	private final String strSelectItem(int id, String item) {
@@ -93,18 +89,21 @@ public class SQLServer implements BancoDados {
 	private AGV getAGV(ResultSet rs) throws SQLException {
 		return new AGV(rs.getInt("agvs.id"), rs.getString("agvs.nome"), rs.getString("agvs.status"),
 				rs.getString("agvs.tipo"), rs.getInt("agvs.velocidade"), rs.getInt("agvs.bateria"),
-				rs.getString("agvs.tagAtual"), rs.getString("agvs.mac64"), rs.getString("agvs.ip"),
+				rs.getString("agvs.tagAtual"), rs.getString("agvs.mac64"), rs.getString("agvs.mac16"),
 				Util.getConvertDateBD(rs.getString("agvs.tagAtualTime")), rs.getInt("agvs.atraso"),
-				rs.getString("agvs.oldStatusFalha"), Util.getConvertDateBD(rs.getString("agvs.statusOldTime")), rs.getInt("agvs.frequencia"));
+				rs.getString("agvs.oldStatusFalha"), Util.getConvertDateBD(rs.getString("agvs.statusOldTime")),
+				rs.getInt("agvs.frequencia"), rs.getString("agvs.ip"));
 	}
-	
+
 	private MeshSerial getMeshSerial(ResultSet rs) throws SQLException {
-		return new MeshSerial(rs.getInt("meshSerial.numeroEntradas"), rs.getInt("meshSerial.numeroSaidas"), rs.getString("meshserial.ip"), rs.getString("meshserial.mac64"),
-				rs.getString("meshserial.nome"), rs.getInt("meshserial.id"));
+		return new MeshSerial(rs.getInt("meshSerial.numeroEntradas"), rs.getInt("meshSerial.numeroSaidas"),
+				rs.getString("meshSerial.mac16"), rs.getString("meshserial.mac64"), rs.getString("meshserial.nome"),
+				rs.getInt("meshserial.id"));
 	}
-	
+
 	private Semaforo getSemaforo(ResultSet rs) throws SQLException {
-		return new Semaforo(rs.getInt("semaforo.id"), getMeshSerial(rs), rs.getString("semaforo.nome"), null, null, null, null, null, null);
+		return new Semaforo(rs.getInt("semaforo.id"), getMeshSerial(rs), rs.getString("semaforo.nome"), null, null,
+				null, null, null, null);
 	}
 
 	private Line getLine(ResultSet rs) throws SQLException {
@@ -140,8 +139,8 @@ public class SQLServer implements BancoDados {
 				rs.getInt("tagsRota.tagDestino"), rs.getInt("tagsRota.tagParada"), rs.getInt("tagsRota.pitStop"));
 	}
 
-	private Cruzamento_OLD getCruzamento(ResultSet rs) throws SQLException {
-		return new Cruzamento_OLD(rs.getString("cruzamentos.nome"), rs.getString("cruzamentos.descricao"), null, null,
+	private Cruzamento getCruzamento(ResultSet rs) throws SQLException {
+		return new Cruzamento(rs.getString("cruzamentos.nome"), rs.getString("cruzamentos.descricao"), null, null,
 				null);
 	}
 
@@ -149,10 +148,10 @@ public class SQLServer implements BancoDados {
 		return new TagCruzamento(rs.getString("tagsCruzamento.nome"), getTag(rs), getCruzamento(rs),
 				rs.getString("tagsCruzamento.tipo"));
 	}
-	
+
 	private TagSemaforos getTagsSemaforo(ResultSet rs) throws SQLException {
-		return new TagSemaforos(rs.getInt("tagsSemaforo.id"), rs.getString("tagsSemaforo.nome"), getTag(rs), getSemaforo(rs),
-				rs.getString("tagsSemaforo.tipo"));
+		return new TagSemaforos(rs.getInt("tagsSemaforo.id"), rs.getString("tagsSemaforo.nome"), getTag(rs),
+				getSemaforo(rs), rs.getString("tagsSemaforo.tipo"));
 	}
 
 	private TagAtraso getTagAtraso(ResultSet rs) throws SQLException {
@@ -161,7 +160,8 @@ public class SQLServer implements BancoDados {
 
 	private LogTags getLogTags(ResultSet rs) throws SQLException {
 		return new LogTags(rs.getInt("logTags.id"), Util.getConvertDateBD(rs.getString("logTags.data")),
-				rs.getInt("logTags.idAgv"), rs.getString("logTags.msg"), rs.getString("logTags.epc"));
+				rs.getInt("logTags.idAgv"), rs.getString("logTags.msg"), rs.getString("logTags.epc"),
+				rs.getInt("logTags.bateria"), rs.getInt("logTags.velocidade"));
 	}
 
 	private Supermercado getSupermercado(ResultSet rs) throws SQLException {
@@ -181,32 +181,37 @@ public class SQLServer implements BancoDados {
 	}
 
 	private ZoneTime getZoneTime(ResultSet rs) throws SQLException, ParseException {
-		Tag tagStart = new Tag(rs.getString("tagStart.epc"), rs.getString("tagStart.nome"), rs.getInt("tagStart.codigo"), rs.getInt("tagStart.coordenadaX"), rs.getInt("tagStart.coordenadaY"));
-		Tag tagEnd = new Tag(rs.getString("tagEnd.epc"), rs.getString("tagEnd.nome"), rs.getInt("tagEnd.codigo"), rs.getInt("tagEnd.coordenadaX"), rs.getInt("tagEnd.coordenadaY"));
-		return new ZoneTime(rs.getInt("zoneTime.id"), rs.getString("zoneTime.description"), tagStart, tagEnd, rs.getString("zoneTime.limitTime"));
+		Tag tagStart = new Tag(rs.getString("tagStart.epc"), rs.getString("tagStart.nome"),
+				rs.getInt("tagStart.codigo"), rs.getInt("tagStart.coordenadaX"), rs.getInt("tagStart.coordenadaY"));
+		Tag tagEnd = new Tag(rs.getString("tagEnd.epc"), rs.getString("tagEnd.nome"), rs.getInt("tagEnd.codigo"),
+				rs.getInt("tagEnd.coordenadaX"), rs.getInt("tagEnd.coordenadaY"));
+		return new ZoneTime(rs.getInt("zoneTime.id"), rs.getString("zoneTime.description"), tagStart, tagEnd,
+				rs.getString("zoneTime.limitTime"));
 	}
-	
+
 	private LogZoneTime getLogZoneTime(ResultSet rs) throws SQLException, ParseException {
-//		System.out.println(rs.getString("logZoneTime.data"));
-		return new LogZoneTime(rs.getInt("logZoneTime.id"), getZoneTime(rs), rs.getTime("logZoneTime.timeRoute"), 
-				rs.getString("logZoneTime.timeLost"), getAGV(rs), rs.getString("logZoneTime.data"), rs.getString("logZoneTime.timeLostObstacle"));
+		// System.out.println(rs.getString("logZoneTime.data"));
+		return new LogZoneTime(rs.getInt("logZoneTime.id"), getZoneTime(rs), rs.getTime("logZoneTime.timeRoute"),
+				rs.getString("logZoneTime.timeLost"), getAGV(rs), rs.getString("logZoneTime.data"),
+				rs.getString("logZoneTime.timeLostObstacle"));
 	}
-	
+
 	private PortaMashSerial getPortaInMeshSerial(ResultSet rs) throws SQLException, ParseException {
-		return new PortaMashSerial(rs.getString("entradasMesh.descricao"), rs.getString("entradasMesh.porta"), rs.getString("entradasMesh.acionamento"), 
-				rs.getString("entradasMesh.status"), null);		
+		return new PortaMashSerial(rs.getString("entradasMesh.descricao"), rs.getString("entradasMesh.porta"),
+				rs.getString("entradasMesh.acionamento"), rs.getString("entradasMesh.status"), null);
 	}
 
 	private PortaSaidaMeshSerial getPortaOutMeshSerial(ResultSet rs) throws SQLException, ParseException {
-		return new PortaSaidaMeshSerial(rs.getInt("saidasMesh.id"), rs.getString("saidasMesh.descricao"), rs.getString("saidasMesh.porta"), rs.getString("saidasMesh.status"), null);		
+		return new PortaSaidaMeshSerial(rs.getInt("saidasMesh.id"), rs.getString("saidasMesh.descricao"),
+				rs.getString("saidasMesh.porta"), rs.getString("saidasMesh.status"), null);
 	}
 
 	private Condicao getCondicao(ResultSet rs) throws SQLException, ParseException {
-		return new Condicao(rs.getInt("condicao.id"), rs.getInt("condicao.indice"), new ArrayList<EntradaCondicao>());		
+		return new Condicao(rs.getInt("condicao.id"), rs.getInt("condicao.indice"), new ArrayList<EntradaCondicao>());
 	}
 
 	private EntradaCondicao getEntradasCondicao(ResultSet rs) throws SQLException, ParseException {
-		return new EntradaCondicao(getPortaInMeshSerial(rs), rs.getString("entradaCondicaoRel.status"));		
+		return new EntradaCondicao(getPortaInMeshSerial(rs), rs.getString("entradaCondicaoRel.status"));
 	}
 
 	public boolean criarBanco() {
@@ -218,15 +223,15 @@ public class SQLServer implements BancoDados {
 			Connection conn = DriverManager
 					.getConnection("jdbc:sqlserver://;serverName=" + host + ";user=" + usuario + ";password=" + senha);
 
-			String script = "create DATABASE SupervisorioAGVSFIAT25;";
+			String script = "create DATABASE SupervisorioAGVS;";
 			PreparedStatement stmt = conn.prepareStatement(script);
 			stmt.execute();
 
-			script = "ALTER DATABASE SupervisorioAGVSFIAT25 collate SQL_Latin1_General_CP1251_CI_AS";
+			script = "ALTER DATABASE SupervisorioAGVS collate SQL_Latin1_General_CP1251_CI_AS";
 			stmt = conn.prepareStatement(script);
 			stmt.execute();
 
-			script = "use SupervisorioAGVSFIAT25;";
+			script = "use SupervisorioAGVS;";
 			stmt = conn.prepareStatement(script);
 			stmt.execute();
 
@@ -258,8 +263,8 @@ public class SQLServer implements BancoDados {
 		this.host = host;
 		this.usuario = usuario;
 		this.senha = senha;
-		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVSFIAT25;user=" + usuario + ";password="
-				+ senha;
+		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVS;user=" + usuario
+				+ ";password=" + senha;
 	}
 
 	private final LogUsuario getLogUsuario(ResultSet rs) throws SQLException {
@@ -480,7 +485,7 @@ public class SQLServer implements BancoDados {
 			conexao = DriverManager.getConnection(url);
 			String sql = "insert into logUsuarios(data, nome, descricao, tipo) values('" + Util.getDateTime(data)
 					+ "', '" + nome + "', '" + descricao + "', '" + tipo + "')";
-			//System.out.println(sql);
+			// System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -499,13 +504,13 @@ public class SQLServer implements BancoDados {
 	}
 
 	@Override
-	public boolean insertAGV(int id, String nome, String status, String tipo, String mac64, String ip) {
+	public boolean insertAGV(int id, String nome, String status, String tipo, String mac64, String mac16, String ip) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = "insert into agvs(id, nome, status, tipo, ip, mac64) values(" + id + ", '" + nome + "', '"
-					+ status + "', '" + tipo + "', '" + ip + "', '" + mac64 + "'" + ")";
-			//System.out.println(sql);
+			String sql = "insert into agvs(id, nome, status, tipo, ip, mac64, mac16) values(" + id + ", '" + nome + "', '"
+					+ status + "', '" + tipo + "', '" + ip + "', '" + mac64 + "', '" + mac16 + "')";
+			// System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -516,14 +521,14 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public int insertMesh(int id, String nome, String ip, String mac64, int entradas, int saidas) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = "insert into meshSerial(id, nome, ip, mac64, numero_entradas, numero_saidas) values(" 
-							+ id + ", '" + nome + "', '" + ip + "', '" + mac64 + "', " + entradas + ", " + saidas + ")";
+			String sql = "insert into meshSerial(id, nome, ip, mac64, numero_entradas, numero_saidas) values(" + id
+					+ ", '" + nome + "', '" + ip + "', '" + mac64 + "', " + entradas + ", " + saidas + ")";
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -541,8 +546,9 @@ public class SQLServer implements BancoDados {
 		try {
 			conexao = DriverManager.getConnection(url);
 			for (PortaMashSerial pms : lstPms) {
-				String sql = "insert into entradasMesh(porta, descricao, acionamento, status, fkMeshSerial) values(" 
-						+ pms.getPorta() + ", '" + pms.getNome() + "', '" + pms.getAcionamento() + "', '"+pms.getStatus()+"', " + idMesh + ")";
+				String sql = "insert into entradasMesh(porta, descricao, acionamento, status, fkMeshSerial) values("
+						+ pms.getPorta() + ", '" + pms.getNome() + "', '" + pms.getAcionamento() + "', '"
+						+ pms.getStatus() + "', " + idMesh + ")";
 				PreparedStatement stmt = conexao.prepareStatement(sql);
 				stmt.execute();
 				stmt.close();
@@ -555,15 +561,14 @@ public class SQLServer implements BancoDados {
 		return true;
 	}
 
-	
 	@Override
 	public boolean insertSaidasMesh(int idMesh, List<PortaSaidaMeshSerial> lstPsms) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
 			for (PortaSaidaMeshSerial psms : lstPsms) {
-				String sql = "insert into saidasMesh(porta, descricao, status, fkMeshSerial) values(" 
-						+ psms.getPorta() + ", '" + psms.getNome() + "', '" + psms.getStatus() + "', " + idMesh + ")";
+				String sql = "insert into saidasMesh(porta, descricao, status, fkMeshSerial) values(" + psms.getPorta()
+						+ ", '" + psms.getNome() + "', '" + psms.getStatus() + "', " + idMesh + ")";
 				PreparedStatement stmt = conexao.prepareStatement(sql);
 				stmt.execute();
 				stmt.close();
@@ -575,8 +580,6 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
-	
-	
 
 	@Override
 	public boolean deleteAGV(int id) {
@@ -594,7 +597,7 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean deleteMesh(int id) {
 		Connection conexao;
@@ -613,12 +616,13 @@ public class SQLServer implements BancoDados {
 	}
 
 	@Override
-	public boolean updateAGV(int id, String nome, String status, String tipo, String mac64, String ip, int oldId) {
+	public boolean updateAGV(int id, String nome, String status, String tipo, String mac64, String mac16, String ip, int oldId) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
 			String sql = "update agvs set id=" + id + ", nome='" + nome + "', status='" + status + "', tipo='" + tipo
-					+ "', ip='" + ip + "', mac64='" + mac64 + "'" + " where id=" + oldId;
+					+ "', ip='" + ip + "', mac64='" + mac64 + "', mac16='" + mac16 + "' where id=" + oldId;
+//			System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -629,7 +633,7 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean updateAGVFrequency(int iAgv, int iFrequencia) {
 		// TODO Auto-generated method stub
@@ -647,13 +651,14 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean updateMesh(int id, String nome, String ip, String mac64, int entradas, int saidas) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = "update MeshSerial set nome='" + nome + "', ip='" + ip + "', mac64='" + mac64 + "', numero_entradas=" + entradas + ", numero_saidas=" + saidas + " where id=" + id;
+			String sql = "update MeshSerial set nome='" + nome + "', ip='" + ip + "', mac64='" + mac64
+					+ "', numero_entradas=" + entradas + ", numero_saidas=" + saidas + " where id=" + id;
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -664,14 +669,18 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
-	
+
 	@Override
-	public boolean updateAGV(int id, String tagAtual, int bateria, long tagAtualTime, int atraso, String status) {
+	public boolean updateAGV(int id, String tagAtual, int bateria, long tagAtualTime, int atraso, String status,
+			int velocidade) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
 			String sql = "update agvs set tagAtual='" + tagAtual + "', bateria=" + bateria + ", tagAtualTime = '"
-					+ Util.getDateTime(tagAtualTime) + "', status='" + status + "', atraso = " + atraso + " where id=" + id;
+					+ Util.getDateTime(tagAtualTime) + "', status='" + status + "', statusOldTime = '"
+					+ Util.getDateTime(tagAtualTime) + "', atraso = " + atraso + ", velocidade = " + velocidade
+					+ " where id=" + id;
+//			 System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -699,7 +708,7 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean updateIPAGV(int id, String ip) {
 		Connection conexao;
@@ -716,9 +725,7 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
-	
-	
-	
+
 	@Override
 	public List<MeshSerial> selectMeshSerial() {
 		List<MeshSerial> lstMesh = new ArrayList<MeshSerial>();
@@ -727,14 +734,14 @@ public class SQLServer implements BancoDados {
 		try {
 			conexao = DriverManager.getConnection(url);
 			String sql = strSelectMesh;
-//			System.out.println(sql);
+			// System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				
-					lstMesh.add(getMeshSerial(rs));
-				
+
+				lstMesh.add(getMeshSerial(rs));
+
 			}
 			stmt.close();
 			conexao.close();
@@ -744,7 +751,7 @@ public class SQLServer implements BancoDados {
 		}
 		return lstMesh;
 	}
-	
+
 	@Override
 	public List<Semaforo> selectSemaforo() {
 		List<Semaforo> lstSemaforo = new ArrayList<Semaforo>();
@@ -796,7 +803,7 @@ public class SQLServer implements BancoDados {
 	@Override
 	public List<AGV> selecAGVSLastSixUpdate() {
 		List<AGV> agvs = new ArrayList<AGV>();
-		
+
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
@@ -813,7 +820,7 @@ public class SQLServer implements BancoDados {
 			new Log(e);
 			return null;
 		}
-		
+
 		return agvs;
 	}
 
@@ -943,7 +950,7 @@ public class SQLServer implements BancoDados {
 		try {
 			conexao = DriverManager.getConnection(url);
 			String sql = "delete from tags where epc='" + id + "'";
-			//System.out.println(sql);
+			// System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -962,7 +969,7 @@ public class SQLServer implements BancoDados {
 			conexao = DriverManager.getConnection(url);
 			String sql = "update tags set nome='" + nome + "', epc='" + epc + "', codigo=" + codigo + ", coordenadaX="
 					+ coordenadaX + ", coordenadaY=" + coordenadaY + " where epc='" + oldEpc + "'";
-			//System.out.println(sql);
+			// System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -1029,7 +1036,7 @@ public class SQLServer implements BancoDados {
 			conexao = DriverManager.getConnection(url);
 			String sql = "insert into falhas(idAGV, msg, data) values(" + id + ", '" + msg + "', '"
 					+ Util.getDateTime(data) + "'" + ")";
-//			System.out.println(sql);
+			// System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -1070,7 +1077,7 @@ public class SQLServer implements BancoDados {
 
 		return alerts;
 	}
-	
+
 	@Override
 	public List<AlertFalhas> selectFalhasByDate(String dateS, String dateE) {
 		dateS = dateS + " 00:00:00:000";
@@ -1083,10 +1090,10 @@ public class SQLServer implements BancoDados {
 			Date dateEnd = formatterBR.parse(dateE);
 			String sDateStart = Util.getDateTime(dateStart.getTime());
 			String sDateEnd = Util.getDateTime(dateEnd.getTime());
-			
+
 			conexao = DriverManager.getConnection(url);
-			
-			String sql = strSelectFalhas + " WHERE falhas.data BETWEEN '"+sDateStart+"' AND '"+sDateEnd+"'";
+
+			String sql = strSelectFalhas + " WHERE falhas.data BETWEEN '" + sDateStart + "' AND '" + sDateEnd + "'";
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			ResultSet rs = stmt.executeQuery();
@@ -1102,6 +1109,7 @@ public class SQLServer implements BancoDados {
 
 		return alerts;
 	}
+
 	@Override
 	public List<AlertFalhas> selectFalhasByDateReport(String dateS, String dateE, Integer idAGV) {
 		List<AlertFalhas> alerts = new ArrayList<AlertFalhas>();
@@ -1112,11 +1120,12 @@ public class SQLServer implements BancoDados {
 			Date dateEnd = formatterBR.parse(dateE);
 			String sDateStart = Util.getDateTime(dateStart.getTime());
 			String sDateEnd = Util.getDateTime(dateEnd.getTime());
-			
+
 			conexao = DriverManager.getConnection(url);
-			
-			String sql = strSelectFalhas + " WHERE falhas.data BETWEEN '"+sDateStart+"' AND '"+sDateEnd+"' AND falhas.idAGV = " + idAGV;
-//			System.out.println(sql);
+
+			String sql = strSelectFalhas + " WHERE falhas.data BETWEEN '" + sDateStart + "' AND '" + sDateEnd
+					+ "' AND falhas.idAGV = " + idAGV;
+			// System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			ResultSet rs = stmt.executeQuery();
@@ -1129,13 +1138,13 @@ public class SQLServer implements BancoDados {
 			new Log(e);
 			return null;
 		}
-		
+
 		return alerts;
 	}
-	
+
 	@Override
 	public List<LogTags> selectLogTagsByDate(String dateS, String dateE) {
-//		System.out.println(dateS);
+		// System.out.println(dateS);
 		dateS = dateS + " 00:00:00:000";
 		dateE = dateE + " 23:59:59:999";
 		List<LogTags> lstLogTags = new ArrayList<LogTags>();
@@ -1146,11 +1155,11 @@ public class SQLServer implements BancoDados {
 			Date dateEnd = formatterBR.parse(dateE);
 			String sDateStart = Util.getDateTime(dateStart.getTime());
 			String sDateEnd = Util.getDateTime(dateEnd.getTime());
-			
+
 			conexao = DriverManager.getConnection(url);
-			
-			String sql = strSelectLogTags + " WHERE logTags.data BETWEEN '"+sDateStart+"' AND '"+sDateEnd+"'";
-//			System.out.println(sql);
+
+			String sql = strSelectLogTags + " WHERE logTags.data BETWEEN '" + sDateStart + "' AND '" + sDateEnd + "'";
+			// System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			ResultSet rs = stmt.executeQuery();
@@ -1163,12 +1172,13 @@ public class SQLServer implements BancoDados {
 			new Log(e);
 			return null;
 		}
-		
+
 		return lstLogTags;
 	}
+
 	@Override
 	public List<LogTags> selectLogTagsByDateReport(String dateS, String dateE, Integer idAGV) {
-//		System.out.println(dateS + " ate " + dateE);
+		// System.out.println(dateS + " ate " + dateE);
 		List<LogTags> lstLogTags = new ArrayList<LogTags>();
 		Connection conexao;
 		try {
@@ -1177,11 +1187,12 @@ public class SQLServer implements BancoDados {
 			Date dateEnd = formatterBR.parse(dateE);
 			String sDateStart = Util.getDateTime(dateStart.getTime());
 			String sDateEnd = Util.getDateTime(dateEnd.getTime());
-			
+
 			conexao = DriverManager.getConnection(url);
-			
-			String sql = strSelectLogTags + " WHERE logTags.data BETWEEN '"+sDateStart+"' AND '"+sDateEnd+"' AND logTags.idAGV = " + idAGV + " order by logTags.data";
-//			System.out.println(sql);
+
+			String sql = strSelectLogTags + " WHERE logTags.data BETWEEN '" + sDateStart + "' AND '" + sDateEnd
+					+ "' AND logTags.idAGV = " + idAGV + " order by logTags.data";
+			// System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			ResultSet rs = stmt.executeQuery();
@@ -1194,7 +1205,7 @@ public class SQLServer implements BancoDados {
 			new Log(e);
 			return null;
 		}
-		
+
 		return lstLogTags;
 	}
 
@@ -1210,10 +1221,11 @@ public class SQLServer implements BancoDados {
 			Date dateEnd = formatterBR.parse(dateE);
 			String sDateStart = Util.getDateTime(dateStart.getTime());
 			String sDateEnd = Util.getDateTime(dateEnd.getTime());
-			
+
 			conexao = DriverManager.getConnection(url);
-			
-			String sql = strSelectLogUsuarios + " WHERE logUsuarios.data BETWEEN '"+sDateStart+"' AND '"+sDateEnd+"'";
+
+			String sql = strSelectLogUsuarios + " WHERE logUsuarios.data BETWEEN '" + sDateStart + "' AND '" + sDateEnd
+					+ "'";
 
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
@@ -1227,10 +1239,10 @@ public class SQLServer implements BancoDados {
 			new Log(e);
 			return null;
 		}
-		
+
 		return logUsr;
 	}
-	
+
 	@Override
 	public List<LogZoneTime> selectLogZoneTimeByDate(String dateS, String dateE) {
 		dateS = dateS + " 00:00:00:000";
@@ -1243,11 +1255,12 @@ public class SQLServer implements BancoDados {
 			Date dateEnd = formatterBR.parse(dateE);
 			String sDateStart = Util.getDateTime(dateStart.getTime());
 			String sDateEnd = Util.getDateTime(dateEnd.getTime());
-			
+
 			conexao = DriverManager.getConnection(url);
-			
-			String sql = strSelectLogZoneTime + " WHERE logZoneTime.data BETWEEN '"+sDateStart+"' AND '"+sDateEnd+"' order by logZoneTime.data desc";
-//			System.out.println(sql);
+
+			String sql = strSelectLogZoneTime + " WHERE logZoneTime.data BETWEEN '" + sDateStart + "' AND '" + sDateEnd
+					+ "' order by logZoneTime.data desc";
+			// System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			ResultSet rs = stmt.executeQuery();
@@ -1260,7 +1273,7 @@ public class SQLServer implements BancoDados {
 			new Log(e);
 			return null;
 		}
-		
+
 		return logZT;
 	}
 
@@ -1276,15 +1289,16 @@ public class SQLServer implements BancoDados {
 			Date dateEnd = formatterBR.parse(dateE);
 			String sDateStart = Util.getDateTime(dateStart.getTime());
 			String sDateEnd = Util.getDateTime(dateEnd.getTime());
-			
+
 			conexao = DriverManager.getConnection(url);
-			
-			String sql = strSelectLogZoneTime + " WHERE logZoneTime.data BETWEEN '"+sDateStart+"' AND '"+sDateEnd+"' AND fkAgv = "+ idAgv+" AND fkZoneTime="+ idZT +" order by logZoneTime.data desc";
-//			System.out.println(sql);
+
+			String sql = strSelectLogZoneTime + " WHERE logZoneTime.data BETWEEN '" + sDateStart + "' AND '" + sDateEnd
+					+ "' AND fkAgv = " + idAgv + " AND fkZoneTime=" + idZT + " order by logZoneTime.data desc";
+			// System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			ResultSet rs = stmt.executeQuery();
-			
+
 			while (rs.next()) {
 				logZT.add(getLogZoneTime(rs));
 			}
@@ -1294,19 +1308,19 @@ public class SQLServer implements BancoDados {
 			new Log(e);
 			return null;
 		}
-		
+
 		return logZT;
 	}
-	
 
 	@Override
-	public boolean updateAGV(int id, String status) {
+	public boolean updateAGV(int id, String status, int bateria, int velocidade) {
 		Connection conexao;
 		try {
 			if (status != null) {
 				conexao = DriverManager.getConnection(url);
-				String sql = "update agvs set status='" + status + "' where id=" + id;
-//				System.out.println(sql);
+				String sql = "update agvs set status='" + status + "', bateria = " + bateria + ", velocidade = "
+						+ velocidade + " where id=" + id;
+//				 System.out.println(sql);
 				PreparedStatement stmt = conexao.prepareStatement(sql);
 				stmt.execute();
 				stmt.close();
@@ -1320,13 +1334,14 @@ public class SQLServer implements BancoDados {
 	}
 
 	@Override
-	public boolean updateAGV(int id, String status, long time) {
+	public boolean updateAGV(int id, String status, long time, int bateria, int velocidade) {
 		Connection conexao;
 		try {
 			if (status != null) {
 				conexao = DriverManager.getConnection(url);
 				String sql = "update agvs set oldStatusFalha='" + status + "',statusOldTime='" + Util.getDateTime(time)
-						+ "' where id=" + id;
+						+ "', bateria = " + bateria + ", velocidade = " + velocidade + " where id=" + id;
+				
 				PreparedStatement stmt = conexao.prepareStatement(sql);
 				stmt.execute();
 				stmt.close();
@@ -1536,8 +1551,8 @@ public class SQLServer implements BancoDados {
 	}
 
 	@Override
-	public List<Cruzamento_OLD> selectCruzamentos() {
-		List<Cruzamento_OLD> cruzamentos = new ArrayList<Cruzamento_OLD>();
+	public List<Cruzamento> selectCruzamentos() {
+		List<Cruzamento> cruzamentos = new ArrayList<Cruzamento>();
 
 		Connection conexao;
 		try {
@@ -1558,10 +1573,10 @@ public class SQLServer implements BancoDados {
 
 		return cruzamentos;
 	}
-	
+
 	@Override
-	public List<Cruzamento_OLD> selectCruzamentosLogic() {
-		List<Cruzamento_OLD> cruzamentos = new ArrayList<Cruzamento_OLD>();
+	public List<Cruzamento> selectCruzamentosLogic() {
+		List<Cruzamento> cruzamentos = new ArrayList<Cruzamento>();
 
 		Connection conexao;
 		try {
@@ -1571,10 +1586,10 @@ public class SQLServer implements BancoDados {
 			stmt.execute();
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				Cruzamento_OLD cruzamento = null;
+				Cruzamento cruzamento = null;
 				TagCruzamento tc = getTagCruzamento(rs);
 				for (int i = 0; cruzamentos != null && i < cruzamentos.size(); i++) {
-					Cruzamento_OLD aux = cruzamentos.get(i);
+					Cruzamento aux = cruzamentos.get(i);
 					if (aux.getNome().equals(tc.getCruzamento().getNome())) {
 						cruzamento = aux;
 					}
@@ -1610,11 +1625,11 @@ public class SQLServer implements BancoDados {
 
 		return cruzamentos;
 	}
-	
+
 	@Override
 	public List<Semaforo> selectSemaforosLogic() {
 		List<Semaforo> semaforos = new ArrayList<Semaforo>();
-		
+
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
@@ -1631,49 +1646,49 @@ public class SQLServer implements BancoDados {
 						semaforo = aux;
 					}
 				}
-				
+
 				if (semaforo == null) {
 					semaforo = ts.getSemaforo();
 					semaforos.add(semaforo);
 				}
-				
+
 				if (ts.getTipo().equals(Semaforo.VERMELHO)) {
 					if (semaforo.getTagsSinalVermelho() == null) {
 						List<TagSemaforos> tgent = new ArrayList<TagSemaforos>();
 						semaforo.setTagsSinalVermelho(tgent);
 					}
 					semaforo.getTagsSinalVermelho().add(ts);
-				}else if(ts.getTipo().equals(Semaforo.AMARELO)) {
+				} else if (ts.getTipo().equals(Semaforo.AMARELO)) {
 					if (semaforo.getTagsSinalAmarelo() == null) {
 						List<TagSemaforos> tgent = new ArrayList<TagSemaforos>();
 						semaforo.setTagsSinalAmarelo(tgent);
 					}
 					semaforo.getTagsSinalAmarelo().add(ts);
-				}else if(ts.getTipo().equals(Semaforo.VERDE)) {
+				} else if (ts.getTipo().equals(Semaforo.VERDE)) {
 					if (semaforo.getTagsSinalVerde() == null) {
 						List<TagSemaforos> tgent = new ArrayList<TagSemaforos>();
 						semaforo.setTagsSinalVerde(tgent);
 					}
 					semaforo.getTagsSinalVerde().add(ts);
-				}else if(ts.getTipo().equals(Semaforo.PISCA_VERMELHO)) {
+				} else if (ts.getTipo().equals(Semaforo.PISCA_VERMELHO)) {
 					if (semaforo.getTagsSinalPiscaVermelho() == null) {
 						List<TagSemaforos> tgent = new ArrayList<TagSemaforos>();
 						semaforo.setTagsSinalPiscaVermelho(tgent);
 					}
 					semaforo.getTagsSinalPiscaVermelho().add(ts);
-				}else if(ts.getTipo().equals(Semaforo.PISCA_AMARELO)) {
+				} else if (ts.getTipo().equals(Semaforo.PISCA_AMARELO)) {
 					if (semaforo.getTagsSinalPiscaAmarelo() == null) {
 						List<TagSemaforos> tgent = new ArrayList<TagSemaforos>();
 						semaforo.setTagsSinalPiscaAmarelo(tgent);
 					}
 					semaforo.getTagsSinalPiscaAmarelo().add(ts);
-				}else if(ts.getTipo().equals(Semaforo.PISCA_VERDE)) {
+				} else if (ts.getTipo().equals(Semaforo.PISCA_VERDE)) {
 					if (semaforo.getTagsSinalPiscaVerde() == null) {
 						List<TagSemaforos> tgent = new ArrayList<TagSemaforos>();
 						semaforo.setTagsSinalPiscaVerde(tgent);
 					}
 					semaforo.getTagsSinalPiscaVerde().add(ts);
-				}				
+				}
 			}
 			stmt.close();
 			conexao.close();
@@ -1681,7 +1696,7 @@ public class SQLServer implements BancoDados {
 			new Log(e);
 			return null;
 		}
-		
+
 		return semaforos;
 	}
 
@@ -1781,7 +1796,7 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public List<TagSemaforos> selectTagsSemaforo() {
 		List<TagSemaforos> tagsSemaforo = new ArrayList<TagSemaforos>();
@@ -1805,14 +1820,15 @@ public class SQLServer implements BancoDados {
 
 		return tagsSemaforo;
 	}
-	
+
 	@Override
 	public int insertTagSemaforo(String nome, int idSemaforo, String idTag, String tipo) {
 		Connection conexao;
 		Long id = -1L;
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = "insert into tagsSemaforo(nome, epc, fk_semaforo, tipo) values('" + nome + "', '" + idTag + "', " + idSemaforo + ", '"+tipo+"')";
+			String sql = "insert into tagsSemaforo(nome, epc, fk_semaforo, tipo) values('" + nome + "', '" + idTag
+					+ "', " + idSemaforo + ", '" + tipo + "')";
 			PreparedStatement stmt = conexao.prepareStatement(sql, 1);
 			stmt.execute();
 			ResultSet rs = stmt.getGeneratedKeys();
@@ -1981,15 +1997,14 @@ public class SQLServer implements BancoDados {
 
 		return logTags;
 	}
-	
 
 	@Override
-	public boolean insertLogTags(long data, int idAgv, String msg, String epc) {
+	public boolean insertLogTags(long data, int idAgv, String msg, String epc, int bateria, int velocidade) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = "insert into logTags(idAgv, data, msg, epc) values(" + idAgv + ", '" + Util.getDateTime(data)
-					+ "','" + msg + "','" + epc + "')";
+			String sql = "insert into logTags(idAgv, data, msg, epc, bateria, velocidade) values(" + idAgv + ", '" + Util.getDateTime(data)
+					+ "','" + msg + "','" + epc + "', "+bateria+", "+velocidade+")";
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -2294,10 +2309,8 @@ public class SQLServer implements BancoDados {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = "update tagsSemaforo set nome='" + nome + "', " 
-						+ "epc='" + idTag + "', "
-						+ "fk_semaforo="+idSemaforo+", "
-						+ "tipo='"+tipo+"' where id=" + idTagSemaforo;
+			String sql = "update tagsSemaforo set nome='" + nome + "', " + "epc='" + idTag + "', " + "fk_semaforo="
+					+ idSemaforo + ", " + "tipo='" + tipo + "' where id=" + idTagSemaforo;
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -2325,7 +2338,7 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public List<ZoneTime> selectZoneTime() {
 		List<ZoneTime> zoneTime = new ArrayList<ZoneTime>();
@@ -2334,7 +2347,7 @@ public class SQLServer implements BancoDados {
 		try {
 			conexao = DriverManager.getConnection(url);
 			String sql = strSelectZoneTime;
-			//System.out.println(sql);
+			// System.out.println(sql);
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			ResultSet rs = stmt.executeQuery();
@@ -2350,7 +2363,7 @@ public class SQLServer implements BancoDados {
 
 		return zoneTime;
 	}
-	
+
 	@Override
 	public int insertZoneTime(String descricao, String epcStart, String epcEnd, String limitTime) {
 		Long id = -1L;
@@ -2364,16 +2377,13 @@ public class SQLServer implements BancoDados {
 			new Log(e1);
 			return id.intValue();
 		}
-		
+
 		Connection conexao;
-		
+
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = "insert into zoneTime(description, fkTagStart, fkTagEnd, limitTime) values("
-						+ "'" + descricao + "', "
-						+ "'" + epcStart + "', "
-						+ "'" + epcEnd + "', "
-						+ "'" + tempo.toString() + "')";
+			String sql = "insert into zoneTime(description, fkTagStart, fkTagEnd, limitTime) values(" + "'" + descricao
+					+ "', " + "'" + epcStart + "', " + "'" + epcEnd + "', " + "'" + tempo.toString() + "')";
 			PreparedStatement stmt = conexao.prepareStatement(sql, 1);
 			stmt.execute();
 			ResultSet rs = stmt.getGeneratedKeys();
@@ -2388,7 +2398,7 @@ public class SQLServer implements BancoDados {
 		}
 		return id.intValue();
 	}
-	
+
 	@Override
 	public boolean updateZoneTime(int id, String descricao, String epcStart, String epcEnd, String limitTime) {
 		SimpleDateFormat formatador = new SimpleDateFormat("mm:ss");
@@ -2404,12 +2414,9 @@ public class SQLServer implements BancoDados {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = "update zoneTime set "
-						+ "description='" + descricao + "', " 
-						+ "fkTagStart='" + epcStart + "', "
-						+ "fkTagEnd='"+ epcEnd +"', "
-						+ "limitTime='"+ tempo.toString() +"' "
-						+ "where id=" + id;
+			String sql = "update zoneTime set " + "description='" + descricao + "', " + "fkTagStart='" + epcStart
+					+ "', " + "fkTagEnd='" + epcEnd + "', " + "limitTime='" + tempo.toString() + "' " + "where id="
+					+ id;
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -2422,16 +2429,14 @@ public class SQLServer implements BancoDados {
 	}
 
 	@Override
-	public boolean insertLogZoneTimes(LogZoneTime lzt) {		
+	public boolean insertLogZoneTimes(LogZoneTime lzt) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
 			String sql = "insert into logZoneTime(fkZoneTime, timeRoute, timeLost, timeLostObstacle, fkAgv) values("
-					+ lzt.getZoneTime().getId()
-					+ ", '" + lzt.getTimeRoute() + "'"
-					+ ", '" + lzt.getsTimeLost() + "'"
-					+ ", '" + Util.getDurationConvertString(lzt.getTimeLostObstacle()) + "'"
-					+ ", " + lzt.getAgv().getId() + ")";
+					+ lzt.getZoneTime().getId() + ", '" + lzt.getTimeRoute() + "'" + ", '" + lzt.getsTimeLost() + "'"
+					+ ", '" + Util.getDurationConvertString(lzt.getTimeLostObstacle()) + "'" + ", "
+					+ lzt.getAgv().getId() + ")";
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -2459,7 +2464,7 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public List<LogZoneTime> selectLogZoneTime() {
 		List<LogZoneTime> logZoneTime = new ArrayList<LogZoneTime>();
@@ -2487,11 +2492,12 @@ public class SQLServer implements BancoDados {
 	@Override
 	public List<PortaMashSerial> selectGatesInByMesh(int idMesh) {
 		List<PortaMashSerial> lstPortas = new ArrayList<PortaMashSerial>();
-		
+
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = strSelectEntradasMesh + " where entradasMesh.fkMeshSerial = " + idMesh + " order by entradasMesh.porta";
+			String sql = strSelectEntradasMesh + " where entradasMesh.fkMeshSerial = " + idMesh
+					+ " order by entradasMesh.porta";
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			ResultSet rs = stmt.executeQuery();
@@ -2504,7 +2510,7 @@ public class SQLServer implements BancoDados {
 			new Log(e);
 			return null;
 		}
-		
+
 		return lstPortas;
 	}
 
@@ -2524,8 +2530,7 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
-	
-	
+
 	@Override
 	public boolean deletePortInMeshSerial(int idMesh) {
 		Connection conexao;
@@ -2542,14 +2547,14 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean insertEntradasMeshUpdate(int idMesh, int ind) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = "insert into entradasMesh(porta, descricao, acionamento, fkMeshSerial) values(" 
-					+ ind + ", 'E" + ind + "', 'E" + ind + "_ON', " + idMesh + ")";
+			String sql = "insert into entradasMesh(porta, descricao, acionamento, fkMeshSerial) values(" + ind + ", 'E"
+					+ ind + "', 'E" + ind + "_ON', " + idMesh + ")";
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -2564,11 +2569,12 @@ public class SQLServer implements BancoDados {
 	@Override
 	public List<PortaSaidaMeshSerial> selectGatesOutByMesh(int idMesh) {
 		List<PortaSaidaMeshSerial> lstPortas = new ArrayList<PortaSaidaMeshSerial>();
-		
+
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = strSelectSaidasMesh + " where saidasMesh.fkMeshSerial = " + idMesh + " order by saidasMesh.porta";
+			String sql = strSelectSaidasMesh + " where saidasMesh.fkMeshSerial = " + idMesh
+					+ " order by saidasMesh.porta";
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			ResultSet rs = stmt.executeQuery();
@@ -2581,10 +2587,10 @@ public class SQLServer implements BancoDados {
 			new Log(e);
 			return null;
 		}
-		
+
 		return lstPortas;
 	}
-	
+
 	@Override
 	public boolean deletePortOutMeshSerialByPortLarger(int indPorta, int idMesh) {
 		Connection conexao;
@@ -2601,14 +2607,14 @@ public class SQLServer implements BancoDados {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean insertSaidasMeshUpdate(int idMesh, int ind) {
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
-			String sql = "insert into saidasMesh(porta, descricao, fkMeshSerial) values(" 
-					+ ind + ", 'S" + ind + "', " + idMesh + ")";
+			String sql = "insert into saidasMesh(porta, descricao, fkMeshSerial) values(" + ind + ", 'S" + ind + "', "
+					+ idMesh + ")";
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.execute();
 			stmt.close();
@@ -2623,7 +2629,7 @@ public class SQLServer implements BancoDados {
 	@Override
 	public List<Condicao> selectCondicoes() {
 		List<Condicao> lstCondicoes = new ArrayList<Condicao>();
-		
+
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
@@ -2634,32 +2640,33 @@ public class SQLServer implements BancoDados {
 			while (rs.next()) {
 				lstCondicoes.add(getCondicao(rs));
 			}
-//				Condicao cnd = getCondicao(rs);
-//				String sqlIn = strSelectEntradasCondicao + "  where entradaCondicaoRel.fkCondicao = " + cnd.getId();
-//				PreparedStatement stmtIn = conexao.prepareStatement(sqlIn);
-//				stmtIn.execute();
-//				ResultSet rsIn = stmt.executeQuery();
-//				
-//				while(rsIn.next()) {
-//					cnd.getLstEntradasCondicao().add(getEntradasCondicao(rsIn));
-//				}
-//				stmtIn.close();
-//				lstCondicoes.add(cnd);
-//			}
+			// Condicao cnd = getCondicao(rs);
+			// String sqlIn = strSelectEntradasCondicao + " where
+			// entradaCondicaoRel.fkCondicao = " + cnd.getId();
+			// PreparedStatement stmtIn = conexao.prepareStatement(sqlIn);
+			// stmtIn.execute();
+			// ResultSet rsIn = stmt.executeQuery();
+			//
+			// while(rsIn.next()) {
+			// cnd.getLstEntradasCondicao().add(getEntradasCondicao(rsIn));
+			// }
+			// stmtIn.close();
+			// lstCondicoes.add(cnd);
+			// }
 			stmt.close();
 			conexao.close();
 		} catch (SQLException | ParseException e) {
 			new Log(e);
 			return null;
 		}
-			
+
 		return lstCondicoes;
 	}
-	
+
 	@Override
 	public List<EntradaCondicao> selectEntradaCondicao(int idCondicao) {
 		List<EntradaCondicao> lstEntrada = new ArrayList<EntradaCondicao>();
-		
+
 		Connection conexao;
 		try {
 			conexao = DriverManager.getConnection(url);
@@ -2676,30 +2683,46 @@ public class SQLServer implements BancoDados {
 			new Log(e);
 			return null;
 		}
-		
+
 		return lstEntrada;
 	}
 
 	@Override
 	public boolean updatePortIn(String porta, int idMesh, String status) {
-			Connection conexao;
-			try {
-				conexao = DriverManager.getConnection(url);
-				String sql = "update entradasMesh set "
-							+ "status='" + status + "'"
-							+ "where porta=" + porta + " AND fkMeshSerial="+idMesh;
-				PreparedStatement stmt = conexao.prepareStatement(sql);
-				stmt.execute();
-				stmt.close();
-				conexao.close();
-			} catch (Exception e) {
-				new Log(e);
-				return false;
-			}
-			return true;
+		Connection conexao;
+		try {
+			conexao = DriverManager.getConnection(url);
+			String sql = "update entradasMesh set " + "status='" + status + "'" + "where porta=" + porta
+					+ " AND fkMeshSerial=" + idMesh;
+			System.out.println(sql);
+			PreparedStatement stmt = conexao.prepareStatement(sql);
+			stmt.execute();
+			stmt.close();
+			conexao.close();
+		} catch (Exception e) {
+			new Log(e);
+			return false;
+		}
+		return true;
 
 	}
-	
-	
-	
+	@Override
+	public boolean updateGatesOutMeshSerial(PortaSaidaMeshSerial psms) {
+		Connection conexao;
+		try {
+			conexao = DriverManager.getConnection(url);
+			String sql = "update saidasMesh set "
+						+ "status='" + psms.getStatus() + "'"
+						+ "where id=" + psms.getId();
+			System.out.println(sql);
+			PreparedStatement stmt = conexao.prepareStatement(sql);
+			stmt.execute();
+			stmt.close();
+			conexao.close();
+		} catch (Exception e) {
+			new Log(e);
+			return false;
+		}
+		return true;
+	}
 }

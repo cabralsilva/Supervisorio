@@ -46,7 +46,7 @@ public class ActionCadastroAGVS implements CommandDB {
 						AGV agv = agvs.get(i);
 
 						if (agv.getId() == Integer.parseInt(req.getGetParams().get(TagsValues.paramID))) {
-							AGV.enviarEmergencia(agv.getIp(), agv.getMac64());
+							AGV.enviarEmergencia(agv.getMac16(), agv.getMac64(), agv.getIp());
 							html = "OK";
 						}
 					}
@@ -255,7 +255,7 @@ public class ActionCadastroAGVS implements CommandDB {
 						}
 
 						if (agv.getId() == Integer.parseInt(req.getGetParams().get(TagsValues.paramID))) {
-							AGV.sendRota(rotas, agv.getIp(), agv.getMac64());
+							AGV.sendRota(rotas, agv.getMac16(), agv.getMac64());
 							html = "OK";
 						}
 					}
@@ -271,10 +271,10 @@ public class ActionCadastroAGVS implements CommandDB {
 							Config config = Config.getInstance();
 
 							if (config.getProperty(Config.PROP_PROJ).equals(ConfigProcess.PROJ_GOODYEAR)) {
-								AGV.enviarParar(agv.getIp(), agv.getMac64());
+								AGV.enviarParar(agv.getMac16(), agv.getMac64(), agv.getIp());
 							}
 
-							AGV.enviarPlay(agv.getIp(), agv.getMac64());
+							AGV.enviarPlay(agv.getMac16(), agv.getMac64(), agv.getIp());
 							html = "OK";
 						}
 					}
@@ -287,7 +287,7 @@ public class ActionCadastroAGVS implements CommandDB {
 						AGV agv = agvs.get(i);
 
 						if (agv.getId() == Integer.parseInt(req.getGetParams().get(TagsValues.paramID))) {
-							AGV.enviarPararAC(agv.getIp(), agv.getMac64());
+							AGV.enviarPararAC(agv.getMac16(), agv.getMac64(), agv.getIp());
 							html = "OK";
 						}
 					}
@@ -304,10 +304,10 @@ public class ActionCadastroAGVS implements CommandDB {
 							Config config = Config.getInstance();
 
 							if (config.getProperty(Config.PROP_PROJ).equals(ConfigProcess.PROJ_GOODYEAR)) {
-								AGV.enviarParar(agv.getIp(), agv.getMac64());
+								AGV.enviarParar(agv.getMac16(), agv.getMac64(), agv.getIp());
 							}
 
-							AGV.enviarPlayRE(agv.getIp(), agv.getMac64());
+							AGV.enviarPlayRE(agv.getMac16(), agv.getMac64(), agv.getIp());
 							html = "OK";
 						}
 					}
@@ -321,7 +321,7 @@ public class ActionCadastroAGVS implements CommandDB {
 						AGV agv = agvs.get(i);
 
 						if (agv.getId() == Integer.parseInt(req.getGetParams().get(TagsValues.paramID))) {
-							AGV.enviarParar(agv.getIp(), agv.getMac64());
+							AGV.enviarParar(agv.getMac16(), agv.getMac64(), agv.getIp());
 							html = "OK";
 						}
 					}
@@ -363,6 +363,7 @@ public class ActionCadastroAGVS implements CommandDB {
 															req.getGetParams().get(TagsValues.paramStatus),
 															req.getGetParams().get(TagsValues.paramTipo),
 															req.getGetParams().get(TagsValues.paramMac64),
+															req.getGetParams().get(TagsValues.paramMac16),
 															req.getGetParams().get(TagsValues.paramIP))) {
 														ConfigProcess.bd().insertLogUsuarios(System.currentTimeMillis(),
 																req.getCookies().get(Login.strKeyName).getValue(),
@@ -381,6 +382,7 @@ public class ActionCadastroAGVS implements CommandDB {
 															req.getGetParams().get(TagsValues.paramStatus),
 															req.getGetParams().get(TagsValues.paramTipo),
 															req.getGetParams().get(TagsValues.paramMac64),
+															req.getGetParams().get(TagsValues.paramMac16),
 															req.getGetParams().get(TagsValues.paramIP),
 															Integer.parseInt(
 																	req.getGetParams().get(TagsValues.paramIDOld)))) {

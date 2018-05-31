@@ -16,7 +16,7 @@ import AGVS.Controller.Rules.RulesUsuarios;
 import AGVS.Data.AGV;
 import AGVS.Data.Cancelas;
 import AGVS.Data.ConfigProcess;
-import AGVS.Data.Cruzamento_OLD;
+import AGVS.Data.Cruzamento;
 import AGVS.Data.CruzamentoMash;
 import AGVS.Data.Line;
 import AGVS.Data.Semaforo;

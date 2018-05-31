@@ -8,9 +8,10 @@ import javax.print.attribute.standard.Fidelity;
 
 import AGVS.Serial.DatabaseStatic;
 import AGVS.Util.Log;
+import AGVS.Util.Util;
 import WebService.http.Config;
 
-public class Cruzamento_OLD {
+public class Cruzamento_manual {
 
 	private String nome;
 	private String descricao;
@@ -30,9 +31,9 @@ public class Cruzamento_OLD {
 			sp.acquire();
 			for (int i = 0; tagsEntrada != null && i < tagsEntrada.size(); i++) {
 				Tag tg = tagsEntrada.get(i).getTag();
-//				System.out.println("TAG CADASTRADA: " + tg.getEpc());
-//				System.out.println("TAG lida: " + epc);
+
 				if (tg.getEpc().equals(epc) && !agv.getStatus().equals(AGV.statusManual)) {
+
 					boolean ok = false;
 					if (getPms() != null) {
 						for (int j = 0; j < getPms().size(); j++) {
@@ -53,10 +54,13 @@ public class Cruzamento_OLD {
 								}
 							}
 							if (bloq) {
+								agv.setStatus(AGV.statusEmCruzamento);
+								agv.setStatusTimeOld(System.currentTimeMillis());
+								ConfigProcess.bd().updateAGV(agv.getId(),agv.getStatus(), agv.getStatusTimeOld(), agv.getBateria(), agv.getVelocidade());
 								System.out.println("Entrou na fila o AGV: " + agv.getNome());
 								filaEspera.add(agv);
 							}
-							AGV.enviarEmCruzamento(agv.getIp(), agv.getMac64());
+							AGV.enviarEmCruzamento(agv.getMac16(), agv.getMac64(), agv.getIp());
 							ConfigProcess.bd().insertFalhas(agv.getId(), "Cruzamento " + getNome() + " Mandou Stop",
 									System.currentTimeMillis());
 							System.out.println("Bloqueado no Cruzamento " + nome + " AGV: " + agv.getNome());
@@ -112,10 +116,10 @@ public class Cruzamento_OLD {
 					Config config = Config.getInstance();
 
 					if (config.getProperty(Config.PROP_PROJ).equals(ConfigProcess.PROJ_GOODYEAR)) {
-						AGV.enviarParar(agv.getIp(), agv.getMac64());
+						AGV.enviarParar(agv.getMac16(), agv.getMac64(), agv.getIp());
 					}
 
-					AGV.enviarPlay(agv.getIp(), agv.getMac64());
+					AGV.enviarPlay(agv.getMac16(), agv.getMac64(), agv.getIp());
 					getFilaEspera().remove(0);
 					ConfigProcess.bd().insertFalhas(agv.getId(), "Cruzamento " + getNome() + " Mandou Play",
 							System.currentTimeMillis());
@@ -127,10 +131,12 @@ public class Cruzamento_OLD {
 			sp.release();
 
 		}
+		
 		if (a.getStatus().equals(AGV.statusManual)) {
 			try {
 				sp.acquire();
 				if (getFilaEspera() != null && getFilaEspera().size() > 0) {
+					
 					for (int i = 0; i < getFilaEspera().size(); i++) {
 						AGV agv = getFilaEspera().get(i);
 						if (agv.getId() == a.getId()) {
@@ -144,6 +150,26 @@ public class Cruzamento_OLD {
 			}
 			sp.release();
 		}
+		if (getAgvInRota() != null) {
+			if (a.getStatus().equals(AGV.statusRodando) && a.getId() != getAgvInRota().getId()) {
+				try {
+					sp.acquire();
+					if (getFilaEspera() != null && getFilaEspera().size() > 0) {
+						for(AGV agv:getFilaEspera()) {
+							if(agv.getId() == a.getId()) {
+								//adicionar em rota
+								getFilaEspera().remove(agv);
+								setAgvInRota(agv);
+							}
+						}
+					}
+				} catch (Exception e) {
+					new Log(e);
+				}
+				sp.release();
+			}
+		}
+		
 
 	}
 
@@ -159,10 +185,10 @@ public class Cruzamento_OLD {
 				Config config = Config.getInstance();
 
 				if (config.getProperty(Config.PROP_PROJ).equals(ConfigProcess.PROJ_GOODYEAR)) {
-					AGV.enviarParar(agv.getIp(), agv.getMac64());
+					AGV.enviarParar(agv.getMac16(), agv.getMac64(), agv.getIp());
 				}
 
-				AGV.enviarPlay(agv.getIp(), agv.getMac64());
+				AGV.enviarPlay(agv.getMac16(), agv.getMac64(), agv.getIp());
 				getFilaEspera().remove(0);
 				System.out.println("Liberou do Cruzamento AGV: " + agv.getNome());
 				ConfigProcess.bd().insertFalhas(agv.getId(), "Cruzamento " + getNome() + " Mandou Stop",
@@ -196,7 +222,7 @@ public class Cruzamento_OLD {
 				boolean ok = true;
 				if (getPms() != null) {
 					for (int i = 0; i < getPms().size(); i++) {
-//						System.out.println("Teste Mash Libera Cruzamento");
+						System.out.println("Teste Mash Libera Cruzamento");
 						PortaMashSerial aux = getPms().get(i);
 						if (aux.getStatus() != null && aux.getStatus().equals(aux.getAcionamento())) {
 							System.out.println("Cruzamento bloq por mash");
@@ -211,10 +237,10 @@ public class Cruzamento_OLD {
 					Config config = Config.getInstance();
 
 					if (config.getProperty(Config.PROP_PROJ).equals(ConfigProcess.PROJ_GOODYEAR)) {
-						AGV.enviarParar(agv.getIp(), agv.getMac64());
+						AGV.enviarParar(agv.getMac16(), agv.getMac64(), agv.getIp());
 					}
 
-					AGV.enviarPlay(agv.getIp(), agv.getMac64());
+					AGV.enviarPlay(agv.getMac16(), agv.getMac64(), agv.getIp());
 					getFilaEspera().remove(0);
 					ConfigProcess.bd().insertFalhas(agv.getId(), "Cruzamento " + getNome() + " Mandou PLay",
 							System.currentTimeMillis());
@@ -287,7 +313,7 @@ public class Cruzamento_OLD {
 		this.tagsSaida = tagsSaida;
 	}
 
-	public Cruzamento_OLD(String nome, String descricao, List<TagCruzamento> tagsEntrada, List<TagCruzamento> tagsSaida,
+	public Cruzamento_manual(String nome, String descricao, List<TagCruzamento> tagsEntrada, List<TagCruzamento> tagsSaida,
 			List<PortaMashSerial> pms) {
 		super();
 		this.nome = nome;

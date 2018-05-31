@@ -73,6 +73,7 @@ public class ActionTempoTagsParado implements CommandDB {
 															req.getGetParams().get(TagsValues.paramStatus),
 															req.getGetParams().get(TagsValues.paramTipo),
 															req.getGetParams().get(TagsValues.paramMac64),
+															req.getGetParams().get(TagsValues.paramMac16),
 															req.getGetParams().get(TagsValues.paramIP))) {
 														ConfigProcess.bd().insertLogUsuarios(System.currentTimeMillis(),
 																req.getCookies().get(Login.strKeyName).getValue(),
@@ -91,6 +92,7 @@ public class ActionTempoTagsParado implements CommandDB {
 															req.getGetParams().get(TagsValues.paramStatus),
 															req.getGetParams().get(TagsValues.paramTipo),
 															req.getGetParams().get(TagsValues.paramMac64),
+															req.getGetParams().get(TagsValues.paramMac16),
 															req.getGetParams().get(TagsValues.paramIP),
 															Integer.parseInt(
 																	req.getGetParams().get(TagsValues.paramIDOld)))) {

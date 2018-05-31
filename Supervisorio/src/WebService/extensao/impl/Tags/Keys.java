@@ -57,6 +57,7 @@ public class Keys {
 	public static final String keyGerarTabelaTagsSemaforo = "#{GerarTabelaTagsSemaforo}#";
 	public static final String keyGerarTabelaRelatorioZoneTime = "#{GerarTabelaRelatorioZoneTime}#";
 	public static final String keyGerarTabelaCondicoesLogicaMesh = "#{GerarTabelaCondicoesLogicaMesh}#";
+	public static final String keyGerarLinhaMacSupervisorio = "#{GerarLinhaMacSupervisorio}#";
 
 	// GerarTabelaCruzamentos
 	// #{GerarTabelaRotasTags}#

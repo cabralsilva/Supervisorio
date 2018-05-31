@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import AGVS.Controller.Rules.RulesUsuarios;
 import AGVS.Data.AGV;
 import AGVS.Data.ConfigProcess;
-import AGVS.Data.Cruzamento_OLD;
+import AGVS.Data.Cruzamento;
 import AGVS.Data.FuncaoPos;
 import AGVS.Data.PosicaoInicioTurno;
 import AGVS.Serial.DatabaseStatic;

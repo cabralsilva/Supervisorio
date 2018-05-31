@@ -60,6 +60,7 @@ public class Login {
 	public static final String tokenCadastroLogicaMesh = "Cadastro de Logicas da mesh";
 	// pages Configura�ao
 	public static final String tokenConfBD = "Configuracao de Bando de Dados";
+	public static final String tokenConfMAC = "Configuracao MAC";
 	// Operador
 	// Pages Operador
 	public static final String tokenInicioTurno = "Inicio de Turno";

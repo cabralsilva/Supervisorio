@@ -11,7 +11,7 @@ import AGVS.Data.AlertasSupervisorio;
 import AGVS.Data.Cancelas;
 import AGVS.Data.ComandoMashSerial;
 import AGVS.Data.ConfigProcess;
-import AGVS.Data.Cruzamento_OLD;
+import AGVS.Data.Cruzamento;
 import AGVS.Data.CruzamentoMash;
 import AGVS.Data.FuncaoPos;
 import AGVS.Data.Input;
@@ -34,7 +34,7 @@ public class DatabaseStatic {
 
 	public static List<ComandoMashSerial> cms;
 	public static List<MeshSerial> mashs;
-	public static List<Cruzamento_OLD> cruzamentos;
+	public static List<Cruzamento> cruzamentos;
 	public static List<Semaforo> semaforos;
 	public static List<PortaMashSerial> pms;
 	public static List<Cancelas> cancelas;
@@ -55,6 +55,7 @@ public class DatabaseStatic {
 	public static AGV bufferEntradaLinhaE;
 	public static List<AGV> bufferEmRotaCarregadoLinhaE;
 	public static List<AGV> bufferEmRotaCarregadoLinhaD;
+	public static String macSupervisorio = "";
 	///////////////////////////////////
 	
 	public static void resetMedia() {
@@ -147,31 +148,31 @@ public class DatabaseStatic {
 		List<FuncaoPos> fps6 = new ArrayList<FuncaoPos>();
 
 		FuncaoPos fpP1_1 = new FuncaoPos(pitP1, "", FuncaoPos.RODANDO, 0,
-				new Cruzamento_OLD("Cruzamento 3", "", null, null, null));
+				new Cruzamento("Cruzamento 3", "", null, null, null));
 
 		FuncaoPos fpP2_1 = new FuncaoPos(pitP2, "", FuncaoPos.RODANDO, 0,
-				new Cruzamento_OLD("Cruzamento 4", "", null, null, null));
+				new Cruzamento("Cruzamento 4", "", null, null, null));
 
 		FuncaoPos fpP3_1 = new FuncaoPos(pitP3, "", FuncaoPos.RODANDO, 0,
-				new Cruzamento_OLD("Cruzamento 1", "", null, null, null));
+				new Cruzamento("Cruzamento 1", "", null, null, null));
 
 		FuncaoPos fpP3_2 = new FuncaoPos(pitP3, "", FuncaoPos.RODANDO, 0,
-				new Cruzamento_OLD("Cruzamento 7", "", null, null, null));
+				new Cruzamento("Cruzamento 7", "", null, null, null));
 
 		FuncaoPos fpP3_3 = new FuncaoPos(pitP3, "", FuncaoPos.FILAESPERA, 0,
-				new Cruzamento_OLD("Cruzamento 2", "", null, null, null));
+				new Cruzamento("Cruzamento 2", "", null, null, null));
 
 		FuncaoPos fpP4_1 = new FuncaoPos(pitP4, "", FuncaoPos.RODANDO, 0,
-				new Cruzamento_OLD("Cruzamento 2", "", null, null, null));
+				new Cruzamento("Cruzamento 2", "", null, null, null));
 
 		FuncaoPos fpP5_1 = new FuncaoPos(pitP6, "", FuncaoPos.FILAESPERA, 1,
-				new Cruzamento_OLD("Cruzamento 6", "", null, null, null));
+				new Cruzamento("Cruzamento 6", "", null, null, null));
 
 		FuncaoPos fpP6_1 = new FuncaoPos(pitP5, "", FuncaoPos.RODANDO, 0,
-				new Cruzamento_OLD("Cruzamento 6", "", null, null, null));
+				new Cruzamento("Cruzamento 6", "", null, null, null));
 
 		FuncaoPos fpP6_2 = new FuncaoPos(pitP5, "", FuncaoPos.FILAESPERA, 1,
-				new Cruzamento_OLD("Cruzamento 3", "", null, null, null));
+				new Cruzamento("Cruzamento 3", "", null, null, null));
 
 		funcPos.add(fpP1_1);
 		funcPos.add(fpP2_1);

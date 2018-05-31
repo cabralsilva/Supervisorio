@@ -39,4 +39,37 @@ public class ClienteAGV {
 		output.close();
 		sk.close();
 	}
+	
+	public static void enviarNew(String xml, String ip) {
+
+		int envio = 0;
+
+		while (envio < 5) {
+			try {
+				envio++;
+				enviarAuxNew(xml, ip);
+				envio = 5;
+			} catch (Exception e) {
+				//System.err.println("Falhou tentativa:" + envio);
+				new Log(e);
+			}
+		}
+
+	}
+	
+	private static void enviarAuxNew(String xml, String ip) throws Exception {
+
+		Socket sk = new Socket();
+		xml = "!" + xml + "#";
+		sk.connect(new InetSocketAddress(ip, 23), 500);
+		InputStream input = sk.getInputStream();
+		OutputStream output = sk.getOutputStream();
+		byte[] b = xml.getBytes();
+		output.write(b.length);
+		output.write(b);
+		System.out.println("Enviado: " + xml + " - to: " + ip);
+		input.close();
+		output.close();
+		sk.close();
+	}
 }

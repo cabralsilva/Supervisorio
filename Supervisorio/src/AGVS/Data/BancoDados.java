@@ -30,7 +30,7 @@ public interface BancoDados {
 
 	public boolean criarBanco();
 
-	public boolean insertAGV(int id, String nome, String status, String tipo, String mac64, String mac16);
+	public boolean insertAGV(int id, String nome, String status, String tipo, String mac64, String mac16, String ip);
 	
 	public int insertMesh(int id, String nome, String mac16, String mac64, int entradas, int saidas);
 	
@@ -42,7 +42,7 @@ public interface BancoDados {
 	
 	public boolean deleteSemaforo(int id);
 
-	public boolean updateAGV(int id, String nome, String status, String tipo, String mac64, String mac16, int oldId);
+	public boolean updateAGV(int id, String nome, String status, String tipo, String mac64, String mac16, String ip, int oldId);
 	
 	public boolean updateMesh(int id, String nome, String mac16, String mac64, int entradas, int saidas);
 	
@@ -77,15 +77,15 @@ public interface BancoDados {
 
 	public List<Tag> selecTags(String epc);
 
-	public boolean updateAGV(int id, String tagAtual, int bateria, long tagAtualTime, int atraso, String status);
+	public boolean updateAGV(int id, String tagAtual, int bateria, long tagAtualTime, int atraso, String status, int velocidade);
 	
 	public boolean updateIPAGV(int id, String ip);
 
 	public boolean updateAGV(int id, int atraso);
 
-	public boolean updateAGV(int id, String status);
+	public boolean updateAGV(int id, String status, int bateria, int velocidade);
 
-	public boolean updateAGV(int id, String status, long time);
+	public boolean updateAGV(int id, String status, long time, int bateria, int velocidade);
 
 	public boolean insertFalhas(int id, String msg, long data);
 
@@ -127,11 +127,11 @@ public interface BancoDados {
 
 	public boolean deleteTagsRota(String id);
 
-	public List<Cruzamento_OLD> selectCruzamentos();
+	public List<Cruzamento> selectCruzamentos();
 	
 	public List<TagSemaforos> selectTagsSemaforo();
 	
-	public List<Cruzamento_OLD> selectCruzamentosLogic();
+	public List<Cruzamento> selectCruzamentosLogic();
 	
 	public List<Semaforo> selectSemaforosLogic();
 
@@ -165,7 +165,7 @@ public interface BancoDados {
 
 	public List<LogTags> selectLogTags();
 
-	public boolean insertLogTags(long data, int idAgv, String msg, String epc);
+	public boolean insertLogTags(long data, int idAgv, String msg, String epc, int bateria, int velocidade);
 
 	public List<Supermercado> selectSupermercados();
 
@@ -234,4 +234,6 @@ public interface BancoDados {
 	public boolean updateAGVFrequency(int iAgv, int iFrequencia);
 	
 	public boolean updatePortIn(String porta, int idMesh, String status);
+	
+	public boolean updateGatesOutMeshSerial(PortaSaidaMeshSerial psms);
 }

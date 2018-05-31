@@ -28,7 +28,7 @@ public class Servidor implements Runnable {
 
 	private int getPorta() {
 //		return 27015;
-		return 22;
+		return 23;
 	}
 
 	public void start() {

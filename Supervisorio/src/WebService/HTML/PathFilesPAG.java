@@ -10,6 +10,7 @@ public class PathFilesPAG {
 	public static final String login = "Login.html";
 	public static final String loginErr = "LoginErr.html";
 	public static final String configBancoDados = "ConfigBancoDados.html";
+	public static final String configMAC = "ConfigMAC.html";
 	public static final String usuarios = "Usuarios.html";
 	public static final String logUsuarios = "LogUsuarios.html";
 	public static final String logUsuariosTable = "LogUsuariosTable.html";

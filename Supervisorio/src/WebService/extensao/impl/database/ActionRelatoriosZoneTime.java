@@ -102,8 +102,8 @@ public class ActionRelatoriosZoneTime implements CommandDB {
 										"	<td>"+Util.getTimeOnly(Util.getDateTimeLong(lt.getData()))+"</td>\r\n" + 
 										"	<td>"+endTag+"</td>\r\n" + 
 										"	<td>"+Util.getTimeOnly((timeZero.getTime() + timeTag.getTime()))+"</td>\r\n" + 
-										"	<td>Bateria: ###</td>\r\n" + 
-										"	<td>MD: ### / ME: ### / Temp: ###</td>\r\n" + 
+										"	<td>Bateria: "+lt.getBateria()+"%</td>\r\n" + 
+										"	<td>Velocidade: "+lt.getVelocidade()+"%</td>\r\n" + 
 										"</tr>";
 								
 								

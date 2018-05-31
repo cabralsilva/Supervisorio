@@ -155,34 +155,18 @@
       <div class="panel">
 	  
         <header class="panel-heading">
-          <h3 class="panel-title">Adicionar AGVS</h3>
+          <h3 class="panel-title">Configurar MAC Supervisorio</h3>
         </header>
         <div class="panel-body container-fluid">
-         <div class="row">
-            <div class="col-sm-6">
-              <div class="margin-bottom-15">
-                  <button id="addToTable" class="btn btn-outline btn-primary" type="button">
-                  <i class="icon wb-plus" aria-hidden="true"></i> Adicionar
-                </button>
-              </div>
-            </div>
-          </div>
-          <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+          <table class="table table-bordered table-hover table-striped" id="tableMAC">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Status</th>
-                <th>Tipo</th>
-				<th>mac64</th>
-				<th>mac16</th>
-				<th>IP</th>
+                <th>MAC SUPERVISORIO</th>
 				<th>Opções</th>
               </tr>
             </thead>
             <tbody>
-              #{GerarTabelaAGVS}#
-              
+              #{GerarLinhaMacSupervisorio}#
             </tbody>
           </table>
         </div>
@@ -228,7 +212,7 @@
   <script src="/global/js/components/slidepanel.js"></script>
   <script src="/global/js/components/switchery.js"></script>
   <script src="/global/js/components/datatables.js"></script>
-  <script src="/assets/examples/js/tables/datatableAGVS.js"></script>
+  <script src="/assets/examples/js/tables/datatableConfigMAC.js"></script>
   <script src="/assets/examples/js/uikit/icon.js"></script>
   <script src="/TAS/js/ajaxMessagem.js" charset="iso-8859-1"></script>
   <script src="/global/js/components/bootbox.js"></script>
@@ -237,12 +221,12 @@
   <script src="/assets/examples/js/advanced/bootbox-sweetalert.js"></script>
   <script src="/TAS/js/clickHref.js" charset="iso-8859-1"></script>
   <script>
-     function rowTipoAGVS() {
-	return '#{listTipoAGVS}#'; 
-     }
-	 function rowStatusAgvs() {
-	return '#{listStatusAGVS}#'; 
-     }
+//      function rowTipoAGVS() {
+// 	return '#{listTipoAGVS}#'; 
+//      }
+// 	 function rowStatusAgvs() {
+// 	return '#{listStatusAGVS}#'; 
+//      }
 
   </script>
   

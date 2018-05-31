@@ -9,10 +9,10 @@ public class Main {
 	public static void main(String[] args) {
 		//ConfigProcess.bd().insertLogTags(System.currentTimeMillis(), 1, "Tag Exemplo", "E0040150747423");
 		try {
-			new AGVS.WIFI.SUPERVISORIO.Servidor(AGVS.WIFI.SUPERVISORIO.Servidor.SUPERVISORIO).start();
+//			new AGVS.WIFI.SUPERVISORIO.Servidor(AGVS.WIFI.SUPERVISORIO.Servidor.SUPERVISORIO).start();
 			
 			System.out.println("Iniciando Supervisorio 8325");
-			ConfigProcess.serial.conectar();
+//			ConfigProcess.serial.conectar();
 			Servidor serv = new Servidor();
 			serv.start();
 			System.out.println("Started server");

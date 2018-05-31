@@ -25,8 +25,7 @@ public class ActionAGVTV implements CommandDB {
 	@Override
 	public void execute(Request req, Response resp, Dispatcher disp) throws Exception {	
 		String html = "";
-//		List<AGV> agvs = ConfigProcess.bd().selecAGVSLastSixUpdate();
-		List<AGV> agvs = DatabaseStatic.lstAGVS;
+		List<AGV> agvs = ConfigProcess.bd().selecAGVSLastSixUpdate();
 		Collections.sort(agvs);
 		Config config = Config.getInstance();
 		if (config.getProperty(Config.PROP_PROJ).equals(ConfigProcess.PROJ_FIAT)) {
@@ -50,10 +49,19 @@ public class ActionAGVTV implements CommandDB {
 			for (int i = 0; agvs != null && i < totalAgvs; i++) {
 				AGV a = agvs.get(i);
 				String fontCor = "white";
+				if (a.getStatusTimeOld() < (new Date().getTime() - 1800000) ) {
+					a.setStatus(AGV.statusEmRepouso);
+				}
+//				System.out.println("STATUS AGV: " + a.getId() + " -- " + a.getStatus());
 				////////////////////////////////////////////////////////
 				switch (a.getStatus()) {
 					case AGV.statusRodando:
-						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(23,202,23,0.7);'>";
+						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(";
+						if (a.getBateria() < 40) {
+							html += "218,134,30,1);'>";
+						}else {
+							html += "23,202,23,0.7);'>";
+						}
 						fontCor = "black";
 						break;
 					case AGV.statusRodandoManual:
@@ -61,7 +69,12 @@ public class ActionAGVTV implements CommandDB {
 						fontCor = "black";
 						break;
 					case AGV.statusEmEspera:
-						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(255,192,203,1);'>";
+						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(";
+						if (a.getBateria() < 40) {
+							html += "218,134,30,1);'>";
+						}else {
+							html += "255,192,203,1);'>";
+						}
 						fontCor = "black";
 						break;
 					case AGV.statusParadoManual:
@@ -98,18 +111,13 @@ public class ActionAGVTV implements CommandDB {
 						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: rgba(12,103,193,0.8);'>";
 						break;
 					default:
-						
+						html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: white;'>";
+						fontCor = "black";
 						break;
 				}
 				
 				////////////////////////////////////////////////////////
 				
-				
-//				if ((i % 2) == 0)
-//					html += "<div class='col-md-2' style='margin-right: 0px; width: 16.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: #ffffff;'>";
-//				else
-//					html += "<div class='col-md-2' style='margin-right: 0px; width: 16.7%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: #eeeeee;'>";
-
 				html += "<table width=\"100%\" style=\"border-spacing: 5px;\">" + 
 						"<tr>" 
 						+"	<td>";
@@ -178,25 +186,39 @@ public class ActionAGVTV implements CommandDB {
 					html+="<tr><td colspan=\"2\"><center><span style='font-size: 14px;'>###</span><br></center></td></tr>";
 				}
 				
+				///////////BATERIA
+						
+				html += "<tr>" +
+							"<td>" +
+								"<span style='font-size: 16px; color: " + fontCor + "; font-weight: bold;'>BATERIA: "+a.getBateria()+"%</span>" + 
+							"</td>"+
+						"</tr>";
+				html += "<tr>" +
+							"<td>" +
+								"<span style='font-size: 16px; color: " + fontCor + "; font-weight: bold;'>VELOCIDADE: "+a.getVelocidade()+"%</span>" + 
+							"</td>"+
+						"</tr>";
+				
 				html+="</table>"+
 						"<div class='col-md-offset-1 col-md-8 bg-";
 				
-				if (a.getStatusTimeOld() < (new Date().getTime() - 1800000) ) {
+				if (a.getStatus().equals(AGV.statusEmRepouso) ) {
 					html += "blue-300' ";
-					a.setStatus(AGV.statusEmRepouso);
-//					html += "style='font-size: 20px; font-weight: bold; color: "+fontCor+"; height: 30px; border-radius: 2px; position: absolute; bottom: 10px; margin-right: 0;'>"+
-//							"<center>Em repouso</center>"+
-//						"</div>"+ 
-//					"</div>";
 				}else {
 					switch (a.getStatus()) {
 						case AGV.statusRodando:
 						case AGV.statusRodandoManual:
 							html += "green-600' ";
+							if (a.getBateria() < 40) {
+								a.setStatus("BATERIA BAIXA");
+							}
 							break;
 						case AGV.statusEmEspera:
-						case AGV.statusParadoManual:						
+						case AGV.statusParadoManual:	
 							html += "pink-600' ";
+							if (a.getBateria() < 40) {
+								a.setStatus("BATERIA BAIXA");
+							}
 							break;
 						case AGV.statusManual:
 							html += "blue-600' ";
@@ -219,10 +241,6 @@ public class ActionAGVTV implements CommandDB {
 						default:
 							break;
 					}
-//					html += "style='font-size: 20px; font-weight: bold; color: "+fontCor+"; height: 30px; border-radius: 2px; position: absolute; bottom: 10px; margin-right: 0;'>"+
-//							"<center>" + a.getStatus() + "</center>"+
-//						"</div>"+ 
-//					"</div>";
 				}
 				html += "style='font-size: 20px; font-weight: bold; color: "+fontCor+"; height: 30px; border-radius: 2px; position: absolute; bottom: 10px; margin-right: 0;'>"+
 						"<center>" + a.getStatus() + "</center>"+

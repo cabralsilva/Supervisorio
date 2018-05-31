@@ -9,7 +9,7 @@ import AGVS.Data.AlertaMesh;
 import AGVS.Data.AlertasSupervisorio;
 import AGVS.Data.ComandoMashSerial;
 import AGVS.Data.ConfigProcess;
-import AGVS.Data.Cruzamento_OLD;
+import AGVS.Data.Cruzamento;
 import AGVS.Data.MeshSerial;
 import AGVS.Data.PortaMashSerial;
 import AGVS.Data.Tag;
@@ -31,7 +31,7 @@ public class ThreadControlLogic extends Thread {
 			 * for (int i = 0; DatabaseStatic.mashs != null && i <
 			 * DatabaseStatic.mashs.size(); i++) { MashSerial ms =
 			 * DatabaseStatic.mashs.get(i);
-			 * ConfigProcess.serial.enviar("<xml>load</xml>", ms.getIp(),
+			 * ConfigProcess.serial.enviar("<xml>load</xml>", ms.getMac16(),
 			 * ms.getMac64()); Thread.sleep(7000); }
 			 */
 		} catch (Exception e1) {
@@ -147,12 +147,12 @@ public class ThreadControlLogic extends Thread {
 
 											if (config.getProperty(Config.PROP_PROJ)
 													.equals(ConfigProcess.PROJ_GOODYEAR)) {
-												AGV.enviarParar(agv.getIp(), agv.getMac64());
+												AGV.enviarParar(agv.getMac16(), agv.getMac64(), agv.getIp());
 											}
 
-											AGV.enviarPlay(agv.getIp(), agv.getMac64());
-											AGV.enviarPlay(agv.getIp(), agv.getMac64());
-											AGV.enviarPlay(agv.getIp(), agv.getMac64());
+											AGV.enviarPlay(agv.getMac16(), agv.getMac64(), agv.getIp());
+											AGV.enviarPlay(agv.getMac16(), agv.getMac64(), agv.getIp());
+											AGV.enviarPlay(agv.getMac16(), agv.getMac64(), agv.getIp());
 											System.out.println("Liberar AGV: " + agv.getNome());
 											ConfigProcess.bd().insertFalhas(agv.getId(), "Mash Mandou Play",
 													System.currentTimeMillis());
@@ -171,9 +171,9 @@ public class ThreadControlLogic extends Thread {
 												aux.getTcm().cruzamentoEntrada(agv);
 											}
 											aux.setTimeOld(System.currentTimeMillis());
-											AGV.enviarParar(agv.getIp(), agv.getMac64());
-											AGV.enviarParar(agv.getIp(), agv.getMac64());
-											AGV.enviarParar(agv.getIp(), agv.getMac64());
+											AGV.enviarParar(agv.getMac16(), agv.getMac64(), agv.getIp());
+											AGV.enviarParar(agv.getMac16(), agv.getMac64(), agv.getIp());
+											AGV.enviarParar(agv.getMac16(), agv.getMac64(), agv.getIp());
 											System.out.println("Parar AGV: " + agv.getNome());
 											ConfigProcess.bd().insertFalhas(agv.getId(), "Mash Mandou Stop",
 													System.currentTimeMillis());
@@ -191,9 +191,9 @@ public class ThreadControlLogic extends Thread {
 												aux.getTcm().cruzamentoEntrada(agv);
 											}
 											aux.setTimeOld(System.currentTimeMillis());
-											AGV.enviarEmergencia(agv.getIp(), agv.getMac64());
-											AGV.enviarEmergencia(agv.getIp(), agv.getMac64());
-											AGV.enviarEmergencia(agv.getIp(), agv.getMac64());
+											AGV.enviarEmergencia(agv.getMac16(), agv.getMac64(), agv.getIp());
+											AGV.enviarEmergencia(agv.getMac16(), agv.getMac64(), agv.getIp());
+											AGV.enviarEmergencia(agv.getMac16(), agv.getMac64(), agv.getIp());
 											System.out.println("Emergencia AGV: " + agv.getNome());
 											ConfigProcess.bd().insertFalhas(agv.getId(), "Mash Mandou Emergencia",
 													System.currentTimeMillis());

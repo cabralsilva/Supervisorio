@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 import AGVS.Data.ComandoMashSerial;
 import AGVS.Data.ConfigProcess;
-import AGVS.Data.Cruzamento_OLD;
+import AGVS.Data.Cruzamento;
 import AGVS.Data.MeshSerial;
 import AGVS.Data.PortaMashSerial;
 import AGVS.Data.Tag;

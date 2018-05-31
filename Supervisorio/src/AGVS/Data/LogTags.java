@@ -6,6 +6,24 @@ public class LogTags {
 	private int idAgv;
 	private String msg;
 	private String epc;
+	private int bateria;
+	private int velocidade;
+	
+	public int getBateria() {
+		return bateria;
+	}
+
+	public void setBateria(int bateria) {
+		this.bateria = bateria;
+	}
+
+	public int getVelocidade() {
+		return velocidade;
+	}
+
+	public void setVelocidade(int velocidade) {
+		this.velocidade = velocidade;
+	}
 
 	public int getId() {
 		return id;
@@ -47,13 +65,15 @@ public class LogTags {
 		this.epc = epc;
 	}
 
-	public LogTags(int id, long data, int idAgv, String msg, String epc) {
+	public LogTags(int id, long data, int idAgv, String msg, String epc, int bateria, int velocidade) {
 		super();
 		this.id = id;
 		this.data = data;
 		this.idAgv = idAgv;
 		this.msg = msg;
 		this.epc = epc;
+		this.bateria = bateria;
+		this.velocidade = velocidade;
 	}
 
 }

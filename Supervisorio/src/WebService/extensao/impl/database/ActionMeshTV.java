@@ -16,7 +16,8 @@ import WebService.http.Response;
 public class ActionMeshTV implements CommandDB {
 
 	private boolean verifyStatusPort(String port, List<PortaMashSerial> lstPms) {
-		for(PortaMashSerial pms : lstPms) {
+		for (int i = 0; lstPms != null && i < lstPms.size(); i++) {
+			PortaMashSerial pms = lstPms.get(i);
 				if (!pms.getPorta().equals(null) && pms.getPorta().equals(port)) {
 					if (pms.getStatus()!=null) {
 //						System.out.println("Porta " + pms.getPorta() + " -------- ACIONAM " + pms.getAcionamento() + "-------- " + pms.getStatus());
@@ -40,8 +41,11 @@ public class ActionMeshTV implements CommandDB {
 		Config config = Config.getInstance();
 		String html = "        ";//reservado para a cor do plano de fundo 8 caracteres
 		if (config.getProperty(Config.PROP_PROJ).equals(ConfigProcess.PROJ_FIAT)) {
-			MeshSerial ms = DatabaseStatic.mashs.get(0);
-			 
+			MeshSerial ms = null;
+			for (int i = 0; DatabaseStatic.mashs != null && i < DatabaseStatic.mashs.size(); i++) {
+				ms = DatabaseStatic.mashs.get(i);
+				
+			}
 			html += "<div class='col-md-6' style='margin-right: 0px; width: 49.6%; height: 100%; border: #cdcdcd 1px solid; border-radius: 10px; background-color: white;'>"+
 					"<center><span style='font-size: 20px;'>LADO DIREITO</span></center>";
 

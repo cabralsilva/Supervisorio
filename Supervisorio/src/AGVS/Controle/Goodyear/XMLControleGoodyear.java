@@ -235,7 +235,7 @@ public class XMLControleGoodyear extends Thread {
 
 								int[][] rotas = pedido.getRotas();
 								if (rotas != null) {
-									AGV.sendRota(rotas, agv.getIp(), agv.getMac64());
+									AGV.sendRota(rotas, agv.getMac16(), agv.getMac64());
 								} else {
 
 									rotas = new int[10][2];
@@ -312,7 +312,7 @@ public class XMLControleGoodyear extends Thread {
 											// Envia Rota e libera AGV
 											pedido.setAgv(agv);
 											pedido.setRotas(rotas);
-											AGV.sendRota(rotas, agv.getIp(), agv.getMac64());
+											AGV.sendRota(rotas, agv.getMac16(), agv.getMac64());
 
 											PontoCarga = "Home " + agv.getId();
 
@@ -405,7 +405,7 @@ public class XMLControleGoodyear extends Thread {
 											rotas[4][1] = agv.getId();
 											// Envia Rota e libera AGV
 											pedido.setAgv(agv);
-											AGV.sendRota(rotas, agv.getIp(), agv.getMac64());
+											AGV.sendRota(rotas, agv.getMac16(), agv.getMac64());
 											PontoCarga = "Home " + agv.getId();
 											pedido.setLog(Nakate + "|" + MercadoA + "|" + MercadoB + "|" + PontoCarga);
 											pedido.setRotas(rotas);

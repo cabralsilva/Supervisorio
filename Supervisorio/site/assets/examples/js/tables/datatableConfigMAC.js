@@ -108,7 +108,7 @@
 
       options: {
         addButton: '#addToTable',
-        table: '#exampleAddRow',
+        table: '#tableMAC',
         dialog: {
           wrapper: '#dialog',
           cancelButton: '#dialogCancel',
@@ -139,13 +139,7 @@
       build: function() {
         this.datatable = this.$table.DataTable({
           aoColumns: [
-            null,
-			null,
-			null,
-			null,
-            null,
-            null,
-            null, {
+        	  null, {
               "bSortable": false
             }
           ],
@@ -239,7 +233,7 @@
           '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default on-default remove-row" data-toggle="tooltip" data-original-title="Remove"><i class="icon wb-trash" aria-hidden="true"></i></a>'
         ].join(' ');
 
-        data = this.datatable.row.add(['', '', '', '', '', '', '',  actions]);
+        data = this.datatable.row.add(['',   actions]);
         $row = this.datatable.row(data[0]).nodes().to$();
 
         $row
@@ -309,57 +303,35 @@
       },
 
       rowSave: function($row) {
-
-
-	var link = '/ActionCadastroAGVS?action=' + action + '&idOld=' 
-		+ idAction + '&id=' 
-		+ document.getElementById("0").value 
-		+ '&nome=' + document.getElementById("1").value 
-		+ '&status=' + document.getElementById("selectStatus").value 
-		+ '&tipo=' + document.getElementById("selectTipo").value 
-		+ '&mac64=' + document.getElementById("4").value 
-		+ '&mac16=' + document.getElementById("5").value 
-		+ '&ip=' + document.getElementById("6").value;
-	if(enviarDados(link)){
-        var _self = this,
-          $actions,
-          values = [];
-
-        if ($row.hasClass('adding')) {
-          this.$addButton.removeAttr('disabled');
-          $row.removeClass('adding');
-        }
-
-		var i = 0;
-        values = $row.find('td').map(function() {
-          var $this = $(this);
-		  i++;
-          if ($this.hasClass('actions')) {
-            _self.rowSetActionsDefault($row);
-            return _self.datatable.cell(this).data();
-          } else {
-			var e;
-			if(i == 3) {
-				e = document.getElementById("selectStatus");
-				return e.options[e.selectedIndex].text;
-			}
-			if(i == 4) {
-				e = document.getElementById("selectTipo");
-				return e.options[e.selectedIndex].text;
-			}  
-            return $.trim($this.find('input').val());
-          }
-        });
-
-        this.datatable.row($row.get(0)).data(values);
-
-        $actions = $row.find('td.actions');
-        if ($actions.get(0)) {
-          this.rowSetActionsDefault($row);
-        }
-		
-        this.datatable.draw();
-	}
+		var link = '/ActionConfigMAC?action=' + action + '&mac64=' + document.getElementById("1").value;
+		if(enviarDados(link)){
+	        var _self = this,
+	          $actions,
+	          values = [];
+	
+	        if ($row.hasClass('adding')) {
+	          this.$addButton.removeAttr('disabled');
+	          $row.removeClass('adding');
+	        }
+	
+	        values = $row.find('td').map(function() {
+	          var $this = $(this);
+	          if ($this.hasClass('actions')) {
+	            _self.rowSetActionsDefault($row);
+	            return _self.datatable.cell(this).data();
+	          } else {
+				return $.trim('<input type="text" id="1" class="form-control input-large" value="' + $this.find('input').val() + '"/>');
+	          }
+	        });
+	
+	        this.datatable.row($row.get(0)).data(values);
+	
+	        $actions = $row.find('td.actions');
+	        if ($actions.get(1)) {
+	          this.rowSetActionsDefault($row);
+	        }
+	        this.datatable.draw();
+		}
       },
 
       rowRemove: function($row) {

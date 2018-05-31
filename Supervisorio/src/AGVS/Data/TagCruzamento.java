@@ -3,7 +3,7 @@ package AGVS.Data;
 public class TagCruzamento {
 	private String nome;
 	private Tag tag;
-	private Cruzamento_OLD cruzamento;
+	private Cruzamento cruzamento;
 	private String tipo;
 
 	public static final String tipoEntrada = "Entrada";
@@ -26,11 +26,11 @@ public class TagCruzamento {
 		this.tag = tag;
 	}
 
-	public Cruzamento_OLD getCruzamento() {
+	public Cruzamento getCruzamento() {
 		return cruzamento;
 	}
 
-	public void setCruzamento(Cruzamento_OLD cruzamento) {
+	public void setCruzamento(Cruzamento cruzamento) {
 		this.cruzamento = cruzamento;
 	}
 
@@ -42,7 +42,7 @@ public class TagCruzamento {
 		this.tipo = tipo;
 	}
 
-	public TagCruzamento(String nome, Tag tag, Cruzamento_OLD cruzamento, String tipo) {
+	public TagCruzamento(String nome, Tag tag, Cruzamento cruzamento, String tipo) {
 		super();
 		this.nome = nome;
 		this.tag = tag;

@@ -13,7 +13,7 @@ import AGVS.Data.AGV;
 import AGVS.Data.AlertFalhas;
 import AGVS.Data.Condicao;
 import AGVS.Data.ConfigProcess;
-import AGVS.Data.Cruzamento_OLD;
+import AGVS.Data.Cruzamento;
 import AGVS.Data.EntradaCondicao;
 import AGVS.Data.Equipamentos;
 import AGVS.Data.Line;
@@ -31,6 +31,7 @@ import AGVS.Data.TagSemaforos;
 import AGVS.Data.TagsRotas;
 import AGVS.Data.Usuario;
 import AGVS.Data.ZoneTime;
+import AGVS.Serial.DatabaseStatic;
 import AGVS.Util.Util;
 import WebService.HTML.Dashboards;
 import WebService.HTML.ProcessingMethod;
@@ -728,6 +729,47 @@ public class Methods {
 		}
 	};
 
+	public ProcessingMethod methodGenerateDashboardConfigMAC = new ProcessingMethod() {
+		
+		@Override
+		public String method() {
+			
+			Dashboards dash = new Dashboards();
+			String msg = dash.gerarDashBoard(dash.configuracaoMAC, dash.Configuracao, -1);
+			return msg;
+		}
+		
+		@Override
+		public void setArgs(String args) {
+			
+		}
+	};
+	
+	public ProcessingMethod methodGerarLinhaMacSupervisorio = new ProcessingMethod() {
+
+		@Override
+		public String method() {
+
+			String msg = "";
+			msg += "<tr class=\"gradeA\">" 
+					+ "<td>" 
+						+ "<input type='text' id='1' class='form-control input-large' value='" + DatabaseStatic.macSupervisorio  + "'/>"
+					+ "</td>"
+					+ "<td class=\"actions\">"
+					+ "<a href=\"#\" class=\"btn btn-sm btn-icon btn-pure btn-default on-editing save-row\""
+					+ "data-toggle=\"tooltip\" data-original-title=\"Save\"><i class=\"icon wb-wrench\" aria-hidden=\"true\"></i></a>"
+					+ "</td>" + "</tr>";
+//			System.out.println(msg);
+			return msg;
+		}
+
+		@Override
+		public void setArgs(String args) {
+			// TODO Auto-generated method stub
+
+		}
+	};
+
 	public ProcessingMethod methodListTipoAGVS = new ProcessingMethod() {
 
 		@Override
@@ -782,7 +824,7 @@ public class Methods {
 				msg += "<tr class=\"gradeA\">" 
 						+ "<td>" + value.getId() + "</td>" 
 						+ "<td>" + value.getNome() + "</td>"
-						+ "<td>" + value.getIp() + "</td>" 
+						+ "<td>" + value.getMac16() + "</td>" 
 						+ "<td>" + value.getMac64() + "</td>"
 						+ "<td>" + value.getNumeroEntradas() + "</td>"
 						+ "<td>" + value.getNumeroSaidas() + "</td>"
@@ -911,7 +953,7 @@ public class Methods {
 				AGV value = data.get(i);
 				msg += "<tr class=\"gradeA\">" + "<td>" + value.getId() + "</td>" + "<td>" + value.getNome() + "</td>"
 						+ "<td>" + value.getStatus() + "</td>" + "<td>" + value.getTipo() + "</td>" + "<td>"
-						+ value.getMac64() + "</td>" + "<td>" + value.getIp() + "</td>" + "<td class=\"actions\">"
+						+ value.getMac64() + "</td>" + "<td>" + value.getMac16() + "</td>" + "<td>" + value.getIp() + "</td>" + "<td class=\"actions\">"
 						+ "<a href=\"#\" class=\"btn btn-sm btn-icon btn-pure btn-default hidden on-editing save-row\""
 						+ "data-toggle=\"tooltip\" data-original-title=\"Save\"><i class=\"icon wb-wrench\" aria-hidden=\"true\"></i></a>"
 						+ "<a href=\"#\" class=\"btn btn-sm btn-icon btn-pure btn-default hidden on-editing cancel-row\""
@@ -1004,9 +1046,9 @@ public class Methods {
 		public String method() {
 
 			String msg = "";
-			List<Cruzamento_OLD> data = ConfigProcess.bd().selectCruzamentos();
+			List<Cruzamento> data = ConfigProcess.bd().selectCruzamentos();
 			for (int i = 0; data != null && i < data.size(); i++) {
-				Cruzamento_OLD value = data.get(i);
+				Cruzamento value = data.get(i);
 				msg += "<tr class=\"gradeA\">" + "<td>" + value.getNome() + "</td>" + "<td>" + value.getDescricao()
 						+ "</td>" + "<td class=\"actions\">"
 						+ "<a href=\"#\" class=\"btn btn-sm btn-icon btn-pure btn-default on-default libera-row\""
@@ -1298,9 +1340,9 @@ public class Methods {
 		public String method() {
 
 			String msg = "";
-			List<Cruzamento_OLD> values = ConfigProcess.bd().selectCruzamentos();
+			List<Cruzamento> values = ConfigProcess.bd().selectCruzamentos();
 			for (int i = 0; values != null && i < values.size(); i++) {
-				Cruzamento_OLD value = values.get(i);
+				Cruzamento value = values.get(i);
 				msg += "<option value=\"" + value.getNome() + "\">" + value.getNome() + "</option>";
 			}
 			return msg;

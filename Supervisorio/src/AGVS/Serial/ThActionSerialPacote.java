@@ -1,18 +1,14 @@
 package AGVS.Serial;
 
 import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import AGVS.Data.AGV;
-import AGVS.Data.AlertFalhas;
 import AGVS.Data.Cancelas;
-import AGVS.Data.ComandoMashSerial;
 import AGVS.Data.ConfigProcess;
-import AGVS.Data.Cruzamento_OLD;
 import AGVS.Data.LogZoneTime;
 import AGVS.Data.MeshSerial;
 import AGVS.Data.PausablePlayer;
@@ -94,7 +90,7 @@ public class ThActionSerialPacote extends Thread {
 								verifyStatusPort("6", ms.getLstPms())) {
 								if (DatabaseStatic.bufferEntradaLinhaE != null ) {
 									AGV agv = DatabaseStatic.bufferEntradaLinhaE;
-									AGV.enviarPlay(agv.getIp(), agv.getMac64());
+									AGV.enviarPlay(agv.getMac16(), agv.getMac64(), agv.getIp());
 									DatabaseStatic.bufferEntradaLinhaE = null;
 									System.out.println("Entrada ESQUERDA AUTORIZADA pela Mesh. AGV: " + agv.getId());
 								}
@@ -134,7 +130,7 @@ public class ThActionSerialPacote extends Thread {
 								verifyStatusPort("4", ms.getLstPms())) {
 								if (DatabaseStatic.bufferEntradaLinhaD != null ) {
 									AGV agv = DatabaseStatic.bufferEntradaLinhaD;
-									AGV.enviarPlay(agv.getIp(), agv.getMac64());
+									AGV.enviarPlay(agv.getMac16(), agv.getMac64(), agv.getIp());
 									DatabaseStatic.bufferEntradaLinhaD = null;
 									System.out.println("Entrada DIREITA AUTORIZADA pela Mesh. AGV: " + agv.getId());
 								}
@@ -188,18 +184,38 @@ public class ThActionSerialPacote extends Thread {
 				System.out.println("comandoAtualizarPos");
 				String sb = "";
 
-//				int pos1 = pacote.indexOf("<t>") + "<t>".length()+ 1;
-//				int pos2 = pacote.indexOf("</t>")+ 1;
-				int pos1 = pacote.indexOf("<t>") + "<t>".length();
-				int pos2 = pacote.indexOf("</t>");
+				int pos1 = pacote.indexOf("<t>") + "<t>".length()+ 1;
+				int pos2 = pacote.indexOf("</t>")+ 1;
+//				int pos1 = pacote.indexOf("<t>") + "<t>".length();
+//				int pos2 = pacote.indexOf("</t>");
 				for (int i = pos1; i < pos2; i++) {
 					String temp = Integer.toHexString(pacoteInt[i]).toUpperCase();
 					if (Integer.toHexString(pacoteInt[i]).toUpperCase().length() == 1) {
 						temp = "0" + temp;
 					}
 					sb += temp;
-
-					System.out.println(sb.toString());
+				}
+				
+				long bateria = Integer.parseInt(Util.localizarStrXML(pacote, "<b>", "</b>"))/1000;
+				int bateriaPercentual = 0;
+				if (bateria < 21.9 ) {
+					bateriaPercentual= 10;
+				}else if(bateria >= 21.9 && bateria < 22.1) {
+					bateriaPercentual = 30;
+				}else if(bateria >= 22.1 && bateria < 23.1) {
+					bateriaPercentual = 40;
+				}else if(bateria >= 23.1 && bateria < 24) {
+					bateriaPercentual = 50;
+				}else if(bateria >= 24 && bateria < 24.5) {
+					bateriaPercentual = 60;
+				}else if(bateria >= 24.5 && bateria < 25.1) {
+					bateriaPercentual = 70;
+				}else if(bateria >= 25.1 && bateria < 25.3) {
+					bateriaPercentual = 80;
+				}else if(bateria >= 25.3 && bateria < 25.6) {
+					bateriaPercentual = 90;
+				}else if(bateria >= 25.6) {
+					bateriaPercentual = 100;
 				}
 ////////////////////////////////////////
 				for (AGV agv : DatabaseStatic.lstAGVS) {
@@ -208,6 +224,8 @@ public class ThActionSerialPacote extends Thread {
 						agv.setTagAtual(sb.toString());
 						agv.setTagAtualTime(System.currentTimeMillis());
 						agv.setStatusTimeOld(new Date().getTime());
+						agv.setBateria(bateriaPercentual);
+						agv.setVelocidade(Integer.parseInt(Util.localizarStrXML(pacote, "<V>", "</V>")));
 					}
 				}
 ///////////////////////////////////////
@@ -221,14 +239,17 @@ public class ThActionSerialPacote extends Thread {
 						agv.setStatus(status.get(Integer.parseInt(Util.localizarStrXML(pacote, "<s>", "</s>"))));
 						verifyStopByStatus(Integer.parseInt(Util.localizarStrXML(pacote, "<s>", "</s>")));
 						if (!oldStatus.equals(agv.getStatus())) {
-							ConfigProcess.bd().updateAGV(agv.getId(), agv.getStatus());
+							ConfigProcess.bd().updateAGV(agv.getId(), agv.getStatus(), agv.getBateria(), agv.getVelocidade());
 						}
-//						System.out.println("Tag: " + sb.toString());
-//						if (agv.getTagAtual() == null || !agv.getTagAtual().equals(sb.toString())) {
+						if (agv.getTagAtual() == null || !agv.getTagAtual().equals(sb.toString())) {
+							
+							ConfigProcess.bd().updateAGV(Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>")),
+									sb.toString(), bateriaPercentual,
+									System.currentTimeMillis(), 0, status.get(Integer.parseInt(Util.localizarStrXML(pacote, "<s>", "</s>"))),
+									Integer.parseInt(Util.localizarStrXML(pacote, "<V>", "</V>")));
+							
 							for (int t = 0; DatabaseStatic.cruzamentos != null
 									&& t < DatabaseStatic.cruzamentos.size(); t++) {
-//								
-//								System.out.println("Verificando cruzamentos: " + DatabaseStatic.cruzamentos.get(t).getNome());
 								DatabaseStatic.cruzamentos.get(t).verificaCruzamento(agv, sb.toString());
 							}
 							
@@ -238,7 +259,7 @@ public class ThActionSerialPacote extends Thread {
 								if (sb.toString().equals("3432") && agv.getFrequency() == 5) {
 									if(	!(verifyStatusPort("5", ms.getLstPms()) &&
 										verifyStatusPort("6", ms.getLstPms()))) {
-										AGV.enviarEmFila(agv.getIp(), agv.getMac64());
+										AGV.enviarEmFila(agv.getMac16(), agv.getMac64(), agv.getIp());
 										System.out.println("Entrada ESQUERDA na linha NÃO LIBERADA pela Mesh");
 										DatabaseStatic.bufferEntradaLinhaE = agv;
 									}
@@ -246,7 +267,7 @@ public class ThActionSerialPacote extends Thread {
 								}else if(sb.toString().equals("3038") && agv.getFrequency() == 1) {
 									if (!(verifyStatusPort("3", ms.getLstPms()) && 
 										verifyStatusPort("4", ms.getLstPms()))) {
-										AGV.enviarEmFila(agv.getIp(), agv.getMac64());
+										AGV.enviarEmFila(agv.getMac16(), agv.getMac64(), agv.getIp());
 										System.out.println("Entrada DIREITA na linha NÃO LIBERADA pela Mesh");
 										DatabaseStatic.bufferEntradaLinhaD = agv;
 										System.out.println("BUFFER DIREITO ADD: " + DatabaseStatic.bufferEntradaLinhaD);
@@ -309,38 +330,32 @@ public class ThActionSerialPacote extends Thread {
 
 								DatabaseStatic.tagCruzamentoMash.get(i).cruzamento(sb, agv);
 							}
-
-//							for (int i = 0; DatabaseStatic.semafaros != null && i < DatabaseStatic.semafaros.size(); i++) {
-//								if (!agv.getStatus().equals(AGV.statusManual)) {
-//									DatabaseStatic.semafaros.get(i).verificaStateSinal(sb, agv);
-//								}
-//							}
 							
 							List<Tag> tag = ConfigProcess.bd().selecTags(sb.toString());
 							if (tag != null && tag.size() > 0) {
 								ConfigProcess.bd().insertLogTags(System.currentTimeMillis(),
 										Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>")), tag.get(0).getNome(),
-										sb.toString());
+										sb.toString(), bateriaPercentual, 
+										Integer.parseInt(Util.localizarStrXML(pacote, "<V>", "</V>")));
 							} else {
 								ConfigProcess.bd().insertLogTags(System.currentTimeMillis(),
 										Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>")), "Sem Cadastro",
-										sb.toString());
+										sb.toString(), bateriaPercentual, 
+										Integer.parseInt(Util.localizarStrXML(pacote, "<V>", "</V>")));
 							}
 							
 							for (int i = 0; DatabaseStatic.zoneTimes != null && i < DatabaseStatic.zoneTimes.size(); i++) {
 								DatabaseStatic.zoneTimes.get(i).verificarZoneTime(agv, sb.toString());
 							}
-//						}else {
-//							System.out.println("TAG JÁ PROCESSADA");
-//						}
+						}else {
+							System.out.println("TAG JÁ PROCESSADA");
+						}
 					}
 				}
 
 				int atraso = 0;
 				
-				ConfigProcess.bd().updateAGV(Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>")),
-						sb.toString(), 100,
-						System.currentTimeMillis(), atraso, status.get(Integer.parseInt(Util.localizarStrXML(pacote, "<s>", "</s>"))));
+				
 
 				break;
 			case comandoStatus:
@@ -362,17 +377,137 @@ public class ThActionSerialPacote extends Thread {
 						}
 					}
 					return;
+				}else if (vStatus >= 18 && vStatus <= 32) {
+					System.out.println("Updating status Mesh");
+					for(MeshSerial ms : DatabaseStatic.mashs) {
+						if (ms.getId() == Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>"))) {
+							for (PortaMashSerial pms : ms.getLstPms()) {
+								if (pms.getNome().equals(PortaMashSerial.getPort(vStatus))) {
+									pms.setStatus(PortaMashSerial.getPortState(vStatus));
+									ConfigProcess.bd().updatePortIn(pms.getPorta(), ms.getId(), PortaMashSerial.getPortState(vStatus));
+								}								
+							}
+							//verificar entradas da mesh para liberação de agvs na entrada das linhas
+							if (config.getProperty(Config.PROP_PROJ).equals(ConfigProcess.PROJ_FIAT)) {
+								if (verifyStatusPort("5", ms.getLstPms()) &&
+									verifyStatusPort("6", ms.getLstPms())) {
+									if (DatabaseStatic.bufferEntradaLinhaE != null ) {
+										AGV agv = DatabaseStatic.bufferEntradaLinhaE;
+										AGV.enviarPlay(agv.getMac16(), agv.getMac64(), agv.getIp());
+										DatabaseStatic.bufferEntradaLinhaE = null;
+										System.out.println("Entrada ESQUERDA AUTORIZADA pela Mesh. AGV: " + agv.getId());
+									}
+									
+									/*if(DatabaseStatic.bufferEmRotaCarregadoLinhaE.size() == 0 && !streamPlay) {
+										System.out.println("play");
+										streamMedia = new FileInputStream("media/001.mp3"); 
+										player = new PausablePlayer(streamMedia);
+										player.play();
+										streamPlay = true;
+									}*/
+								}/*else {
+									if (player != null) {
+										player.stop();
+										streamPlay = false;
+									}
+								}*/
+								
+//								if( verifyStatusPort("5", ms.getLstPms()) &&
+//									verifyStatusPort("6", ms.getLstPms())) {
+//									////verificar se já saíram para entrega
+//									if(DatabaseStatic.bufferEmRotaCarregadoLinhaE.size() == 0 && !streamPlay) {
+//										streamMedia = new FileInputStream("media/001.mp3"); 
+//										player = new PausablePlayer(streamMedia);
+//										player.play();
+//										streamPlay = true;
+//									}
+//								}else {
+//									if (player != null) {
+//										player.stop();
+//										streamPlay = false;
+//									}
+//								}
+								
+	///////////////////////////
+								if (verifyStatusPort("3", ms.getLstPms()) && 
+									verifyStatusPort("4", ms.getLstPms())) {
+									if (DatabaseStatic.bufferEntradaLinhaD != null ) {
+										AGV agv = DatabaseStatic.bufferEntradaLinhaD;
+										AGV.enviarPlay(agv.getMac16(), agv.getMac64(), agv.getIp());
+										DatabaseStatic.bufferEntradaLinhaD = null;
+										System.out.println("Entrada DIREITA AUTORIZADA pela Mesh. AGV: " + agv.getId());
+									}
+									
+									/*if(DatabaseStatic.bufferEmRotaCarregadoLinhaD.size() == 0 && !streamPlay) {
+										System.out.println("play");
+										streamMedia = new FileInputStream("media/001.mp3"); 
+										player = new PausablePlayer(streamMedia);
+										player.play();
+										streamPlay = true;
+									}*/
+								}/*else {
+									if (player != null) {
+										System.out.println("PARAR");
+										player.stop();
+										streamPlay = false;
+									}
+								}*/
+								
+//								if(verifyStatusPort("3", ms.getLstPms()) && verifyStatusPort("4", ms.getLstPms())) {
+//									////verificar se já saíram para entrega
+//									System.out.println("MUSICA");
+//									if(DatabaseStatic.bufferEmRotaCarregadoLinhaD.size() == 0 && !streamPlay) {
+//										System.out.println("play");
+//										streamMedia = new FileInputStream("media/001.mp3"); 
+//										player = new PausablePlayer(streamMedia);
+//										player.play();
+//										streamPlay = true;
+//									}
+//								}else {
+//									if (player != null) {
+//										player.stop();
+//										streamPlay = false;
+//									}
+//								}
+							}
+							///////////////////////////////////////////////////////////////
+						}
+					}
+					break;
 				}else if (status.containsKey(vStatus)) {
 					System.out.println(status.get(vStatus));
+					long baterias = Integer.parseInt(Util.localizarStrXML(pacote, "<b>", "</b>"))/1000;
+					int bateriaPercentuals = 0;
+					if (baterias < 21.9 ) {
+						bateriaPercentuals = 10;
+					}else if(baterias >= 21.9 && baterias < 22.1) {
+						bateriaPercentuals = 30;
+					}else if(baterias >= 22.1 && baterias < 23.1) {
+						bateriaPercentuals = 40;
+					}else if(baterias >= 23.1 && baterias < 24) {
+						bateriaPercentuals = 50;
+					}else if(baterias >= 24 && baterias < 24.5) {
+						bateriaPercentuals = 60;
+					}else if(baterias >= 24.5 && baterias < 25.1) {
+						bateriaPercentuals = 70;
+					}else if(baterias >= 25.1 && baterias < 25.3) {
+						bateriaPercentuals = 80;
+					}else if(baterias >= 25.3 && baterias < 25.6) {
+						bateriaPercentuals = 90;
+					}else if(baterias >= 25.6) {
+						bateriaPercentuals = 100;
+					}
 ////////////////////////////////////////////////////////					
 					for (AGV agv : DatabaseStatic.lstAGVS) {
 						if (agv.getId() == Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>"))) {
 							agv.setStatus(status.get(vStatus));
 							agv.setStatusTimeOld(System.currentTimeMillis());
+							agv.setBateria(bateriaPercentuals);
+							agv.setVelocidade(Integer.parseInt(Util.localizarStrXML(pacote, "<V>", "</V>")));
 						}
 					}
 ////////////////////////////////////////////////////////					
-					
+
 					
 					List<AGV> agvs2 = ConfigProcess.bd().selecAGVS();
 					AGV agv = null;
@@ -388,6 +523,7 @@ public class ThActionSerialPacote extends Thread {
 							///////////////////////////////////////////////////////////////////////////////////////////////
 							
 							agv.setStatus(status.get(vStatus));
+//							System.out.println("--"+agv.getStatus());
 							for (int t = 0; DatabaseStatic.cruzamentos != null
 									&& t < DatabaseStatic.cruzamentos.size(); t++) {
 								 DatabaseStatic.cruzamentos.get(t).execLiberaVerificaAGV(agv);
@@ -405,37 +541,29 @@ public class ThActionSerialPacote extends Thread {
 								DatabaseStatic.cruzamentoMash.get(i).cruzamentoCancela(agv);
 							}
 							
-							
+							/*
+							 * VERIFICA SE O STATUS ATUAL É IGUAL AO ÚLTIMO STATUS - EVITAR STATUS REPETIDO
+							 * EM SEQUENCIA
+							 */
+//							String msg2 = status.get(vStatus);
+//							if (!agv.getStatus().equals(msg2)) {
+//								ConfigProcess.bd().insertFalhas(
+//										Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>")), msg2,
+//										System.currentTimeMillis());
+//								
+//								
+//							}
 						}
 					}
-					String msg = status.get(vStatus);
-					if (msg.equals(AGV.statusHome) && ConfigProcess.xmlControleGoodyear != null) {
-						ConfigProcess.xmlControleGoodyear
-								.pedidoFinalizado(Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>")));
-					}
-//					switch (vStatus) {
-//					case 10:
-//						String m1V = Util.localizarStrXML(pacote, "<v1>", "</v1>");
-//						String m2V = Util.localizarStrXML(pacote, "<v2>", "</v2>");
-//						msg += " (Motor 1: " + m1V + "A, Motor 2: " + m2V + "A)";
-//						break;
-//					case 12:
-//						String m1A = Util.localizarStrXML(pacote, "<v1>", "</v1>");
-//						String m2A = Util.localizarStrXML(pacote, "<v2>", "</v2>");
-//						msg += " (Motor 1: " + m1A + "ºC, Motor 2: " + m2A + "ºC)";
-//						break;
-//
-//					default:
-//						break;
-//					}
-					
-										
+//					System.out.println("bd");
 					ConfigProcess.bd().updateAGV(Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>")),
-							status.get(vStatus));
+							status.get(vStatus), 
+							bateriaPercentuals, Integer.parseInt(Util.localizarStrXML(pacote, "<V>", "</V>")));					
+					
 					if (status_war.containsKey(vStatus)) {
-						ConfigProcess.bd().updateAGV(
-								Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>")),
-								status_war.get(vStatus), System.currentTimeMillis());
+						ConfigProcess.bd().updateAGV(Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i>")),
+								status_war.get(vStatus), System.currentTimeMillis(),
+								bateriaPercentuals, Integer.parseInt(Util.localizarStrXML(pacote, "<V>", "</V>")));
 					}
 					verifyStopByStatus(vStatus);
 				}
@@ -468,7 +596,8 @@ public class ThActionSerialPacote extends Thread {
 	
 	private void verifyStopByStatus(int vStatus) {
 		//VERIFICA SE ELE ESTÁ DENTRO DE UMA ZONA DE TEMPO
-		for (LogZoneTime lzt : DatabaseStatic.logZoneTimes) {
+		for (int i = 0; DatabaseStatic.logZoneTimes != null && i < DatabaseStatic.logZoneTimes.size(); i++) {
+			LogZoneTime lzt = DatabaseStatic.logZoneTimes.get(i);
 			if (lzt.getAgv().getId() == Integer.parseInt(Util.localizarStrXML(pacote, "<i>", "</i"))) {
 				if (status.get(vStatus) == AGV.statusObstaculo) {
 					System.out.println("Obstaculo em zona de tempo");
