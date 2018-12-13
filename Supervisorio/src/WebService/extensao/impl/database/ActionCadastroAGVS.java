@@ -33,11 +33,8 @@ public class ActionCadastroAGVS implements CommandDB {
 	@Override
 	public void execute(Request req, Response resp, Dispatcher disp) throws Exception {
 		String html = "Nao foi possivel realizar comando";
-
-		 System.out.println(req.toString());
-
+		System.out.println(req.toString());
 		if (req.getGetParams().containsKey(TagsValues.paramAction)) {
-
 			if (req.getGetParams().get(TagsValues.paramAction).equals(TagsValues.valueEmergenciaParamAction)) {
 				// emergencia
 				if (req.getGetParams().containsKey(TagsValues.paramID)) {

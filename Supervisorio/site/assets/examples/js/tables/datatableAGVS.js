@@ -311,9 +311,9 @@
       rowSave: function($row) {
 
 
-	var link = '/ActionCadastroAGVS?action=' + action + '&idOld=' 
-		+ idAction + '&id=' 
-		+ document.getElementById("0").value 
+	var link = '/ActionCadastroAGVS?action=' + action 
+		+ '&idOld=' + idAction 
+		+ '&id=' + document.getElementById("0").value 
 		+ '&nome=' + document.getElementById("1").value 
 		+ '&status=' + document.getElementById("selectStatus").value 
 		+ '&tipo=' + document.getElementById("selectTipo").value 

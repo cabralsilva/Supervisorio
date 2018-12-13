@@ -157,58 +157,58 @@ public class AGV implements Comparable<AGV>{
 	}
 
 	public static void enviarEmergencia(String mac16, String mac64,String ip) {
-		ConfigProcess.serial.enviar("<xml>EM</xml>", mac16, mac64);
-//		ClienteAGV.enviarNew("EM", ip);
+//		ConfigProcess.serial.enviar("<xml>EM</xml>", mac16, mac64);
+		ClienteAGV.enviarNew("EM", ip);
 	}
 
 	public static void enviarEmFila(String mac16, String mac64,String ip) {
-		ConfigProcess.serial.enviar("<xml>EMFILA</xml>", mac16, mac64);
-//		ClienteAGV.enviarNew("EMFILA", ip);
+//		ConfigProcess.serial.enviar("<xml>EMFILA</xml>", mac16, mac64);
+		ClienteAGV.enviarNew("EMFILA", ip);
 	}
 	
 	public static void enviarEmCruzamento(String mac16, String mac64,String ip) {
-		ConfigProcess.serial.enviar("<xml>EMCRUZAMENTO</xml>", mac16, mac64);
-//		ClienteAGV.enviarNew("EMCRUZAMENTO", ip);
+//		ConfigProcess.serial.enviar("<xml>EMCRUZAMENTO</xml>", mac16, mac64);
+		ClienteAGV.enviarNew("EMCRUZAMENTO", ip);
 	}
 	
 	public static void enviarEmRepouso(String mac16, String mac64,String ip) {
-		ConfigProcess.serial.enviar("<xml>EMREPOUSO</xml>", mac16, mac64);
-//		ClienteAGV.enviarNew("EMREPOUSO", ip);
+//		ConfigProcess.serial.enviar("<xml>EMREPOUSO</xml>", mac16, mac64);
+		ClienteAGV.enviarNew("EMREPOUSO", ip);
 	}
 	
 	public static void enviarEmEspera(String mac16, String mac64,String ip) {
-		ConfigProcess.serial.enviar("<xml>EMESPERA</xml>", mac16, mac64);
-//		ClienteAGV.enviarNew("EMESPERA", ip);
+//		ConfigProcess.serial.enviar("<xml>EMESPERA</xml>", mac16, mac64);
+		ClienteAGV.enviarNew("EMESPERA", ip);
 	}
 
 	public static void enviarParar(String mac16, String mac64,String ip) {
-		ConfigProcess.serial.enviar("<xml>STOP</xml>", mac16, mac64);
-//		ClienteAGV.enviarNew("STOP", ip);
+//		ConfigProcess.serial.enviar("<xml>STOP</xml>", mac16, mac64);
+		ClienteAGV.enviarNew("STOP", ip);
 	}
 
 	public static void enviarPararAC(String mac16, String mac64,String ip) {
-		ConfigProcess.serial.enviar("<xml>STOPAC</xml>", mac16, mac64);
-//		ClienteAGV.enviarNew("STOPAC", ip);
+//		ConfigProcess.serial.enviar("<xml>STOPAC</xml>", mac16, mac64);
+		ClienteAGV.enviarNew("STOPAC", ip);
 	}
 
 	public static void teste(String mac16, String mac64,String ip) {
-		ConfigProcess.serial.enviar("<xml>TESTE</xml>", mac16, mac64);
-//		ClienteAGV.enviarNew("TESTE", ip);
+//		ConfigProcess.serial.enviar("<xml>TESTE</xml>", mac16, mac64);
+		ClienteAGV.enviarNew("TESTE", ip);
 	}
 
 	public static void enviarPlay(String mac16, String mac64,String ip) {
-		ConfigProcess.serial.enviar("<xml>PLAY</xml>", mac16, mac64);
-//		ClienteAGV.enviarNew("PLAY", ip);
+//		ConfigProcess.serial.enviar("<xml>PLAY</xml>", mac16, mac64);
+		ClienteAGV.enviarNew("PLAY", ip);
 	}
 
 	public static void enviarPlayRE(String mac16, String mac64,String ip) {
-		ConfigProcess.serial.enviar("<xml>PLAYRE</xml>", mac16, mac64);
-//		ClienteAGV.enviarNew("PLAYRE", ip);
+//		ConfigProcess.serial.enviar("<xml>PLAYRE</xml>", mac16, mac64);
+		ClienteAGV.enviarNew("PLAYRE", ip);
 	}
 
 	public static void enviarMacSupervisorio(String mac16, String mac64, String macSupervisorio,String ip) {
-		ConfigProcess.serial.enviar("<xml>"+macSupervisorio+"</xml>", mac16, mac64);
-//		ClienteAGV.enviarNew(macSupervisorio, ip);
+//		ConfigProcess.serial.enviar("<xml>"+macSupervisorio+"</xml>", mac16, mac64);
+		ClienteAGV.enviarNew(macSupervisorio, ip);
 	}
 
 	public long getTagAtualTime() {

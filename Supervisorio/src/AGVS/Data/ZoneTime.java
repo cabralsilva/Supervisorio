@@ -132,7 +132,8 @@ public class ZoneTime {
 			}
 		}else if (tagStart.getEpc().equals(epc)) {
 			boolean jaExiste = false;
-			for (final LogZoneTime instLog : DatabaseStatic.logZoneTimes) {
+			for (int i = 0; i < DatabaseStatic.logZoneTimes.size(); i++) {
+				final LogZoneTime instLog = DatabaseStatic.logZoneTimes.get(i);
 				if (instLog.getAgv().getId() == agv.getId() && (instLog.getZoneTime().getId() == this.getId())){
 					jaExiste = true;
 					instLog.threadPeriodic.shutdownNow();
@@ -202,7 +203,8 @@ public class ZoneTime {
 			
 			
 		}else if (tagEnd.getEpc().equals(epc)) {
-			for (LogZoneTime logZT : DatabaseStatic.logZoneTimes) {
+			for (int i = 0; i < DatabaseStatic.logZoneTimes.size(); i++) {
+				LogZoneTime logZT = DatabaseStatic.logZoneTimes.get(i);
 				if (agv.getId() == logZT.getAgv().getId() && (logZT.getZoneTime().getId() == this.getId())) {
 					long tempoRota; 
 					if (!logZT.isBurst()) {

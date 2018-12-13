@@ -22,7 +22,6 @@ public class SupervisorioAGVSTV implements Command{
 	@Override
 	public void execute(Request req, Response resp) throws Exception {
 		// TODO Auto-generated method stub
-		
 		if(!ConfigProcess.bd().conectarBancoDados()){
 			PrintStream out = resp.getPrintStream();
 			out.println("<meta http-equiv=\"refresh\" content=1;url=\"/SupervisorioAGVS/Configuracao/BD\">");

@@ -76,7 +76,7 @@ public class SQLServer implements BancoDados {
 			+ " tagStart.coordenadaX as 'tagStart.coordenadaX', tagStart.coordenadaY as 'tagStart.coordenadaY',"
 			+ " tagEnd.epc as 'tagEnd.epc',	tagEnd.nome as 'tagEnd.nome', tagEnd.codigo as 'tagEnd.codigo',"
 			+ " tagEnd.coordenadaX as 'tagEnd.coordenadaX', tagEnd.coordenadaY as 'tagEnd.coordenadaY',"
-			+ " agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.mac16 as 'agvs.mac16', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia'"
+			+ " agvs.oldStatusFalha as 'agvs.oldStatusFalha', agvs.statusOldTime as 'agvs.statusOldTime', agvs.mac64 as 'agvs.mac64', agvs.mac16 as 'agvs.mac16', agvs.ip as 'agvs.ip', agvs.id as 'agvs.id', agvs.nome as 'agvs.nome', agvs.status as 'agvs.status', agvs.tipo as 'agvs.tipo', agvs.velocidade as 'agvs.velocidade', agvs.bateria as 'agvs.bateria', agvs.tagAtual as 'agvs.tagAtual', agvs.tagAtualTime as 'agvs.tagAtualTime', agvs.atraso as 'agvs.atraso', agvs.frequencia as 'agvs.frequencia'"
 			+ " from logZoneTime" + " LEFT JOIN zoneTime ON zoneTime.id = logZoneTime.fkZoneTime"
 			+ " LEFT JOIN agvs ON agvs.id = logZoneTime.fkAgv"
 			+ " LEFT JOIN tags as tagStart ON tagStart.epc = zoneTime.fkTagStart"
@@ -223,15 +223,15 @@ public class SQLServer implements BancoDados {
 			Connection conn = DriverManager
 					.getConnection("jdbc:sqlserver://;serverName=" + host + ";user=" + usuario + ";password=" + senha);
 
-			String script = "create DATABASE SupervisorioAGVS;";
+			String script = "create DATABASE SupervisorioAGVSFIAT8325;";
 			PreparedStatement stmt = conn.prepareStatement(script);
 			stmt.execute();
 
-			script = "ALTER DATABASE SupervisorioAGVS collate SQL_Latin1_General_CP1251_CI_AS";
+			script = "ALTER DATABASE SupervisorioAGVSFIAT8325 collate SQL_Latin1_General_CP1251_CI_AS";
 			stmt = conn.prepareStatement(script);
 			stmt.execute();
 
-			script = "use SupervisorioAGVS;";
+			script = "use SupervisorioAGVSFIAT8325;";
 			stmt = conn.prepareStatement(script);
 			stmt.execute();
 
@@ -263,7 +263,7 @@ public class SQLServer implements BancoDados {
 		this.host = host;
 		this.usuario = usuario;
 		this.senha = senha;
-		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVS;user=" + usuario
+		url = "jdbc:sqlserver://;serverName=" + host + ";databasename=SupervisorioAGVSFIAT8325;user=" + usuario
 				+ ";password=" + senha;
 	}
 

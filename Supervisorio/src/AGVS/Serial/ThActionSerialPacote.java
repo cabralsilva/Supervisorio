@@ -184,10 +184,10 @@ public class ThActionSerialPacote extends Thread {
 				System.out.println("comandoAtualizarPos");
 				String sb = "";
 
-				int pos1 = pacote.indexOf("<t>") + "<t>".length()+ 1;
-				int pos2 = pacote.indexOf("</t>")+ 1;
-//				int pos1 = pacote.indexOf("<t>") + "<t>".length();
-//				int pos2 = pacote.indexOf("</t>");
+//				int pos1 = pacote.indexOf("<t>") + "<t>".length()+ 1;
+//				int pos2 = pacote.indexOf("</t>")+ 1;
+				int pos1 = pacote.indexOf("<t>") + "<t>".length();
+				int pos2 = pacote.indexOf("</t>");
 				for (int i = pos1; i < pos2; i++) {
 					String temp = Integer.toHexString(pacoteInt[i]).toUpperCase();
 					if (Integer.toHexString(pacoteInt[i]).toUpperCase().length() == 1) {
